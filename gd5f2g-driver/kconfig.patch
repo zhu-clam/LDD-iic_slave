@@ -1,0 +1,10 @@
+diff --git a/kernel/linux-asic/drivers/staging/Kconfig b/kernel/linux-asic/drivers/staging/Kconfig
+index 85f7590..ab71da3 100644
+--- a/kernel/linux-asic/drivers/staging/Kconfig
++++ b/kernel/linux-asic/drivers/staging/Kconfig
+@@ -107,4 +107,5 @@ source "drivers/staging/greybus/Kconfig"
+ source "drivers/staging/vc04_services/Kconfig"
+ 
+ source "drivers/staging/w25n_spinand/Kconfig"
++source "drivers/staging/gd5f2xx_spinand/Kconfig"
+ endif # STAGING

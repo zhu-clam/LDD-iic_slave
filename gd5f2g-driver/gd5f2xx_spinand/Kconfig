@@ -1,0 +1,17 @@
+config MTD_SPINAND_GD5F2_XX
+	tristate "SPINAND Device Support for GD5F2 whose chip size if 2G"
+	default y
+	depends on MTD_NAND && SPI
+	help
+	  This enables support for accessing gd5f2gd5xexx SPI NAND flash
+	  devices.
+	  If you have gd5f2xx SPI NAND chip say yes.
+
+	  If unsure, say no here.
+
+config MTD_SPINAND_ONDIEECC
+	bool "Use SPINAND internal ECC"
+	depends on MTD_SPINAND_GD5F2
+	help
+	  Internal ECC.
+	  Enables Hardware ECC support for Winbone SPI NAND.

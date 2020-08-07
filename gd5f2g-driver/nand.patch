@@ -1,0 +1,14 @@
+diff --git a/kernel/linux-asic/include/linux/mtd/nand.h b/kernel/linux-asic/include/linux/mtd/nand.h
+old mode 100644
+new mode 100755
+index 2014cee..fec2906
+--- a/kernel/linux-asic/include/linux/mtd/nand.h
++++ b/kernel/linux-asic/include/linux/mtd/nand.h
+@@ -929,6 +929,7 @@ static inline void nand_set_controller_data(struct nand_chip *chip, void *priv)
+ #define NAND_MFR_INTEL		0x89
+ #define NAND_MFR_ATO		0x9b
+ #define NAND_MFR_WINBOND	0xef
++#define NAND_MFR_Giga		0xc8 //by zxf
+ 
+ /* The maximum expected count of bytes in the NAND ID sequence */
+ #define NAND_MAX_ID_LEN 8
