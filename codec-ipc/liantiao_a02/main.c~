@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "defineall.h"
+#include "testdata.h"
+
+// 声明handle结构体
+
+
+
+
+
+int main()
+{
+	
+	
+	struct handle handle1;
+	handle1.type = 7;
+	handle1.sampleRate = 0;
+	handle1.bitRate = 64000;
+	handle1.bitsPerSample = 1;
+	handle1.numOfChannels = 1;
+	handle1.amu = 2;
+	//handle1.PCM = inputwavg711;
+	handle1.numofPCM = sizeof(inputwavg711)/sizeof(float);
+	handle1.numofCode = sizeof(inputcodeg711)/sizeof(unsigned char);
+	handle1.Code = inputcodeg711;
+
+	
+		
+
+	
+
+	//执行open
+	handle1 = Open(handle1);
+        //OPen 执行之后可以将编解码后的数据从 handle1.Code/PCM为首地址，handle1.numofCode/numofPCM为数据项长度的内存中取出
+	printf("%d",handle1.numofPCM);
+	Close(handle1);
+	return 0;
+}
+
+

@@ -1,0 +1,82 @@
+
+# Makefile
+# Author: Yang Liu
+
+#SRCPATH = /home/yangchangfu/avs/avs-encode/src/
+#INCLUDEPATH = /home/yangchangfu/avs/avs-encode/include/
+#vpath %.c $(SRCPATH)
+#vpath %.h $(INCLUDEPATH)
+#VPATH=src:include
+
+
+ZXF_TEST := y
+
+ifeq ($(ZXF_TEST),n)
+
+TARGET_ARCH := ck810
+
+ifeq ($(TARGET_ARCH), arm)
+   CROSS:= arm-xilinx-linux-gnueabi-
+else ifeq ($(TARGET_ARCH), ck860)
+   CROSS:= csky-abiv2-linux-
+else ifeq ($(TARGET_ARCH), ck810)
+   CROSS:= csky-buildroot-linux-gnuabiv2-
+else 
+   CROSS:= arm-xilinx-linux-gnueabi-
+endif
+
+endif
+
+TARGET_ARCH := ck860
+CROSS := /home/zhuxianfei/ck860/toolchain-ck860/bin/csky-abiv2-linux-
+
+
+
+CC      = $(CROSS)gcc
+LD      = $(CROSS)g++
+CPP     = $(CROSS)g++
+AS      = $(CROSS)as
+AR      = $(CROSS)ar
+LD      = $(CROSS)ld
+DUMP    = $(CROSS)objdump
+OBJCOPY = $(CROSS)objcopy
+
+CFLAGS = -g -O3 -W  
+LDFLAGS=
+
+ifeq ($(TARGET_ARCH), ck860)
+   CFLAGS +=-mcpu=ck860f
+   LDFLAGS +=-mcpu=ck860f
+else ifeq ($(TARGET_ARCH), ck810)
+   CFLAGS += -mcpu=ck810f
+   LDFLAGS +=-mcpu=ck810f
+endif
+
+
+CFLAGS +=-mcpu=ck860f
+LDFLAGS +=-mcpu=ck860f
+
+
+LDFLAGS := -L.
+LIBS := codec.a
+INCLUDE := -I.
+
+.PHONY: clean
+
+
+main.elf : main.o
+	$(CPP) $(CFLAGS) -o $@ $^ $(LIBS)
+#	$(LD) -o $@ $^ -L$(LIBS)
+
+
+main.o : main.c
+	$(CPP) $(INCLUDE)$(CFLAGS) -c $^ -o $@
+
+# main.o 文件依赖于 main.c 文件	
+# 编译命令 	g++ -I. -c main.c -o main.o
+
+
+
+clean:
+	-@rm -f *.o main.elf
+
