@@ -1,0 +1,6 @@
+#target jtag jtag://192.168.20.119:1025
+target jtag jtag://192.168.20.112:1025
+set endian little
+#file bm-polaris___ck860.elf
+file bm-polaris___ck860.elf 
+load bm-polaris___ck860.elf
