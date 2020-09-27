@@ -1,0 +1,3572 @@
+
+ck860_test:     file format elf32-csky-little
+
+
+Disassembly of section .init:
+
+00008970 <_init>:
+    8970:	1422      	subi      	sp, sp, 8
+    8972:	ddee2000 	st.w      	r15, (sp, 0)
+    8976:	e0000045 	bsr      	0x8a00	// 8a00 <call_weak_fn>
+    897a:	c4004820 	lsli      	r0, r0, 0
+    897e:	0409      	br      	0x8990	// 8990 <_init+0x20>
+    8980:	00008a00 	.long	0x00008a00
+	...
+    8990:	e000009e 	bsr      	0x8acc	// 8acc <frame_dummy>
+    8994:	c4004820 	lsli      	r0, r0, 0
+    8998:	0404      	br      	0x89a0	// 89a0 <_init+0x30>
+    899a:	0000      	.short	0x0000
+    899c:	00008acc 	.long	0x00008acc
+    89a0:	e0000ff2 	bsr      	0xa984	// a984 <__do_global_ctors_aux>
+    89a4:	c4004820 	lsli      	r0, r0, 0
+    89a8:	0404      	br      	0x89b0	// 89b0 <_init+0x40>
+    89aa:	0000      	.short	0x0000
+    89ac:	0000a984 	.long	0x0000a984
+    89b0:	d9ee2000 	ld.w      	r15, (sp, 0)
+    89b4:	1402      	addi      	sp, sp, 8
+    89b6:	783c      	rts
+
+Disassembly of section .text:
+
+000089c0 <_start>:
+    89c0:	1422      	subi      	sp, sp, 8
+    89c2:	ea0f0000 	movi      	r15, 0
+    89c6:	9822      	ld.w      	r1, (sp, 0x8)
+    89c8:	1a03      	addi      	r2, sp, 12
+    89ca:	b842      	st.w      	r2, (sp, 0x8)
+    89cc:	b801      	st.w      	r0, (sp, 0x4)
+    89ce:	1007      	lrw      	r0, 0xa970	// 89e8 <_start+0x28>
+    89d0:	b800      	st.w      	r0, (sp, 0)
+    89d2:	1007      	lrw      	r0, 0x8c48	// 89ec <_start+0x2c>
+    89d4:	1067      	lrw      	r3, 0xa928	// 89f0 <_start+0x30>
+    89d6:	eae00008 	jsri      	0x0	// from address pool at 0x89f4
+    89da:	c4004820 	lsli      	r0, r0, 0
+    89de:	eae00007 	jsri      	0x0	// from address pool at 0x89f8
+    89e2:	c4004820 	lsli      	r0, r0, 0
+    89e6:	0000      	.short	0x0000
+    89e8:	0000a970 	.long	0x0000a970
+    89ec:	00008c48 	.long	0x00008c48
+    89f0:	0000a928 	.long	0x0000a928
+	...
+
+00008a00 <call_weak_fn>:
+    8a00:	1421      	subi      	sp, sp, 4
+    8a02:	ddee2000 	st.w      	r15, (sp, 0)
+    8a06:	1047      	lrw      	r2, 0	// 8a20 <call_weak_fn+0x20>
+    8a08:	3a40      	cmpnei      	r2, 0
+    8a0a:	0c02      	bf      	0x8a0e	// 8a0e <call_weak_fn+0xe>
+    8a0c:	7bc9      	jsr      	r2
+    8a0e:	d9ee2000 	ld.w      	r15, (sp, 0)
+    8a12:	1401      	addi      	sp, sp, 4
+    8a14:	783c      	rts
+	...
+
+00008a24 <deregister_tm_clones>:
+    8a24:	14d0      	push      	r15
+    8a26:	104f      	lrw      	r2, 0xd018	// 8a60 <register_tm_clones+0x20>
+    8a28:	106f      	lrw      	r3, 0xd01b	// 8a64 <register_tm_clones+0x24>
+    8a2a:	60ca      	subu      	r3, r2
+    8a2c:	3206      	movi      	r2, 6
+    8a2e:	64c8      	cmphs      	r2, r3
+    8a30:	0806      	bt      	0x8a3c	// 8a3c <deregister_tm_clones+0x18>
+    8a32:	106e      	lrw      	r3, 0	// 8a68 <register_tm_clones+0x28>
+    8a34:	e9030004 	bez      	r3, 0x8a3c	// 8a3c <deregister_tm_clones+0x18>
+    8a38:	100a      	lrw      	r0, 0xd018	// 8a60 <register_tm_clones+0x20>
+    8a3a:	7bcd      	jsr      	r3
+    8a3c:	1490      	pop      	r15
+	...
+
+00008a40 <register_tm_clones>:
+    8a40:	14d0      	push      	r15
+    8a42:	1068      	lrw      	r3, 0xd018	// 8a60 <register_tm_clones+0x20>
+    8a44:	102a      	lrw      	r1, 0xd018	// 8a6c <register_tm_clones+0x2c>
+    8a46:	604e      	subu      	r1, r3
+    8a48:	5122      	asri      	r1, r1, 2
+    8a4a:	497f      	lsri      	r3, r1, 31
+    8a4c:	604c      	addu      	r1, r3
+    8a4e:	5121      	asri      	r1, r1, 1
+    8a50:	e9010007 	bez      	r1, 0x8a5e	// 8a5e <register_tm_clones+0x1e>
+    8a54:	1067      	lrw      	r3, 0	// 8a70 <register_tm_clones+0x30>
+    8a56:	e9030004 	bez      	r3, 0x8a5e	// 8a5e <register_tm_clones+0x1e>
+    8a5a:	1002      	lrw      	r0, 0xd018	// 8a60 <register_tm_clones+0x20>
+    8a5c:	7bcd      	jsr      	r3
+    8a5e:	1490      	pop      	r15
+    8a60:	0000d018 	.long	0x0000d018
+    8a64:	0000d01b 	.long	0x0000d01b
+    8a68:	00000000 	.long	0x00000000
+    8a6c:	0000d018 	.long	0x0000d018
+    8a70:	00000000 	.long	0x00000000
+
+00008a74 <__do_global_dtors_aux>:
+    8a74:	14d4      	push      	r4-r7, r15
+    8a76:	10f0      	lrw      	r7, 0xd018	// 8ab4 <call___do_global_dtors_aux+0x4>
+    8a78:	8760      	ld.b      	r3, (r7, 0)
+    8a7a:	e923001a 	bnez      	r3, 0x8aae	// 8aae <__do_global_dtors_aux+0x3a>
+    8a7e:	106f      	lrw      	r3, 0xcf1c	// 8ab8 <call___do_global_dtors_aux+0x8>
+    8a80:	10af      	lrw      	r5, 0xcf20	// 8abc <call___do_global_dtors_aux+0xc>
+    8a82:	614e      	subu      	r5, r3
+    8a84:	55a2      	asri      	r5, r5, 2
+    8a86:	108f      	lrw      	r4, 0xd01c	// 8ac0 <call___do_global_dtors_aux+0x10>
+    8a88:	6d8f      	mov      	r6, r3
+    8a8a:	2d00      	subi      	r5, 1
+    8a8c:	9460      	ld.w      	r3, (r4, 0)
+    8a8e:	654c      	cmphs      	r3, r5
+    8a90:	0809      	bt      	0x8aa2	// 8aa2 <__do_global_dtors_aux+0x2e>
+    8a92:	2300      	addi      	r3, 1
+    8a94:	b460      	st.w      	r3, (r4, 0)
+    8a96:	d0660883 	ldr.w      	r3, (r6, r3 << 2)
+    8a9a:	7bcd      	jsr      	r3
+    8a9c:	9460      	ld.w      	r3, (r4, 0)
+    8a9e:	654c      	cmphs      	r3, r5
+    8aa0:	0ff9      	bf      	0x8a92	// 8a92 <__do_global_dtors_aux+0x1e>
+    8aa2:	e3ffffc1 	bsr      	0x8a24	// 8a24 <deregister_tm_clones>
+    8aa6:	c4004820 	lsli      	r0, r0, 0
+    8aaa:	3301      	movi      	r3, 1
+    8aac:	a760      	st.b      	r3, (r7, 0)
+    8aae:	1494      	pop      	r4-r7, r15
+
+00008ab0 <call___do_global_dtors_aux>:
+    8ab0:	14d0      	push      	r15
+    8ab2:	0000      	.short	0x0000
+    8ab4:	0000d018 	.long	0x0000d018
+    8ab8:	0000cf1c 	.long	0x0000cf1c
+    8abc:	0000cf20 	.long	0x0000cf20
+    8ac0:	0000d01c 	.long	0x0000d01c
+    8ac4:	00008a24 	.long	0x00008a24
+    8ac8:	1490      	pop      	r15
+	...
+
+00008acc <frame_dummy>:
+    8acc:	14d0      	push      	r15
+    8ace:	1009      	lrw      	r0, 0xcf24	// 8af0 <call_frame_dummy+0x4>
+    8ad0:	9060      	ld.w      	r3, (r0, 0)
+    8ad2:	e9230007 	bnez      	r3, 0x8ae0	// 8ae0 <frame_dummy+0x14>
+    8ad6:	e3ffffb5 	bsr      	0x8a40	// 8a40 <register_tm_clones>
+    8ada:	c4004820 	lsli      	r0, r0, 0
+    8ade:	1490      	pop      	r15
+    8ae0:	1066      	lrw      	r3, 0	// 8af8 <call_frame_dummy+0xc>
+    8ae2:	e903fffa 	bez      	r3, 0x8ad6	// 8ad6 <frame_dummy+0xa>
+    8ae6:	7bcd      	jsr      	r3
+    8ae8:	07f7      	br      	0x8ad6	// 8ad6 <frame_dummy+0xa>
+	...
+
+00008aec <call_frame_dummy>:
+    8aec:	14d0      	push      	r15
+    8aee:	0000      	.short	0x0000
+    8af0:	0000cf24 	.long	0x0000cf24
+    8af4:	00008a40 	.long	0x00008a40
+    8af8:	00000000 	.long	0x00000000
+    8afc:	1490      	pop      	r15
+	...
+
+00008b00 <ck860_play_audio_pthread>:
+#endif
+/*
+* 接收810 消息后。播放音频
+*/
+void* ck860_play_audio_pthread(void *arg)
+{
+    8b00:	1423      	subi      	sp, sp, 12
+    8b02:	b880      	st.w      	r4, (sp, 0)
+    8b04:	dd0e2001 	st.w      	r8, (sp, 0x4)
+    8b08:	ddee2002 	st.w      	r15, (sp, 0x8)
+    8b0c:	6e3b      	mov      	r8, sp
+    8b0e:	1435      	subi      	sp, sp, 84
+    8b10:	e4681053 	subi      	r3, r8, 84
+    8b14:	b300      	st.w      	r0, (r3, 0)
+
+	int ret = 1;
+    8b16:	e4681003 	subi      	r3, r8, 4
+    8b1a:	3201      	movi      	r2, 1
+    8b1c:	b340      	st.w      	r2, (r3, 0)
+	int len = 0;//读写消息的长度
+    8b1e:	e4681007 	subi      	r3, r8, 8
+    8b22:	3200      	movi      	r2, 0
+    8b24:	b340      	st.w      	r2, (r3, 0)
+//	snd_pcm_t*		handle; 	
+	GV_IPCM_HANDLE_ATTR_S* stConnectAttr = (GV_IPCM_HANDLE_ATTR_S*)arg;
+    8b26:	e468100b 	subi      	r3, r8, 12
+    8b2a:	e4481053 	subi      	r2, r8, 84
+    8b2e:	9240      	ld.w      	r2, (r2, 0)
+    8b30:	b340      	st.w      	r2, (r3, 0)
+
+	printf("ck860 ipcm audio pthread is run...\n");
+    8b32:	1118      	lrw      	r0, 0xa9dc	// 8c10 <ck860_play_audio_pthread+0x110>
+    8b34:	eae00038 	jsri      	0x0	// from address pool at 0x8c14
+    8b38:	c4004820 	lsli      	r0, r0, 0
+
+	GV_IPCM_MSG_POOL_S* fd_pool =(GV_IPCM_MSG_POOL_S* )malloc(sizeof(GV_IPCM_MSG_POOL_S));
+    8b3c:	e488100f 	subi      	r4, r8, 16
+    8b40:	3010      	movi      	r0, 16
+    8b42:	eae00036 	jsri      	0x0	// from address pool at 0x8c18
+    8b46:	c4004820 	lsli      	r0, r0, 0
+    8b4a:	6cc3      	mov      	r3, r0
+    8b4c:	b460      	st.w      	r3, (r4, 0)
+	if(!fd_pool)
+    8b4e:	e468100f 	subi      	r3, r8, 16
+    8b52:	9360      	ld.w      	r3, (r3, 0)
+    8b54:	e923000d 	bnez      	r3, 0x8b6e	// 8b6e <ck860_play_audio_pthread+0x6e>
+	{
+		printf("malloc mem for fd_pool fail!\n");
+    8b58:	1111      	lrw      	r0, 0xaa00	// 8c1c <ck860_play_audio_pthread+0x11c>
+    8b5a:	eae0002f 	jsri      	0x0	// from address pool at 0x8c14
+    8b5e:	c4004820 	lsli      	r0, r0, 0
+		exit(-1);
+    8b62:	3000      	movi      	r0, 0
+    8b64:	2800      	subi      	r0, 1
+    8b66:	eae0002f 	jsri      	0x0	// from address pool at 0x8c20
+    8b6a:	c4004820 	lsli      	r0, r0, 0
+		 printf("Connect fail\n");
+		 exit(-1);
+	}
+	*/
+
+	GV_IPCM_TryConnect(stConnectAttr,fd_pool);
+    8b6e:	e448100f 	subi      	r2, r8, 16
+    8b72:	e468100b 	subi      	r3, r8, 12
+    8b76:	9220      	ld.w      	r1, (r2, 0)
+    8b78:	9300      	ld.w      	r0, (r3, 0)
+    8b7a:	e0000405 	bsr      	0x9384	// 9384 <GV_IPCM_TryConnect>
+    8b7e:	c4004820 	lsli      	r0, r0, 0
+
+	while (GV_FALSE == GV_IPCM_CheckConnected(fd_pool))
+    8b82:	040e      	br      	0x8b9e	// 8b9e <ck860_play_audio_pthread+0x9e>
+    {
+        printf("Wait connection ok\n");
+    8b84:	1109      	lrw      	r0, 0xaa20	// 8c28 <ck860_play_audio_pthread+0x128>
+    8b86:	eae00024 	jsri      	0x0	// from address pool at 0x8c14
+    8b8a:	c4004820 	lsli      	r0, r0, 0
+        usleep(200000);
+    8b8e:	ea00c350 	movi      	r0, 50000
+    8b92:	c4404900 	rotli      	r0, r0, 2
+    8b96:	eae00026 	jsri      	0x0	// from address pool at 0x8c2c
+    8b9a:	c4004820 	lsli      	r0, r0, 0
+	while (GV_FALSE == GV_IPCM_CheckConnected(fd_pool))
+    8b9e:	e468100f 	subi      	r3, r8, 16
+    8ba2:	9300      	ld.w      	r0, (r3, 0)
+    8ba4:	e0000970 	bsr      	0x9e84	// 9e84 <GV_IPCM_CheckConnected>
+    8ba8:	c4004820 	lsli      	r0, r0, 0
+    8bac:	6cc3      	mov      	r3, r0
+    8bae:	e903ffeb 	bez      	r3, 0x8b84	// 8b84 <ck860_play_audio_pthread+0x84>
+    }
+
+	
+	printf("ck860 connect to target successful!\n");
+    8bb2:	1101      	lrw      	r0, 0xaa34	// 8c34 <ck860_play_audio_pthread+0x134>
+    8bb4:	eae00018 	jsri      	0x0	// from address pool at 0x8c14
+    8bb8:	c4004820 	lsli      	r0, r0, 0
+
+/*for test ipcm connect */
+#if 1
+	
+	char zxf[64];
+	while (0 != strncmp(fgets(zxf, 64, stdin), "q", 1))
+    8bbc:	040e      	br      	0x8bd8	// 8bd8 <ck860_play_audio_pthread+0xd8>
+	{
+		printf("Enter q to exit\n");
+    8bbe:	101f      	lrw      	r0, 0xaa58	// 8c38 <ck860_play_audio_pthread+0x138>
+    8bc0:	eae00015 	jsri      	0x0	// from address pool at 0x8c14
+    8bc4:	c4004820 	lsli      	r0, r0, 0
+		usleep(200000);
+    8bc8:	ea00c350 	movi      	r0, 50000
+    8bcc:	c4404900 	rotli      	r0, r0, 2
+    8bd0:	eae00017 	jsri      	0x0	// from address pool at 0x8c2c
+    8bd4:	c4004820 	lsli      	r0, r0, 0
+	while (0 != strncmp(fgets(zxf, 64, stdin), "q", 1))
+    8bd8:	1079      	lrw      	r3, 0	// 8c3c <ck860_play_audio_pthread+0x13c>
+    8bda:	9340      	ld.w      	r2, (r3, 0)
+    8bdc:	e468104f 	subi      	r3, r8, 80
+    8be0:	3140      	movi      	r1, 64
+    8be2:	6c0f      	mov      	r0, r3
+    8be4:	eae00017 	jsri      	0x0	// from address pool at 0x8c40
+    8be8:	c4004820 	lsli      	r0, r0, 0
+    8bec:	6cc3      	mov      	r3, r0
+    8bee:	8360      	ld.b      	r3, (r3, 0)
+    8bf0:	748c      	zextb      	r2, r3
+    8bf2:	1075      	lrw      	r3, 0xaa68	// 8c44 <ck860_play_audio_pthread+0x144>
+    8bf4:	8360      	ld.b      	r3, (r3, 0)
+    8bf6:	74cc      	zextb      	r3, r3
+    8bf8:	64ca      	cmpne      	r2, r3
+    8bfa:	0be2      	bt      	0x8bbe	// 8bbe <ck860_play_audio_pthread+0xbe>
+
+	printf("CK860 ipcm audio thread is exit.....\n");
+	return NULL;
+
+#endif
+}
+    8bfc:	6c00      	or      	r0, r0
+    8bfe:	6c0f      	mov      	r0, r3
+    8c00:	6fa3      	mov      	sp, r8
+    8c02:	d9ee2002 	ld.w      	r15, (sp, 0x8)
+    8c06:	d90e2001 	ld.w      	r8, (sp, 0x4)
+    8c0a:	9880      	ld.w      	r4, (sp, 0)
+    8c0c:	1403      	addi      	sp, sp, 12
+    8c0e:	783c      	rts
+    8c10:	0000a9dc 	.long	0x0000a9dc
+	...
+    8c1c:	0000aa00 	.long	0x0000aa00
+    8c20:	00000000 	.long	0x00000000
+    8c24:	00009384 	.long	0x00009384
+    8c28:	0000aa20 	.long	0x0000aa20
+    8c2c:	00000000 	.long	0x00000000
+    8c30:	00009e84 	.long	0x00009e84
+    8c34:	0000aa34 	.long	0x0000aa34
+    8c38:	0000aa58 	.long	0x0000aa58
+	...
+    8c44:	0000aa68 	.long	0x0000aa68
+
+00008c48 <main>:
+int main()
+{
+    8c48:	1422      	subi      	sp, sp, 8
+    8c4a:	dd0e2000 	st.w      	r8, (sp, 0)
+    8c4e:	ddee2001 	st.w      	r15, (sp, 0x4)
+    8c52:	6e3b      	mov      	r8, sp
+    8c54:	1434      	subi      	sp, sp, 80
+
+	GV_IPCM_HANDLE_ATTR_S stConnectAttr;
+	stConnectAttr.target = TARGET_NODE;
+    8c56:	e468100b 	subi      	r3, r8, 12
+    8c5a:	3201      	movi      	r2, 1
+    8c5c:	b340      	st.w      	r2, (r3, 0)
+	stConnectAttr.port = 1;
+    8c5e:	e468100b 	subi      	r3, r8, 12
+    8c62:	3201      	movi      	r2, 1
+    8c64:	b341      	st.w      	r2, (r3, 0x4)
+//	stConnectAttr.priority = HANDLE_MSG_NORMAL;//msg_priority
+	stConnectAttr.priority = HANDLE_MSG_PRIORITY;
+    8c66:	e468100b 	subi      	r3, r8, 12
+    8c6a:	3201      	movi      	r2, 1
+    8c6c:	b342      	st.w      	r2, (r3, 0x8)
+
+//	ck860_play(&stConnectAttr);
+	pthread_t audiopid;
+			
+	if (0 != pthread_create(&audiopid, NULL, ck860_play_audio_pthread, &stConnectAttr))
+    8c6e:	e468100b 	subi      	r3, r8, 12
+    8c72:	e408100f 	subi      	r0, r8, 16
+    8c76:	1142      	lrw      	r2, 0x8b00	// 8cfc <main+0xb4>
+    8c78:	3100      	movi      	r1, 0
+    8c7a:	eae00022 	jsri      	0x0	// from address pool at 0x8d00
+    8c7e:	c4004820 	lsli      	r0, r0, 0
+    8c82:	6cc3      	mov      	r3, r0
+    8c84:	e903000d 	bez      	r3, 0x8c9e	// 8c9e <main+0x56>
+	{
+		printf("pthread_create ipcm_audio_pthread fail\n");
+    8c88:	101f      	lrw      	r0, 0xaa6c	// 8d04 <main+0xbc>
+    8c8a:	eae00020 	jsri      	0x0	// from address pool at 0x8d08
+    8c8e:	c4004820 	lsli      	r0, r0, 0
+		exit(-1);
+    8c92:	3000      	movi      	r0, 0
+    8c94:	2800      	subi      	r0, 1
+    8c96:	eae0001e 	jsri      	0x0	// from address pool at 0x8d0c
+    8c9a:	c4004820 	lsli      	r0, r0, 0
+	}	
+
+	pthread_join(audiopid, NULL);//阻塞等待子线程audiopid完成
+    8c9e:	e468100f 	subi      	r3, r8, 16
+    8ca2:	9360      	ld.w      	r3, (r3, 0)
+    8ca4:	3100      	movi      	r1, 0
+    8ca6:	6c0f      	mov      	r0, r3
+    8ca8:	eae0001a 	jsri      	0x0	// from address pool at 0x8d10
+    8cac:	c4004820 	lsli      	r0, r0, 0
+	
+	printf("THE audiopid pthread is finish!\n");
+    8cb0:	1019      	lrw      	r0, 0xaa94	// 8d14 <main+0xcc>
+    8cb2:	eae00016 	jsri      	0x0	// from address pool at 0x8d08
+    8cb6:	c4004820 	lsli      	r0, r0, 0
+	char cmd[64];
+
+    while (0 != strncmp(fgets(cmd, 64, stdin), "q", 1))
+    8cba:	0406      	br      	0x8cc6	// 8cc6 <main+0x7e>
+    {
+        printf("Enter q to exit\n");
+    8cbc:	1017      	lrw      	r0, 0xaa58	// 8d18 <main+0xd0>
+    8cbe:	eae00013 	jsri      	0x0	// from address pool at 0x8d08
+    8cc2:	c4004820 	lsli      	r0, r0, 0
+    while (0 != strncmp(fgets(cmd, 64, stdin), "q", 1))
+    8cc6:	1076      	lrw      	r3, 0	// 8d1c <main+0xd4>
+    8cc8:	9340      	ld.w      	r2, (r3, 0)
+    8cca:	e468104f 	subi      	r3, r8, 80
+    8cce:	3140      	movi      	r1, 64
+    8cd0:	6c0f      	mov      	r0, r3
+    8cd2:	eae00014 	jsri      	0x0	// from address pool at 0x8d20
+    8cd6:	c4004820 	lsli      	r0, r0, 0
+    8cda:	6cc3      	mov      	r3, r0
+    8cdc:	8360      	ld.b      	r3, (r3, 0)
+    8cde:	748c      	zextb      	r2, r3
+    8ce0:	1071      	lrw      	r3, 0xaa68	// 8d24 <main+0xdc>
+    8ce2:	8360      	ld.b      	r3, (r3, 0)
+    8ce4:	74cc      	zextb      	r3, r3
+    8ce6:	64ca      	cmpne      	r2, r3
+    8ce8:	0bea      	bt      	0x8cbc	// 8cbc <main+0x74>
+    }
+
+	return 0;
+    8cea:	3300      	movi      	r3, 0
+}
+    8cec:	6c0f      	mov      	r0, r3
+    8cee:	6fa3      	mov      	sp, r8
+    8cf0:	d9ee2001 	ld.w      	r15, (sp, 0x4)
+    8cf4:	d90e2000 	ld.w      	r8, (sp, 0)
+    8cf8:	1402      	addi      	sp, sp, 8
+    8cfa:	783c      	rts
+    8cfc:	00008b00 	.long	0x00008b00
+    8d00:	00000000 	.long	0x00000000
+    8d04:	0000aa6c 	.long	0x0000aa6c
+	...
+    8d14:	0000aa94 	.long	0x0000aa94
+    8d18:	0000aa58 	.long	0x0000aa58
+	...
+    8d24:	0000aa68 	.long	0x0000aa68
+
+00008d28 <pr>:
+
+#define IPCM_POOL_START 0x40000000 //high 1G
+#define IPCM_POOL_SIZE  0x10000000 //SIZE 256M
+//#define IPCM_POOL_SIZE  0x20000000 //size 512M
+void pr(const char *fmt, ...)
+{
+    8d28:	1424      	subi      	sp, sp, 16
+    8d2a:	b863      	st.w      	r3, (sp, 0xc)
+    8d2c:	b842      	st.w      	r2, (sp, 0x8)
+    8d2e:	b821      	st.w      	r1, (sp, 0x4)
+    8d30:	b800      	st.w      	r0, (sp, 0)
+    8d32:	1422      	subi      	sp, sp, 8
+    8d34:	dd0e2000 	st.w      	r8, (sp, 0)
+    8d38:	ddee2001 	st.w      	r15, (sp, 0x4)
+    8d3c:	6e3b      	mov      	r8, sp
+	printf(fmt);
+    8d3e:	e4680007 	addi      	r3, r8, 8
+    8d42:	9300      	ld.w      	r0, (r3, 0)
+    8d44:	eae00006 	jsri      	0x0	// from address pool at 0x8d5c
+    8d48:	c4004820 	lsli      	r0, r0, 0
+}
+    8d4c:	6c00      	or      	r0, r0
+    8d4e:	6fa3      	mov      	sp, r8
+    8d50:	d9ee2001 	ld.w      	r15, (sp, 0x4)
+    8d54:	d90e2000 	ld.w      	r8, (sp, 0)
+    8d58:	1406      	addi      	sp, sp, 24
+    8d5a:	783c      	rts
+    8d5c:	00000000 	.long	0x00000000
+
+00008d60 <GV_IPCM_CreateMessage>:
+
+GV_IPCM_MSG_S* GV_IPCM_CreateMessage(GV_IPCM_MSG_POOL_S *msg_pool,GV_U32 size,GV_U32 u32CMD,GV_BOOL bIsResp)
+{
+    8d60:	1423      	subi      	sp, sp, 12
+    8d62:	b880      	st.w      	r4, (sp, 0)
+    8d64:	dd0e2001 	st.w      	r8, (sp, 0x4)
+    8d68:	ddee2002 	st.w      	r15, (sp, 0x8)
+    8d6c:	6e3b      	mov      	r8, sp
+    8d6e:	1426      	subi      	sp, sp, 24
+    8d70:	e588100b 	subi      	r12, r8, 12
+    8d74:	dc0c2000 	st.w      	r0, (r12, 0)
+    8d78:	e408100f 	subi      	r0, r8, 16
+    8d7c:	b020      	st.w      	r1, (r0, 0)
+    8d7e:	e4281013 	subi      	r1, r8, 20
+    8d82:	b140      	st.w      	r2, (r1, 0)
+    8d84:	e4481017 	subi      	r2, r8, 24
+    8d88:	b260      	st.w      	r3, (r2, 0)
+	GV_IPCM_MSG_S* pMsg = (GV_IPCM_MSG_S*)malloc(sizeof(GV_IPCM_MSG_S));
+    8d8a:	e4881003 	subi      	r4, r8, 4
+    8d8e:	3008      	movi      	r0, 8
+    8d90:	eae00096 	jsri      	0x0	// from address pool at 0x8fe8
+    8d94:	c4004820 	lsli      	r0, r0, 0
+    8d98:	6cc3      	mov      	r3, r0
+    8d9a:	b460      	st.w      	r3, (r4, 0)
+	if(!pMsg)
+    8d9c:	e4681003 	subi      	r3, r8, 4
+    8da0:	9360      	ld.w      	r3, (r3, 0)
+    8da2:	e9230019 	bnez      	r3, 0x8dd4	// 8dd4 <GV_IPCM_CreateMessage+0x74>
+	{
+		ipcm_trace(TRACE_ZXF_DEBUG,"malloc memory for ipcm message fail.");
+    8da6:	3223      	movi      	r2, 35
+    8da8:	ea810091 	lrw      	r1, 0xaf54	// 8fec <GV_IPCM_CreateMessage+0x28c>
+    8dac:	ea800091 	lrw      	r0, 0xaab4	// 8ff0 <GV_IPCM_CreateMessage+0x290>
+    8db0:	e3ffffbc 	bsr      	0x8d28	// 8d28 <pr>
+    8db4:	c4004820 	lsli      	r0, r0, 0
+    8db8:	ea800090 	lrw      	r0, 0xaac4	// 8ff8 <GV_IPCM_CreateMessage+0x298>
+    8dbc:	e3ffffb6 	bsr      	0x8d28	// 8d28 <pr>
+    8dc0:	c4004820 	lsli      	r0, r0, 0
+    8dc4:	ea80008e 	lrw      	r0, 0xaaec	// 8ffc <GV_IPCM_CreateMessage+0x29c>
+    8dc8:	e3ffffb0 	bsr      	0x8d28	// 8d28 <pr>
+    8dcc:	c4004820 	lsli      	r0, r0, 0
+		return NULL;
+    8dd0:	3300      	movi      	r3, 0
+    8dd2:	0502      	br      	0x8fd6	// 8fd6 <GV_IPCM_CreateMessage+0x276>
+	}
+	pMsg->msg_body = (struct ipcm_msg_body*)malloc(sizeof(struct ipcm_msg_body));
+    8dd4:	3010      	movi      	r0, 16
+    8dd6:	eae00085 	jsri      	0x0	// from address pool at 0x8fe8
+    8dda:	c4004820 	lsli      	r0, r0, 0
+    8dde:	6cc3      	mov      	r3, r0
+    8de0:	6c8f      	mov      	r2, r3
+    8de2:	e4681003 	subi      	r3, r8, 4
+    8de6:	9360      	ld.w      	r3, (r3, 0)
+    8de8:	b341      	st.w      	r2, (r3, 0x4)
+	if(!pMsg->msg_body)
+    8dea:	e4681003 	subi      	r3, r8, 4
+    8dee:	9360      	ld.w      	r3, (r3, 0)
+    8df0:	9361      	ld.w      	r3, (r3, 0x4)
+    8df2:	e9230015 	bnez      	r3, 0x8e1c	// 8e1c <GV_IPCM_CreateMessage+0xbc>
+	{
+		ipcm_trace(TRACE_ZXF_DEBUG,"malloc memory for message body fail.");
+    8df6:	3229      	movi      	r2, 41
+    8df8:	133d      	lrw      	r1, 0xaf54	// 8fec <GV_IPCM_CreateMessage+0x28c>
+    8dfa:	131e      	lrw      	r0, 0xaab4	// 8ff0 <GV_IPCM_CreateMessage+0x290>
+    8dfc:	e3ffff96 	bsr      	0x8d28	// 8d28 <pr>
+    8e00:	c4004820 	lsli      	r0, r0, 0
+    8e04:	131f      	lrw      	r0, 0xaaf0	// 9000 <GV_IPCM_CreateMessage+0x2a0>
+    8e06:	e3ffff91 	bsr      	0x8d28	// 8d28 <pr>
+    8e0a:	c4004820 	lsli      	r0, r0, 0
+    8e0e:	131c      	lrw      	r0, 0xaaec	// 8ffc <GV_IPCM_CreateMessage+0x29c>
+    8e10:	e3ffff8c 	bsr      	0x8d28	// 8d28 <pr>
+    8e14:	c4004820 	lsli      	r0, r0, 0
+		return NULL;
+    8e18:	3300      	movi      	r3, 0
+    8e1a:	04de      	br      	0x8fd6	// 8fd6 <GV_IPCM_CreateMessage+0x276>
+	}
+//no need to memset to zero
+	ipcm_trace(TRACE_ZXF_DEBUG,"alloc mem pool size is:%d",size);
+    8e1c:	322d      	movi      	r2, 45
+    8e1e:	1334      	lrw      	r1, 0xaf54	// 8fec <GV_IPCM_CreateMessage+0x28c>
+    8e20:	1314      	lrw      	r0, 0xaab4	// 8ff0 <GV_IPCM_CreateMessage+0x290>
+    8e22:	e3ffff83 	bsr      	0x8d28	// 8d28 <pr>
+    8e26:	c4004820 	lsli      	r0, r0, 0
+    8e2a:	e468100f 	subi      	r3, r8, 16
+    8e2e:	9320      	ld.w      	r1, (r3, 0)
+    8e30:	1315      	lrw      	r0, 0xab18	// 9004 <GV_IPCM_CreateMessage+0x2a4>
+    8e32:	e3ffff7b 	bsr      	0x8d28	// 8d28 <pr>
+    8e36:	c4004820 	lsli      	r0, r0, 0
+    8e3a:	1311      	lrw      	r0, 0xaaec	// 8ffc <GV_IPCM_CreateMessage+0x29c>
+    8e3c:	e3ffff76 	bsr      	0x8d28	// 8d28 <pr>
+    8e40:	c4004820 	lsli      	r0, r0, 0
+
+	if( size > 0 )
+    8e44:	e468100f 	subi      	r3, r8, 16
+    8e48:	9360      	ld.w      	r3, (r3, 0)
+    8e4a:	e903006e 	bez      	r3, 0x8f26	// 8f26 <GV_IPCM_CreateMessage+0x1c6>
+	{
+		long rc = xrp_allocate(&msg_pool->pool, size , 0x10,&pMsg->msg_alloc);
+    8e4e:	e468100b 	subi      	r3, r8, 12
+    8e52:	9360      	ld.w      	r3, (r3, 0)
+    8e54:	5b0e      	addi      	r0, r3, 4
+    8e56:	e4681003 	subi      	r3, r8, 4
+    8e5a:	9360      	ld.w      	r3, (r3, 0)
+    8e5c:	e4881007 	subi      	r4, r8, 8
+    8e60:	e428100f 	subi      	r1, r8, 16
+    8e64:	3210      	movi      	r2, 16
+    8e66:	9120      	ld.w      	r1, (r1, 0)
+    8e68:	e0000ac0 	bsr      	0xa3e8	// a3e8 <xrp_allocate>
+    8e6c:	c4004820 	lsli      	r0, r0, 0
+    8e70:	b400      	st.w      	r0, (r4, 0)
+		if(rc < 0)
+    8e72:	e4681007 	subi      	r3, r8, 8
+    8e76:	9360      	ld.w      	r3, (r3, 0)
+    8e78:	e9a30026 	bhsz      	r3, 0x8ec4	// 8ec4 <GV_IPCM_CreateMessage+0x164>
+		{
+			ipcm_err("allocate memory from pool fail!");
+    8e7c:	3234      	movi      	r2, 52
+    8e7e:	123c      	lrw      	r1, 0xaf54	// 8fec <GV_IPCM_CreateMessage+0x28c>
+    8e80:	1303      	lrw      	r0, 0xab34	// 900c <GV_IPCM_CreateMessage+0x2ac>
+    8e82:	e3ffff53 	bsr      	0x8d28	// 8d28 <pr>
+    8e86:	c4004820 	lsli      	r0, r0, 0
+    8e8a:	1302      	lrw      	r0, 0xab44	// 9010 <GV_IPCM_CreateMessage+0x2b0>
+    8e8c:	e3ffff4e 	bsr      	0x8d28	// 8d28 <pr>
+    8e90:	c4004820 	lsli      	r0, r0, 0
+    8e94:	121a      	lrw      	r0, 0xaaec	// 8ffc <GV_IPCM_CreateMessage+0x29c>
+    8e96:	e3ffff49 	bsr      	0x8d28	// 8d28 <pr>
+    8e9a:	c4004820 	lsli      	r0, r0, 0
+			goto createMsg_fail;
+    8e9e:	6c00      	or      	r0, r0
+
+	ipcm_trace(TRACE_ZXF_DEBUG,"create Message successful!");
+	return pMsg;
+
+createMsg_fail:
+	free(pMsg->msg_body);
+    8ea0:	e4681003 	subi      	r3, r8, 4
+    8ea4:	9360      	ld.w      	r3, (r3, 0)
+    8ea6:	9361      	ld.w      	r3, (r3, 0x4)
+    8ea8:	6c0f      	mov      	r0, r3
+    8eaa:	eae0005b 	jsri      	0x0	// from address pool at 0x9014
+    8eae:	c4004820 	lsli      	r0, r0, 0
+	free(pMsg);
+    8eb2:	e4681003 	subi      	r3, r8, 4
+    8eb6:	9300      	ld.w      	r0, (r3, 0)
+    8eb8:	eae00057 	jsri      	0x0	// from address pool at 0x9014
+    8ebc:	c4004820 	lsli      	r0, r0, 0
+	return NULL;
+    8ec0:	3300      	movi      	r3, 0
+    8ec2:	048a      	br      	0x8fd6	// 8fd6 <GV_IPCM_CreateMessage+0x276>
+		pMsg->msg_body->start = pMsg->msg_alloc->start;
+    8ec4:	e4681003 	subi      	r3, r8, 4
+    8ec8:	9360      	ld.w      	r3, (r3, 0)
+    8eca:	9361      	ld.w      	r3, (r3, 0x4)
+    8ecc:	e4481003 	subi      	r2, r8, 4
+    8ed0:	9240      	ld.w      	r2, (r2, 0)
+    8ed2:	9240      	ld.w      	r2, (r2, 0)
+    8ed4:	9240      	ld.w      	r2, (r2, 0)
+    8ed6:	b340      	st.w      	r2, (r3, 0)
+		pMsg->msg_body->size = pMsg->msg_alloc->size;
+    8ed8:	e4681003 	subi      	r3, r8, 4
+    8edc:	9360      	ld.w      	r3, (r3, 0)
+    8ede:	9361      	ld.w      	r3, (r3, 0x4)
+    8ee0:	e4481003 	subi      	r2, r8, 4
+    8ee4:	9240      	ld.w      	r2, (r2, 0)
+    8ee6:	9240      	ld.w      	r2, (r2, 0)
+    8ee8:	9241      	ld.w      	r2, (r2, 0x4)
+    8eea:	b341      	st.w      	r2, (r3, 0x4)
+		ipcm_trace(TRACE_ZXF_DEBUG,"pMsg->msg_alloc->start:0x%x ,pMsg->msg_alloc->size:%d",pMsg->msg_alloc->start,pMsg->msg_alloc->size);
+    8eec:	323a      	movi      	r2, 58
+    8eee:	1220      	lrw      	r1, 0xaf54	// 8fec <GV_IPCM_CreateMessage+0x28c>
+    8ef0:	1200      	lrw      	r0, 0xaab4	// 8ff0 <GV_IPCM_CreateMessage+0x290>
+    8ef2:	e3ffff1b 	bsr      	0x8d28	// 8d28 <pr>
+    8ef6:	c4004820 	lsli      	r0, r0, 0
+    8efa:	e4681003 	subi      	r3, r8, 4
+    8efe:	9360      	ld.w      	r3, (r3, 0)
+    8f00:	9360      	ld.w      	r3, (r3, 0)
+    8f02:	9320      	ld.w      	r1, (r3, 0)
+    8f04:	e4681003 	subi      	r3, r8, 4
+    8f08:	9360      	ld.w      	r3, (r3, 0)
+    8f0a:	9360      	ld.w      	r3, (r3, 0)
+    8f0c:	9361      	ld.w      	r3, (r3, 0x4)
+    8f0e:	6c8f      	mov      	r2, r3
+    8f10:	1202      	lrw      	r0, 0xab64	// 9018 <GV_IPCM_CreateMessage+0x2b8>
+    8f12:	e3ffff0b 	bsr      	0x8d28	// 8d28 <pr>
+    8f16:	c4004820 	lsli      	r0, r0, 0
+    8f1a:	1119      	lrw      	r0, 0xaaec	// 8ffc <GV_IPCM_CreateMessage+0x29c>
+    8f1c:	e3ffff06 	bsr      	0x8d28	// 8d28 <pr>
+    8f20:	c4004820 	lsli      	r0, r0, 0
+    8f24:	0435      	br      	0x8f8e	// 8f8e <GV_IPCM_CreateMessage+0x22e>
+		pMsg->msg_alloc = (struct xrp_allocation*)calloc(1,sizeof(struct xrp_allocation));
+    8f26:	3114      	movi      	r1, 20
+    8f28:	3001      	movi      	r0, 1
+    8f2a:	eae0003d 	jsri      	0x0	// from address pool at 0x901c
+    8f2e:	c4004820 	lsli      	r0, r0, 0
+    8f32:	6cc3      	mov      	r3, r0
+    8f34:	6c8f      	mov      	r2, r3
+    8f36:	e4681003 	subi      	r3, r8, 4
+    8f3a:	9360      	ld.w      	r3, (r3, 0)
+    8f3c:	b340      	st.w      	r2, (r3, 0)
+		pMsg->msg_body->start = 0;
+    8f3e:	e4681003 	subi      	r3, r8, 4
+    8f42:	9360      	ld.w      	r3, (r3, 0)
+    8f44:	9361      	ld.w      	r3, (r3, 0x4)
+    8f46:	3200      	movi      	r2, 0
+    8f48:	b340      	st.w      	r2, (r3, 0)
+		pMsg->msg_body->size = 0;
+    8f4a:	e4681003 	subi      	r3, r8, 4
+    8f4e:	9360      	ld.w      	r3, (r3, 0)
+    8f50:	9361      	ld.w      	r3, (r3, 0x4)
+    8f52:	3200      	movi      	r2, 0
+    8f54:	b341      	st.w      	r2, (r3, 0x4)
+		ipcm_trace(TRACE_ZXF_DEBUG,"pMsg->msg_alloc->start:0x%x,pMsg->msg_alloc->size:%d",pMsg->msg_alloc->start,pMsg->msg_alloc->size);
+    8f56:	3240      	movi      	r2, 64
+    8f58:	1125      	lrw      	r1, 0xaf54	// 8fec <GV_IPCM_CreateMessage+0x28c>
+    8f5a:	1106      	lrw      	r0, 0xaab4	// 8ff0 <GV_IPCM_CreateMessage+0x290>
+    8f5c:	e3fffee6 	bsr      	0x8d28	// 8d28 <pr>
+    8f60:	c4004820 	lsli      	r0, r0, 0
+    8f64:	e4681003 	subi      	r3, r8, 4
+    8f68:	9360      	ld.w      	r3, (r3, 0)
+    8f6a:	9360      	ld.w      	r3, (r3, 0)
+    8f6c:	9320      	ld.w      	r1, (r3, 0)
+    8f6e:	e4681003 	subi      	r3, r8, 4
+    8f72:	9360      	ld.w      	r3, (r3, 0)
+    8f74:	9360      	ld.w      	r3, (r3, 0)
+    8f76:	9361      	ld.w      	r3, (r3, 0x4)
+    8f78:	6c8f      	mov      	r2, r3
+    8f7a:	110a      	lrw      	r0, 0xab9c	// 9020 <GV_IPCM_CreateMessage+0x2c0>
+    8f7c:	e3fffed6 	bsr      	0x8d28	// 8d28 <pr>
+    8f80:	c4004820 	lsli      	r0, r0, 0
+    8f84:	101e      	lrw      	r0, 0xaaec	// 8ffc <GV_IPCM_CreateMessage+0x29c>
+    8f86:	e3fffed1 	bsr      	0x8d28	// 8d28 <pr>
+    8f8a:	c4004820 	lsli      	r0, r0, 0
+	pMsg->msg_body->u32CMD = u32CMD;
+    8f8e:	e4681003 	subi      	r3, r8, 4
+    8f92:	9360      	ld.w      	r3, (r3, 0)
+    8f94:	9361      	ld.w      	r3, (r3, 0x4)
+    8f96:	e4481013 	subi      	r2, r8, 20
+    8f9a:	9240      	ld.w      	r2, (r2, 0)
+    8f9c:	b342      	st.w      	r2, (r3, 0x8)
+	pMsg->msg_body->bIsResp = bIsResp;
+    8f9e:	e4681003 	subi      	r3, r8, 4
+    8fa2:	9360      	ld.w      	r3, (r3, 0)
+    8fa4:	9361      	ld.w      	r3, (r3, 0x4)
+    8fa6:	e4481017 	subi      	r2, r8, 24
+    8faa:	9240      	ld.w      	r2, (r2, 0)
+    8fac:	b343      	st.w      	r2, (r3, 0xc)
+	ipcm_trace(TRACE_ZXF_DEBUG,"create Message successful!");
+    8fae:	3247      	movi      	r2, 71
+    8fb0:	102f      	lrw      	r1, 0xaf54	// 8fec <GV_IPCM_CreateMessage+0x28c>
+    8fb2:	1010      	lrw      	r0, 0xaab4	// 8ff0 <GV_IPCM_CreateMessage+0x290>
+    8fb4:	e3fffeba 	bsr      	0x8d28	// 8d28 <pr>
+    8fb8:	c4004820 	lsli      	r0, r0, 0
+    8fbc:	101a      	lrw      	r0, 0xabd4	// 9024 <GV_IPCM_CreateMessage+0x2c4>
+    8fbe:	e3fffeb5 	bsr      	0x8d28	// 8d28 <pr>
+    8fc2:	c4004820 	lsli      	r0, r0, 0
+    8fc6:	100e      	lrw      	r0, 0xaaec	// 8ffc <GV_IPCM_CreateMessage+0x29c>
+    8fc8:	e3fffeb0 	bsr      	0x8d28	// 8d28 <pr>
+    8fcc:	c4004820 	lsli      	r0, r0, 0
+	return pMsg;
+    8fd0:	e4681003 	subi      	r3, r8, 4
+    8fd4:	9360      	ld.w      	r3, (r3, 0)
+}
+    8fd6:	6c0f      	mov      	r0, r3
+    8fd8:	6fa3      	mov      	sp, r8
+    8fda:	d9ee2002 	ld.w      	r15, (sp, 0x8)
+    8fde:	d90e2001 	ld.w      	r8, (sp, 0x4)
+    8fe2:	9880      	ld.w      	r4, (sp, 0)
+    8fe4:	1403      	addi      	sp, sp, 12
+    8fe6:	783c      	rts
+    8fe8:	00000000 	.long	0x00000000
+    8fec:	0000af54 	.long	0x0000af54
+    8ff0:	0000aab4 	.long	0x0000aab4
+    8ff4:	00008d28 	.long	0x00008d28
+    8ff8:	0000aac4 	.long	0x0000aac4
+    8ffc:	0000aaec 	.long	0x0000aaec
+    9000:	0000aaf0 	.long	0x0000aaf0
+    9004:	0000ab18 	.long	0x0000ab18
+    9008:	0000a3e8 	.long	0x0000a3e8
+    900c:	0000ab34 	.long	0x0000ab34
+    9010:	0000ab44 	.long	0x0000ab44
+    9014:	00000000 	.long	0x00000000
+    9018:	0000ab64 	.long	0x0000ab64
+    901c:	00000000 	.long	0x00000000
+    9020:	0000ab9c 	.long	0x0000ab9c
+    9024:	0000abd4 	.long	0x0000abd4
+
+00009028 <GV_IPCM_DestroyMessage>:
+
+GV_IPCM_RetValue_E GV_IPCM_DestroyMessage(GV_IPCM_MSG_S *pstMsg)
+{
+    9028:	1422      	subi      	sp, sp, 8
+    902a:	dd0e2000 	st.w      	r8, (sp, 0)
+    902e:	ddee2001 	st.w      	r15, (sp, 0x4)
+    9032:	6e3b      	mov      	r8, sp
+    9034:	1421      	subi      	sp, sp, 4
+    9036:	e4681003 	subi      	r3, r8, 4
+    903a:	b300      	st.w      	r0, (r3, 0)
+	if(NULL == pstMsg)
+    903c:	e4681003 	subi      	r3, r8, 4
+    9040:	9360      	ld.w      	r3, (r3, 0)
+    9042:	e9230015 	bnez      	r3, 0x906c	// 906c <GV_IPCM_DestroyMessage+0x44>
+	{
+		ipcm_err("Destroy message is NULL");
+    9046:	3254      	movi      	r2, 84
+    9048:	1227      	lrw      	r1, 0xaf6c	// 9164 <GV_IPCM_DestroyMessage+0x13c>
+    904a:	1208      	lrw      	r0, 0xab34	// 9168 <GV_IPCM_DestroyMessage+0x140>
+    904c:	e3fffe6e 	bsr      	0x8d28	// 8d28 <pr>
+    9050:	c4004820 	lsli      	r0, r0, 0
+    9054:	1207      	lrw      	r0, 0xabf0	// 9170 <GV_IPCM_DestroyMessage+0x148>
+    9056:	e3fffe69 	bsr      	0x8d28	// 8d28 <pr>
+    905a:	c4004820 	lsli      	r0, r0, 0
+    905e:	1206      	lrw      	r0, 0xaaec	// 9174 <GV_IPCM_DestroyMessage+0x14c>
+    9060:	e3fffe64 	bsr      	0x8d28	// 8d28 <pr>
+    9064:	c4004820 	lsli      	r0, r0, 0
+		return GV_SUCCESS;
+    9068:	3300      	movi      	r3, 0
+    906a:	0474      	br      	0x9152	// 9152 <GV_IPCM_DestroyMessage+0x12a>
+	}
+
+	if(pstMsg->msg_alloc != NULL)
+    906c:	e4681003 	subi      	r3, r8, 4
+    9070:	9360      	ld.w      	r3, (r3, 0)
+    9072:	9360      	ld.w      	r3, (r3, 0)
+    9074:	e9030032 	bez      	r3, 0x90d8	// 90d8 <GV_IPCM_DestroyMessage+0xb0>
+	{		
+		//if no
+		if(pstMsg->msg_alloc->size > 0)
+    9078:	e4681003 	subi      	r3, r8, 4
+    907c:	9360      	ld.w      	r3, (r3, 0)
+    907e:	9360      	ld.w      	r3, (r3, 0)
+    9080:	9361      	ld.w      	r3, (r3, 0x4)
+    9082:	e9030022 	bez      	r3, 0x90c6	// 90c6 <GV_IPCM_DestroyMessage+0x9e>
+		{
+			ipcm_trace(TRACE_ZXF_DEBUG,"pstMsg->msg_body->size: %d",pstMsg->msg_alloc->size);
+    9086:	325d      	movi      	r2, 93
+    9088:	1137      	lrw      	r1, 0xaf6c	// 9164 <GV_IPCM_DestroyMessage+0x13c>
+    908a:	111c      	lrw      	r0, 0xaab4	// 9178 <GV_IPCM_DestroyMessage+0x150>
+    908c:	e3fffe4e 	bsr      	0x8d28	// 8d28 <pr>
+    9090:	c4004820 	lsli      	r0, r0, 0
+    9094:	e4681003 	subi      	r3, r8, 4
+    9098:	9360      	ld.w      	r3, (r3, 0)
+    909a:	9360      	ld.w      	r3, (r3, 0)
+    909c:	9361      	ld.w      	r3, (r3, 0x4)
+    909e:	6c4f      	mov      	r1, r3
+    90a0:	1117      	lrw      	r0, 0xac08	// 917c <GV_IPCM_DestroyMessage+0x154>
+    90a2:	e3fffe43 	bsr      	0x8d28	// 8d28 <pr>
+    90a6:	c4004820 	lsli      	r0, r0, 0
+    90aa:	1113      	lrw      	r0, 0xaaec	// 9174 <GV_IPCM_DestroyMessage+0x14c>
+    90ac:	e3fffe3e 	bsr      	0x8d28	// 8d28 <pr>
+    90b0:	c4004820 	lsli      	r0, r0, 0
+			xrp_free(pstMsg->msg_alloc);
+    90b4:	e4681003 	subi      	r3, r8, 4
+    90b8:	9360      	ld.w      	r3, (r3, 0)
+    90ba:	9360      	ld.w      	r3, (r3, 0)
+    90bc:	6c0f      	mov      	r0, r3
+    90be:	e000082b 	bsr      	0xa114	// a114 <xrp_free>
+    90c2:	c4004820 	lsli      	r0, r0, 0
+		}
+		free(pstMsg->msg_alloc);
+    90c6:	e4681003 	subi      	r3, r8, 4
+    90ca:	9360      	ld.w      	r3, (r3, 0)
+    90cc:	9360      	ld.w      	r3, (r3, 0)
+    90ce:	6c0f      	mov      	r0, r3
+    90d0:	eae0002d 	jsri      	0x0	// from address pool at 0x9184
+    90d4:	c4004820 	lsli      	r0, r0, 0
+	}
+	ipcm_trace(TRACE_ZXF_DEBUG,"pstMsg->msg_body.size: %d",pstMsg->msg_body->size);
+    90d8:	3262      	movi      	r2, 98
+    90da:	1123      	lrw      	r1, 0xaf6c	// 9164 <GV_IPCM_DestroyMessage+0x13c>
+    90dc:	1107      	lrw      	r0, 0xaab4	// 9178 <GV_IPCM_DestroyMessage+0x150>
+    90de:	e3fffe25 	bsr      	0x8d28	// 8d28 <pr>
+    90e2:	c4004820 	lsli      	r0, r0, 0
+    90e6:	e4681003 	subi      	r3, r8, 4
+    90ea:	9360      	ld.w      	r3, (r3, 0)
+    90ec:	9361      	ld.w      	r3, (r3, 0x4)
+    90ee:	9361      	ld.w      	r3, (r3, 0x4)
+    90f0:	6c4f      	mov      	r1, r3
+    90f2:	1106      	lrw      	r0, 0xac24	// 9188 <GV_IPCM_DestroyMessage+0x160>
+    90f4:	e3fffe1a 	bsr      	0x8d28	// 8d28 <pr>
+    90f8:	c4004820 	lsli      	r0, r0, 0
+    90fc:	101e      	lrw      	r0, 0xaaec	// 9174 <GV_IPCM_DestroyMessage+0x14c>
+    90fe:	e3fffe15 	bsr      	0x8d28	// 8d28 <pr>
+    9102:	c4004820 	lsli      	r0, r0, 0
+
+	free(pstMsg->msg_body);
+    9106:	e4681003 	subi      	r3, r8, 4
+    910a:	9360      	ld.w      	r3, (r3, 0)
+    910c:	9361      	ld.w      	r3, (r3, 0x4)
+    910e:	6c0f      	mov      	r0, r3
+    9110:	eae0001d 	jsri      	0x0	// from address pool at 0x9184
+    9114:	c4004820 	lsli      	r0, r0, 0
+	free(pstMsg);
+    9118:	e4681003 	subi      	r3, r8, 4
+    911c:	9300      	ld.w      	r0, (r3, 0)
+    911e:	eae0001a 	jsri      	0x0	// from address pool at 0x9184
+    9122:	c4004820 	lsli      	r0, r0, 0
+
+	pstMsg = NULL;
+    9126:	e4681003 	subi      	r3, r8, 4
+    912a:	3200      	movi      	r2, 0
+    912c:	b340      	st.w      	r2, (r3, 0)
+	ipcm_trace(TRACE_ZXF_DEBUG,"Destroy message successful!");
+    912e:	3268      	movi      	r2, 104
+    9130:	102d      	lrw      	r1, 0xaf6c	// 9164 <GV_IPCM_DestroyMessage+0x13c>
+    9132:	1012      	lrw      	r0, 0xaab4	// 9178 <GV_IPCM_DestroyMessage+0x150>
+    9134:	e3fffdfa 	bsr      	0x8d28	// 8d28 <pr>
+    9138:	c4004820 	lsli      	r0, r0, 0
+    913c:	1014      	lrw      	r0, 0xac40	// 918c <GV_IPCM_DestroyMessage+0x164>
+    913e:	e3fffdf5 	bsr      	0x8d28	// 8d28 <pr>
+    9142:	c4004820 	lsli      	r0, r0, 0
+    9146:	100c      	lrw      	r0, 0xaaec	// 9174 <GV_IPCM_DestroyMessage+0x14c>
+    9148:	e3fffdf0 	bsr      	0x8d28	// 8d28 <pr>
+    914c:	c4004820 	lsli      	r0, r0, 0
+
+	return GV_SUCCESS;
+    9150:	3300      	movi      	r3, 0
+}
+    9152:	6c0f      	mov      	r0, r3
+    9154:	6fa3      	mov      	sp, r8
+    9156:	d9ee2001 	ld.w      	r15, (sp, 0x4)
+    915a:	d90e2000 	ld.w      	r8, (sp, 0)
+    915e:	1402      	addi      	sp, sp, 8
+    9160:	783c      	rts
+    9162:	0000      	.short	0x0000
+    9164:	0000af6c 	.long	0x0000af6c
+    9168:	0000ab34 	.long	0x0000ab34
+    916c:	00008d28 	.long	0x00008d28
+    9170:	0000abf0 	.long	0x0000abf0
+    9174:	0000aaec 	.long	0x0000aaec
+    9178:	0000aab4 	.long	0x0000aab4
+    917c:	0000ac08 	.long	0x0000ac08
+    9180:	0000a114 	.long	0x0000a114
+    9184:	00000000 	.long	0x00000000
+    9188:	0000ac24 	.long	0x0000ac24
+    918c:	0000ac40 	.long	0x0000ac40
+
+00009190 <GV_IPCM_Connect>:
+
+
+GV_IPCM_RetValue_E  GV_IPCM_Connect(GV_IPCM_HANDLE_ATTR_S* stHandleAttr,GV_IPCM_MSG_POOL_S* ipcm_pool)
+{
+    9190:	1423      	subi      	sp, sp, 12
+    9192:	b880      	st.w      	r4, (sp, 0)
+    9194:	dd0e2001 	st.w      	r8, (sp, 0x4)
+    9198:	ddee2002 	st.w      	r15, (sp, 0x8)
+    919c:	6e3b      	mov      	r8, sp
+    919e:	1424      	subi      	sp, sp, 16
+    91a0:	e4681007 	subi      	r3, r8, 8
+    91a4:	b300      	st.w      	r0, (r3, 0)
+    91a6:	e468100b 	subi      	r3, r8, 12
+    91aa:	b320      	st.w      	r1, (r3, 0)
+	int ret = 0;
+    91ac:	e4681003 	subi      	r3, r8, 4
+    91b0:	3200      	movi      	r2, 0
+    91b2:	b340      	st.w      	r2, (r3, 0)
+	//ipcm_pool = (GV_IPCM_MSG_POOL_S*)malloc(sizeof(GV_IPCM_MSG_POOL_S));
+	if (!ipcm_pool)
+    91b4:	e468100b 	subi      	r3, r8, 12
+    91b8:	9360      	ld.w      	r3, (r3, 0)
+    91ba:	e9230016 	bnez      	r3, 0x91e6	// 91e6 <GV_IPCM_Connect+0x56>
+	{
+		ipcm_trace(TRACE_ZXF_DEBUG,"malloc memory for ipcm message pool fail!");
+    91be:	3274      	movi      	r2, 116
+    91c0:	1321      	lrw      	r1, 0xaf84	// 9344 <GV_IPCM_Connect+0x1b4>
+    91c2:	1302      	lrw      	r0, 0xaab4	// 9348 <GV_IPCM_Connect+0x1b8>
+    91c4:	e3fffdb2 	bsr      	0x8d28	// 8d28 <pr>
+    91c8:	c4004820 	lsli      	r0, r0, 0
+    91cc:	1301      	lrw      	r0, 0xac5c	// 9350 <GV_IPCM_Connect+0x1c0>
+    91ce:	e3fffdad 	bsr      	0x8d28	// 8d28 <pr>
+    91d2:	c4004820 	lsli      	r0, r0, 0
+    91d6:	1300      	lrw      	r0, 0xaaec	// 9354 <GV_IPCM_Connect+0x1c4>
+    91d8:	e3fffda8 	bsr      	0x8d28	// 8d28 <pr>
+    91dc:	c4004820 	lsli      	r0, r0, 0
+		return -GV_ERR_MALLOC;
+    91e0:	3300      	movi      	r3, 0
+    91e2:	2b02      	subi      	r3, 3
+    91e4:	04a6      	br      	0x9330	// 9330 <GV_IPCM_Connect+0x1a0>
+	}
+
+	ipcm_pool->IpcmFd = open(DEV_NAME, O_RDWR);
+    91e6:	3102      	movi      	r1, 2
+    91e8:	121c      	lrw      	r0, 0xac88	// 9358 <GV_IPCM_Connect+0x1c8>
+    91ea:	eae0005d 	jsri      	0x0	// from address pool at 0x935c
+    91ee:	c4004820 	lsli      	r0, r0, 0
+    91f2:	6c83      	mov      	r2, r0
+    91f4:	e468100b 	subi      	r3, r8, 12
+    91f8:	9360      	ld.w      	r3, (r3, 0)
+    91fa:	b340      	st.w      	r2, (r3, 0)
+	if (ipcm_pool->IpcmFd < 0) {
+    91fc:	e468100b 	subi      	r3, r8, 12
+    9200:	9360      	ld.w      	r3, (r3, 0)
+    9202:	9360      	ld.w      	r3, (r3, 0)
+    9204:	e9a3001c 	bhsz      	r3, 0x923c	// 923c <GV_IPCM_Connect+0xac>
+		ipcm_err("open %s fail.return:%d!",DEV_NAME,ipcm_pool->IpcmFd);
+    9208:	327a      	movi      	r2, 122
+    920a:	122f      	lrw      	r1, 0xaf84	// 9344 <GV_IPCM_Connect+0x1b4>
+    920c:	1215      	lrw      	r0, 0xab34	// 9360 <GV_IPCM_Connect+0x1d0>
+    920e:	e3fffd8d 	bsr      	0x8d28	// 8d28 <pr>
+    9212:	c4004820 	lsli      	r0, r0, 0
+    9216:	e468100b 	subi      	r3, r8, 12
+    921a:	9360      	ld.w      	r3, (r3, 0)
+    921c:	9360      	ld.w      	r3, (r3, 0)
+    921e:	6c8f      	mov      	r2, r3
+    9220:	122e      	lrw      	r1, 0xac88	// 9358 <GV_IPCM_Connect+0x1c8>
+    9222:	1211      	lrw      	r0, 0xac98	// 9364 <GV_IPCM_Connect+0x1d4>
+    9224:	e3fffd82 	bsr      	0x8d28	// 8d28 <pr>
+    9228:	c4004820 	lsli      	r0, r0, 0
+    922c:	120a      	lrw      	r0, 0xaaec	// 9354 <GV_IPCM_Connect+0x1c4>
+    922e:	e3fffd7d 	bsr      	0x8d28	// 8d28 <pr>
+    9232:	c4004820 	lsli      	r0, r0, 0
+		return -GV_FAILED;
+    9236:	3300      	movi      	r3, 0
+    9238:	2b00      	subi      	r3, 1
+    923a:	047b      	br      	0x9330	// 9330 <GV_IPCM_Connect+0x1a0>
+	}
+
+	ipcm_trace(TRACE_ZXF_DEBUG,"%s connecting to target [%d:%d],ipcm_fd:%d ",DEV_NAME,stHandleAttr->target,stHandleAttr->port,ipcm_pool->IpcmFd);
+    923c:	327e      	movi      	r2, 126
+    923e:	1222      	lrw      	r1, 0xaf84	// 9344 <GV_IPCM_Connect+0x1b4>
+    9240:	1202      	lrw      	r0, 0xaab4	// 9348 <GV_IPCM_Connect+0x1b8>
+    9242:	e3fffd73 	bsr      	0x8d28	// 8d28 <pr>
+    9246:	c4004820 	lsli      	r0, r0, 0
+    924a:	e4681007 	subi      	r3, r8, 8
+    924e:	9360      	ld.w      	r3, (r3, 0)
+    9250:	9340      	ld.w      	r2, (r3, 0)
+    9252:	e4681007 	subi      	r3, r8, 8
+    9256:	9360      	ld.w      	r3, (r3, 0)
+    9258:	9321      	ld.w      	r1, (r3, 0x4)
+    925a:	e468100b 	subi      	r3, r8, 12
+    925e:	9360      	ld.w      	r3, (r3, 0)
+    9260:	9360      	ld.w      	r3, (r3, 0)
+    9262:	b860      	st.w      	r3, (sp, 0)
+    9264:	6cc7      	mov      	r3, r1
+    9266:	113d      	lrw      	r1, 0xac88	// 9358 <GV_IPCM_Connect+0x1c8>
+    9268:	1200      	lrw      	r0, 0xacb0	// 9368 <GV_IPCM_Connect+0x1d8>
+    926a:	e3fffd5f 	bsr      	0x8d28	// 8d28 <pr>
+    926e:	c4004820 	lsli      	r0, r0, 0
+    9272:	1119      	lrw      	r0, 0xaaec	// 9354 <GV_IPCM_Connect+0x1c4>
+    9274:	e3fffd5a 	bsr      	0x8d28	// 8d28 <pr>
+    9278:	c4004820 	lsli      	r0, r0, 0
+	/*
+	 * IOC_CONNECT wait and suspend until node connect success!
+	 * ret = 0 :connect success ;ret !=0 connect fail
+	 */
+	ret = ioctl(ipcm_pool->IpcmFd, GV_IPCM_IOC_CONNECT, stHandleAttr);
+    927c:	e468100b 	subi      	r3, r8, 12
+    9280:	9360      	ld.w      	r3, (r3, 0)
+    9282:	9300      	ld.w      	r0, (r3, 0)
+    9284:	e4881003 	subi      	r4, r8, 4
+    9288:	e4681007 	subi      	r3, r8, 8
+    928c:	9340      	ld.w      	r2, (r3, 0)
+    928e:	1138      	lrw      	r1, 0x400c4d01	// 936c <GV_IPCM_Connect+0x1dc>
+    9290:	eae00038 	jsri      	0x0	// from address pool at 0x9370
+    9294:	c4004820 	lsli      	r0, r0, 0
+    9298:	b400      	st.w      	r0, (r4, 0)
+	if(ret)
+    929a:	e4681003 	subi      	r3, r8, 4
+    929e:	9360      	ld.w      	r3, (r3, 0)
+    92a0:	e9030020 	bez      	r3, 0x92e0	// 92e0 <GV_IPCM_Connect+0x150>
+	{
+		ipcm_trace(TRACE_ZXF_DEBUG,"connect fail!");
+    92a4:	3286      	movi      	r2, 134
+    92a6:	1128      	lrw      	r1, 0xaf84	// 9344 <GV_IPCM_Connect+0x1b4>
+    92a8:	1108      	lrw      	r0, 0xaab4	// 9348 <GV_IPCM_Connect+0x1b8>
+    92aa:	e3fffd3f 	bsr      	0x8d28	// 8d28 <pr>
+    92ae:	c4004820 	lsli      	r0, r0, 0
+    92b2:	1111      	lrw      	r0, 0xacdc	// 9374 <GV_IPCM_Connect+0x1e4>
+    92b4:	e3fffd3a 	bsr      	0x8d28	// 8d28 <pr>
+    92b8:	c4004820 	lsli      	r0, r0, 0
+    92bc:	1106      	lrw      	r0, 0xaaec	// 9354 <GV_IPCM_Connect+0x1c4>
+    92be:	e3fffd35 	bsr      	0x8d28	// 8d28 <pr>
+    92c2:	c4004820 	lsli      	r0, r0, 0
+		goto connect_fail;
+    92c6:	6c00      	or      	r0, r0
+
+	ipcm_trace(TRACE_ZXF_DEBUG,"connected target [%d,%d] ok~",stHandleAttr->target,stHandleAttr->port);
+	return GV_SUCCESS;
+	
+connect_fail:
+		close(ipcm_pool->IpcmFd);
+    92c8:	e468100b 	subi      	r3, r8, 12
+    92cc:	9360      	ld.w      	r3, (r3, 0)
+    92ce:	9360      	ld.w      	r3, (r3, 0)
+    92d0:	6c0f      	mov      	r0, r3
+    92d2:	eae0002a 	jsri      	0x0	// from address pool at 0x9378
+    92d6:	c4004820 	lsli      	r0, r0, 0
+		return -GV_FAILED;
+    92da:	3300      	movi      	r3, 0
+    92dc:	2b00      	subi      	r3, 1
+    92de:	0429      	br      	0x9330	// 9330 <GV_IPCM_Connect+0x1a0>
+	xrp_init_pool(&ipcm_pool->pool,IPCM_POOL_START,IPCM_POOL_SIZE);
+    92e0:	e468100b 	subi      	r3, r8, 12
+    92e4:	9360      	ld.w      	r3, (r3, 0)
+    92e6:	2303      	addi      	r3, 4
+    92e8:	ea221000 	movih      	r2, 4096
+    92ec:	ea214000 	movih      	r1, 16384
+    92f0:	6c0f      	mov      	r0, r3
+    92f2:	e00006af 	bsr      	0xa050	// a050 <xrp_init_pool>
+    92f6:	c4004820 	lsli      	r0, r0, 0
+	ipcm_trace(TRACE_ZXF_DEBUG,"connected target [%d,%d] ok~",stHandleAttr->target,stHandleAttr->port);
+    92fa:	328e      	movi      	r2, 142
+    92fc:	1032      	lrw      	r1, 0xaf84	// 9344 <GV_IPCM_Connect+0x1b4>
+    92fe:	1013      	lrw      	r0, 0xaab4	// 9348 <GV_IPCM_Connect+0x1b8>
+    9300:	e3fffd14 	bsr      	0x8d28	// 8d28 <pr>
+    9304:	c4004820 	lsli      	r0, r0, 0
+    9308:	e4681007 	subi      	r3, r8, 8
+    930c:	9360      	ld.w      	r3, (r3, 0)
+    930e:	9320      	ld.w      	r1, (r3, 0)
+    9310:	e4681007 	subi      	r3, r8, 8
+    9314:	9360      	ld.w      	r3, (r3, 0)
+    9316:	9361      	ld.w      	r3, (r3, 0x4)
+    9318:	6c8f      	mov      	r2, r3
+    931a:	101a      	lrw      	r0, 0xacec	// 9380 <GV_IPCM_Connect+0x1f0>
+    931c:	e3fffd06 	bsr      	0x8d28	// 8d28 <pr>
+    9320:	c4004820 	lsli      	r0, r0, 0
+    9324:	100c      	lrw      	r0, 0xaaec	// 9354 <GV_IPCM_Connect+0x1c4>
+    9326:	e3fffd01 	bsr      	0x8d28	// 8d28 <pr>
+    932a:	c4004820 	lsli      	r0, r0, 0
+	return GV_SUCCESS;
+    932e:	3300      	movi      	r3, 0
+}
+    9330:	6c0f      	mov      	r0, r3
+    9332:	6fa3      	mov      	sp, r8
+    9334:	d9ee2002 	ld.w      	r15, (sp, 0x8)
+    9338:	d90e2001 	ld.w      	r8, (sp, 0x4)
+    933c:	9880      	ld.w      	r4, (sp, 0)
+    933e:	1403      	addi      	sp, sp, 12
+    9340:	783c      	rts
+    9342:	0000      	.short	0x0000
+    9344:	0000af84 	.long	0x0000af84
+    9348:	0000aab4 	.long	0x0000aab4
+    934c:	00008d28 	.long	0x00008d28
+    9350:	0000ac5c 	.long	0x0000ac5c
+    9354:	0000aaec 	.long	0x0000aaec
+    9358:	0000ac88 	.long	0x0000ac88
+    935c:	00000000 	.long	0x00000000
+    9360:	0000ab34 	.long	0x0000ab34
+    9364:	0000ac98 	.long	0x0000ac98
+    9368:	0000acb0 	.long	0x0000acb0
+    936c:	400c4d01 	.long	0x400c4d01
+    9370:	00000000 	.long	0x00000000
+    9374:	0000acdc 	.long	0x0000acdc
+    9378:	00000000 	.long	0x00000000
+    937c:	0000a050 	.long	0x0000a050
+    9380:	0000acec 	.long	0x0000acec
+
+00009384 <GV_IPCM_TryConnect>:
+
+
+GV_IPCM_RetValue_E GV_IPCM_TryConnect(GV_IPCM_HANDLE_ATTR_S* stHandleAttr,GV_IPCM_MSG_POOL_S* ipcm_pool)
+{
+    9384:	1423      	subi      	sp, sp, 12
+    9386:	b880      	st.w      	r4, (sp, 0)
+    9388:	dd0e2001 	st.w      	r8, (sp, 0x4)
+    938c:	ddee2002 	st.w      	r15, (sp, 0x8)
+    9390:	6e3b      	mov      	r8, sp
+    9392:	1424      	subi      	sp, sp, 16
+    9394:	e4681007 	subi      	r3, r8, 8
+    9398:	b300      	st.w      	r0, (r3, 0)
+    939a:	e468100b 	subi      	r3, r8, 12
+    939e:	b320      	st.w      	r1, (r3, 0)
+
+	printf("ENTRY connect target [%d,%d],file:%d\n",stHandleAttr->target,stHandleAttr->port,ipcm_pool->IpcmFd);	
+    93a0:	329a      	movi      	r2, 154
+    93a2:	1325      	lrw      	r1, 0xaf94	// 9534 <GV_IPCM_TryConnect+0x1b0>
+    93a4:	1305      	lrw      	r0, 0xaab4	// 9538 <GV_IPCM_TryConnect+0x1b4>
+    93a6:	e3fffcc1 	bsr      	0x8d28	// 8d28 <pr>
+    93aa:	c4004820 	lsli      	r0, r0, 0
+    93ae:	e4681007 	subi      	r3, r8, 8
+    93b2:	9360      	ld.w      	r3, (r3, 0)
+    93b4:	9340      	ld.w      	r2, (r3, 0)
+    93b6:	e4681007 	subi      	r3, r8, 8
+    93ba:	9360      	ld.w      	r3, (r3, 0)
+    93bc:	9321      	ld.w      	r1, (r3, 0x4)
+    93be:	e468100b 	subi      	r3, r8, 12
+    93c2:	9360      	ld.w      	r3, (r3, 0)
+    93c4:	9360      	ld.w      	r3, (r3, 0)
+    93c6:	b860      	st.w      	r3, (sp, 0)
+    93c8:	6cc7      	mov      	r3, r1
+    93ca:	123e      	lrw      	r1, 0xac88	// 9540 <GV_IPCM_TryConnect+0x1bc>
+    93cc:	121e      	lrw      	r0, 0xad0c	// 9544 <GV_IPCM_TryConnect+0x1c0>
+    93ce:	e3fffcad 	bsr      	0x8d28	// 8d28 <pr>
+    93d2:	c4004820 	lsli      	r0, r0, 0
+    93d6:	121d      	lrw      	r0, 0xaaec	// 9548 <GV_IPCM_TryConnect+0x1c4>
+    93d8:	e3fffca8 	bsr      	0x8d28	// 8d28 <pr>
+    93dc:	c4004820 	lsli      	r0, r0, 0
+
+    93e0:	e4681007 	subi      	r3, r8, 8
+    93e4:	9360      	ld.w      	r3, (r3, 0)
+    93e6:	9320      	ld.w      	r1, (r3, 0)
+    93e8:	e4681007 	subi      	r3, r8, 8
+    93ec:	9360      	ld.w      	r3, (r3, 0)
+    93ee:	9341      	ld.w      	r2, (r3, 0x4)
+    93f0:	e468100b 	subi      	r3, r8, 12
+    93f4:	9360      	ld.w      	r3, (r3, 0)
+    93f6:	9360      	ld.w      	r3, (r3, 0)
+    93f8:	1215      	lrw      	r0, 0xad3c	// 954c <GV_IPCM_TryConnect+0x1c8>
+    93fa:	eae00056 	jsri      	0x0	// from address pool at 0x9550
+    93fe:	c4004820 	lsli      	r0, r0, 0
+	int ret = 0;
+//	GV_IPCM_MSG_POOL_S* ipcm_pool = (GV_IPCM_MSG_POOL_S*)malloc(sizeof(*ipcm_pool)); /* ipcm_pool will malloc at outside */
+    9402:	e4681003 	subi      	r3, r8, 4
+    9406:	3200      	movi      	r2, 0
+    9408:	b340      	st.w      	r2, (r3, 0)
+	if (!ipcm_pool)
+	{
+    940a:	e468100b 	subi      	r3, r8, 12
+    940e:	9360      	ld.w      	r3, (r3, 0)
+    9410:	e9230016 	bnez      	r3, 0x943c	// 943c <GV_IPCM_TryConnect+0xb8>
+		ipcm_trace(TRACE_ZXF_DEBUG,"malloc memory for ipcm message pool fail!");
+		return -GV_ERR_MALLOC;
+    9414:	32a1      	movi      	r2, 161
+    9416:	1228      	lrw      	r1, 0xaf94	// 9534 <GV_IPCM_TryConnect+0x1b0>
+    9418:	1208      	lrw      	r0, 0xaab4	// 9538 <GV_IPCM_TryConnect+0x1b4>
+    941a:	e3fffc87 	bsr      	0x8d28	// 8d28 <pr>
+    941e:	c4004820 	lsli      	r0, r0, 0
+    9422:	120d      	lrw      	r0, 0xac5c	// 9554 <GV_IPCM_TryConnect+0x1d0>
+    9424:	e3fffc82 	bsr      	0x8d28	// 8d28 <pr>
+    9428:	c4004820 	lsli      	r0, r0, 0
+    942c:	1207      	lrw      	r0, 0xaaec	// 9548 <GV_IPCM_TryConnect+0x1c4>
+    942e:	e3fffc7d 	bsr      	0x8d28	// 8d28 <pr>
+    9432:	c4004820 	lsli      	r0, r0, 0
+	}
+    9436:	3300      	movi      	r3, 0
+    9438:	2b02      	subi      	r3, 3
+    943a:	0473      	br      	0x9520	// 9520 <GV_IPCM_TryConnect+0x19c>
+
+	/*
+	* Initilization ipcm memory pool
+	*/
+	xrp_init_pool(&ipcm_pool->pool,IPCM_POOL_START,IPCM_POOL_SIZE);
+
+    943c:	e468100b 	subi      	r3, r8, 12
+    9440:	9360      	ld.w      	r3, (r3, 0)
+    9442:	2303      	addi      	r3, 4
+    9444:	ea221000 	movih      	r2, 4096
+    9448:	ea214000 	movih      	r1, 16384
+    944c:	6c0f      	mov      	r0, r3
+    944e:	e0000601 	bsr      	0xa050	// a050 <xrp_init_pool>
+    9452:	c4004820 	lsli      	r0, r0, 0
+	/*
+	* try to connect
+	*/
+	ipcm_pool->IpcmFd = open(DEV_NAME, O_RDWR);
+	if (ipcm_pool->IpcmFd < 0) {
+    9456:	3102      	movi      	r1, 2
+    9458:	111a      	lrw      	r0, 0xac88	// 9540 <GV_IPCM_TryConnect+0x1bc>
+    945a:	eae00041 	jsri      	0x0	// from address pool at 0x955c
+    945e:	c4004820 	lsli      	r0, r0, 0
+    9462:	6c83      	mov      	r2, r0
+    9464:	e468100b 	subi      	r3, r8, 12
+    9468:	9360      	ld.w      	r3, (r3, 0)
+    946a:	b340      	st.w      	r2, (r3, 0)
+		ipcm_err("open %s fail.return:%d!",DEV_NAME,ipcm_pool->IpcmFd);
+    946c:	e468100b 	subi      	r3, r8, 12
+    9470:	9360      	ld.w      	r3, (r3, 0)
+    9472:	9360      	ld.w      	r3, (r3, 0)
+    9474:	e9a3001c 	bhsz      	r3, 0x94ac	// 94ac <GV_IPCM_TryConnect+0x128>
+		return -GV_ERR_FILE;
+    9478:	32af      	movi      	r2, 175
+    947a:	112f      	lrw      	r1, 0xaf94	// 9534 <GV_IPCM_TryConnect+0x1b0>
+    947c:	1119      	lrw      	r0, 0xab34	// 9560 <GV_IPCM_TryConnect+0x1dc>
+    947e:	e3fffc55 	bsr      	0x8d28	// 8d28 <pr>
+    9482:	c4004820 	lsli      	r0, r0, 0
+    9486:	e468100b 	subi      	r3, r8, 12
+    948a:	9360      	ld.w      	r3, (r3, 0)
+    948c:	9360      	ld.w      	r3, (r3, 0)
+    948e:	6c8f      	mov      	r2, r3
+    9490:	112c      	lrw      	r1, 0xac88	// 9540 <GV_IPCM_TryConnect+0x1bc>
+    9492:	1115      	lrw      	r0, 0xac98	// 9564 <GV_IPCM_TryConnect+0x1e0>
+    9494:	e3fffc4a 	bsr      	0x8d28	// 8d28 <pr>
+    9498:	c4004820 	lsli      	r0, r0, 0
+    949c:	110b      	lrw      	r0, 0xaaec	// 9548 <GV_IPCM_TryConnect+0x1c4>
+    949e:	e3fffc45 	bsr      	0x8d28	// 8d28 <pr>
+    94a2:	c4004820 	lsli      	r0, r0, 0
+	}
+    94a6:	3300      	movi      	r3, 0
+    94a8:	2b06      	subi      	r3, 7
+    94aa:	043b      	br      	0x9520	// 9520 <GV_IPCM_TryConnect+0x19c>
+	
+	printf("ENTRY connect target [%d,%d],file:%d\n",stHandleAttr->target,stHandleAttr->port,ipcm_pool->IpcmFd);	
+	//ipcm_trace(TRACE_ZXF_DEBUG,"%s trying to connect target [%d:%d],ipcm_fd:%d ",DEV_NAME,stHandleAttr->target,stHandleAttr->port,ipcm_pool->IpcmFd);
+    94ac:	e4681007 	subi      	r3, r8, 8
+    94b0:	9360      	ld.w      	r3, (r3, 0)
+    94b2:	9320      	ld.w      	r1, (r3, 0)
+    94b4:	e4681007 	subi      	r3, r8, 8
+    94b8:	9360      	ld.w      	r3, (r3, 0)
+    94ba:	9341      	ld.w      	r2, (r3, 0x4)
+    94bc:	e468100b 	subi      	r3, r8, 12
+    94c0:	9360      	ld.w      	r3, (r3, 0)
+    94c2:	9360      	ld.w      	r3, (r3, 0)
+    94c4:	1102      	lrw      	r0, 0xad3c	// 954c <GV_IPCM_TryConnect+0x1c8>
+    94c6:	eae00023 	jsri      	0x0	// from address pool at 0x9550
+    94ca:	c4004820 	lsli      	r0, r0, 0
+	/*
+	 * IOC_try_CONNECT
+	 * ret = 0 :connect success ;ret !=0 connect fail
+	 */
+	ret = ioctl(ipcm_pool->IpcmFd, GV_IPCM_IOC_TRY_CONNECT, stHandleAttr);
+	if(ret)
+    94ce:	e468100b 	subi      	r3, r8, 12
+    94d2:	9360      	ld.w      	r3, (r3, 0)
+    94d4:	9300      	ld.w      	r0, (r3, 0)
+    94d6:	e4881003 	subi      	r4, r8, 4
+    94da:	e4681007 	subi      	r3, r8, 8
+    94de:	9340      	ld.w      	r2, (r3, 0)
+    94e0:	1122      	lrw      	r1, 0x400c4d02	// 9568 <GV_IPCM_TryConnect+0x1e4>
+    94e2:	eae00023 	jsri      	0x0	// from address pool at 0x956c
+    94e6:	c4004820 	lsli      	r0, r0, 0
+    94ea:	b400      	st.w      	r0, (r4, 0)
+	{
+    94ec:	e4681003 	subi      	r3, r8, 4
+    94f0:	9360      	ld.w      	r3, (r3, 0)
+    94f2:	e9030016 	bez      	r3, 0x951e	// 951e <GV_IPCM_TryConnect+0x19a>
+		ipcm_trace(TRACE_ZXF_DEBUG,"connect fail!");
+		return -GV_FAILED; 
+    94f6:	32bc      	movi      	r2, 188
+    94f8:	102f      	lrw      	r1, 0xaf94	// 9534 <GV_IPCM_TryConnect+0x1b0>
+    94fa:	1010      	lrw      	r0, 0xaab4	// 9538 <GV_IPCM_TryConnect+0x1b4>
+    94fc:	e3fffc16 	bsr      	0x8d28	// 8d28 <pr>
+    9500:	c4004820 	lsli      	r0, r0, 0
+    9504:	101b      	lrw      	r0, 0xacdc	// 9570 <GV_IPCM_TryConnect+0x1ec>
+    9506:	e3fffc11 	bsr      	0x8d28	// 8d28 <pr>
+    950a:	c4004820 	lsli      	r0, r0, 0
+    950e:	100f      	lrw      	r0, 0xaaec	// 9548 <GV_IPCM_TryConnect+0x1c4>
+    9510:	e3fffc0c 	bsr      	0x8d28	// 8d28 <pr>
+    9514:	c4004820 	lsli      	r0, r0, 0
+	} 
+    9518:	3300      	movi      	r3, 0
+    951a:	2b00      	subi      	r3, 1
+    951c:	0402      	br      	0x9520	// 9520 <GV_IPCM_TryConnect+0x19c>
+	return GV_SUCCESS;
+
+    951e:	3300      	movi      	r3, 0
+}
+
+    9520:	6c0f      	mov      	r0, r3
+    9522:	6fa3      	mov      	sp, r8
+    9524:	d9ee2002 	ld.w      	r15, (sp, 0x8)
+    9528:	d90e2001 	ld.w      	r8, (sp, 0x4)
+    952c:	9880      	ld.w      	r4, (sp, 0)
+    952e:	1403      	addi      	sp, sp, 12
+    9530:	783c      	rts
+    9532:	0000      	.short	0x0000
+    9534:	0000af94 	.long	0x0000af94
+    9538:	0000aab4 	.long	0x0000aab4
+    953c:	00008d28 	.long	0x00008d28
+    9540:	0000ac88 	.long	0x0000ac88
+    9544:	0000ad0c 	.long	0x0000ad0c
+    9548:	0000aaec 	.long	0x0000aaec
+    954c:	0000ad3c 	.long	0x0000ad3c
+    9550:	00000000 	.long	0x00000000
+    9554:	0000ac5c 	.long	0x0000ac5c
+    9558:	0000a050 	.long	0x0000a050
+    955c:	00000000 	.long	0x00000000
+    9560:	0000ab34 	.long	0x0000ab34
+    9564:	0000ac98 	.long	0x0000ac98
+    9568:	400c4d02 	.long	0x400c4d02
+    956c:	00000000 	.long	0x00000000
+    9570:	0000acdc 	.long	0x0000acdc
+
+00009574 <GV_IPCM_Disconnect>:
+/*
+ * Destroy message before Disconnect
+ * */
+GV_IPCM_RetValue_E GV_IPCM_Disconnect(GV_IPCM_MSG_POOL_S *msg_pool)
+{
+	int ret = 0;
+    9574:	1423      	subi      	sp, sp, 12
+    9576:	b880      	st.w      	r4, (sp, 0)
+    9578:	dd0e2001 	st.w      	r8, (sp, 0x4)
+    957c:	ddee2002 	st.w      	r15, (sp, 0x8)
+    9580:	6e3b      	mov      	r8, sp
+    9582:	1422      	subi      	sp, sp, 8
+    9584:	e4681007 	subi      	r3, r8, 8
+    9588:	b300      	st.w      	r0, (r3, 0)
+	ipcm_trace(TRACE_ZXF_DEBUG," Entry disconnect function");
+    958a:	e4681003 	subi      	r3, r8, 4
+    958e:	3200      	movi      	r2, 0
+    9590:	b340      	st.w      	r2, (r3, 0)
+
+    9592:	32ca      	movi      	r2, 202
+    9594:	112e      	lrw      	r1, 0xafa8	// 964c <GV_IPCM_Disconnect+0xd8>
+    9596:	110f      	lrw      	r0, 0xaab4	// 9650 <GV_IPCM_Disconnect+0xdc>
+    9598:	e3fffbc8 	bsr      	0x8d28	// 8d28 <pr>
+    959c:	c4004820 	lsli      	r0, r0, 0
+    95a0:	110e      	lrw      	r0, 0xad64	// 9658 <GV_IPCM_Disconnect+0xe4>
+    95a2:	e3fffbc3 	bsr      	0x8d28	// 8d28 <pr>
+    95a6:	c4004820 	lsli      	r0, r0, 0
+    95aa:	110d      	lrw      	r0, 0xaaec	// 965c <GV_IPCM_Disconnect+0xe8>
+    95ac:	e3fffbbe 	bsr      	0x8d28	// 8d28 <pr>
+    95b0:	c4004820 	lsli      	r0, r0, 0
+	
+	ret = ioctl(msg_pool->IpcmFd, GV_IPCM_IOC_DISCONNECT, NULL);
+	if(ret < 0) {
+    95b4:	e4681007 	subi      	r3, r8, 8
+    95b8:	9360      	ld.w      	r3, (r3, 0)
+    95ba:	9360      	ld.w      	r3, (r3, 0)
+    95bc:	e4881003 	subi      	r4, r8, 4
+    95c0:	3200      	movi      	r2, 0
+    95c2:	1128      	lrw      	r1, 0x40044d04	// 9660 <GV_IPCM_Disconnect+0xec>
+    95c4:	6c0f      	mov      	r0, r3
+    95c6:	eae00028 	jsri      	0x0	// from address pool at 0x9664
+    95ca:	c4004820 	lsli      	r0, r0, 0
+    95ce:	b400      	st.w      	r0, (r4, 0)
+		ipcm_err("Disconnect error!");
+    95d0:	e4681003 	subi      	r3, r8, 4
+    95d4:	9360      	ld.w      	r3, (r3, 0)
+    95d6:	e9a30016 	bhsz      	r3, 0x9602	// 9602 <GV_IPCM_Disconnect+0x8e>
+		return -GV_ERR_DISCONNECT;
+    95da:	32cf      	movi      	r2, 207
+    95dc:	103c      	lrw      	r1, 0xafa8	// 964c <GV_IPCM_Disconnect+0xd8>
+    95de:	1103      	lrw      	r0, 0xab34	// 9668 <GV_IPCM_Disconnect+0xf4>
+    95e0:	e3fffba4 	bsr      	0x8d28	// 8d28 <pr>
+    95e4:	c4004820 	lsli      	r0, r0, 0
+    95e8:	1101      	lrw      	r0, 0xad80	// 966c <GV_IPCM_Disconnect+0xf8>
+    95ea:	e3fffb9f 	bsr      	0x8d28	// 8d28 <pr>
+    95ee:	c4004820 	lsli      	r0, r0, 0
+    95f2:	101b      	lrw      	r0, 0xaaec	// 965c <GV_IPCM_Disconnect+0xe8>
+    95f4:	e3fffb9a 	bsr      	0x8d28	// 8d28 <pr>
+    95f8:	c4004820 	lsli      	r0, r0, 0
+	}
+    95fc:	3300      	movi      	r3, 0
+    95fe:	2b03      	subi      	r3, 4
+    9600:	041c      	br      	0x9638	// 9638 <GV_IPCM_Disconnect+0xc4>
+	
+	
+	close(msg_pool->IpcmFd);
+	//free(msg_pool);
+    9602:	e4681007 	subi      	r3, r8, 8
+    9606:	9360      	ld.w      	r3, (r3, 0)
+    9608:	9360      	ld.w      	r3, (r3, 0)
+    960a:	6c0f      	mov      	r0, r3
+    960c:	eae00019 	jsri      	0x0	// from address pool at 0x9670
+    9610:	c4004820 	lsli      	r0, r0, 0
+	ipcm_trace(TRACE_ZXF_DEBUG,"disconnected OK");
+	return GV_SUCCESS;
+    9614:	32d6      	movi      	r2, 214
+    9616:	102e      	lrw      	r1, 0xafa8	// 964c <GV_IPCM_Disconnect+0xd8>
+    9618:	100e      	lrw      	r0, 0xaab4	// 9650 <GV_IPCM_Disconnect+0xdc>
+    961a:	e3fffb87 	bsr      	0x8d28	// 8d28 <pr>
+    961e:	c4004820 	lsli      	r0, r0, 0
+    9622:	1015      	lrw      	r0, 0xad94	// 9674 <GV_IPCM_Disconnect+0x100>
+    9624:	e3fffb82 	bsr      	0x8d28	// 8d28 <pr>
+    9628:	c4004820 	lsli      	r0, r0, 0
+    962c:	100c      	lrw      	r0, 0xaaec	// 965c <GV_IPCM_Disconnect+0xe8>
+    962e:	e3fffb7d 	bsr      	0x8d28	// 8d28 <pr>
+    9632:	c4004820 	lsli      	r0, r0, 0
+}
+    9636:	3300      	movi      	r3, 0
+
+    9638:	6c0f      	mov      	r0, r3
+    963a:	6fa3      	mov      	sp, r8
+    963c:	d9ee2002 	ld.w      	r15, (sp, 0x8)
+    9640:	d90e2001 	ld.w      	r8, (sp, 0x4)
+    9644:	9880      	ld.w      	r4, (sp, 0)
+    9646:	1403      	addi      	sp, sp, 12
+    9648:	783c      	rts
+    964a:	0000      	.short	0x0000
+    964c:	0000afa8 	.long	0x0000afa8
+    9650:	0000aab4 	.long	0x0000aab4
+    9654:	00008d28 	.long	0x00008d28
+    9658:	0000ad64 	.long	0x0000ad64
+    965c:	0000aaec 	.long	0x0000aaec
+    9660:	40044d04 	.long	0x40044d04
+    9664:	00000000 	.long	0x00000000
+    9668:	0000ab34 	.long	0x0000ab34
+    966c:	0000ad80 	.long	0x0000ad80
+    9670:	00000000 	.long	0x00000000
+    9674:	0000ad94 	.long	0x0000ad94
+
+00009678 <GV_IPCM_SendMessage>:
+
+GV_IPCM_RetValue_E GV_IPCM_SendMessage(const GV_IPCM_MSG_S *pstMsg,GV_IPCM_MSG_POOL_S *msg_pool)
+{
+	int ret = 0;
+    9678:	1423      	subi      	sp, sp, 12
+    967a:	b880      	st.w      	r4, (sp, 0)
+    967c:	dd0e2001 	st.w      	r8, (sp, 0x4)
+    9680:	ddee2002 	st.w      	r15, (sp, 0x8)
+    9684:	6e3b      	mov      	r8, sp
+    9686:	1424      	subi      	sp, sp, 16
+    9688:	e468100b 	subi      	r3, r8, 12
+    968c:	b300      	st.w      	r0, (r3, 0)
+    968e:	e468100f 	subi      	r3, r8, 16
+    9692:	b320      	st.w      	r1, (r3, 0)
+
+    9694:	e4681003 	subi      	r3, r8, 4
+    9698:	3200      	movi      	r2, 0
+    969a:	b340      	st.w      	r2, (r3, 0)
+	int msg_len = sizeof(struct ipcm_msg_body);
+
+    969c:	e4681007 	subi      	r3, r8, 8
+    96a0:	3210      	movi      	r2, 16
+    96a2:	b340      	st.w      	r2, (r3, 0)
+	ipcm_trace(TRACE_ZXF_DEBUG,"entry send message begin fd: %d,msg_len = %d",msg_pool->IpcmFd,msg_len);
+	if(msg_len > MAX_SEND_LEN)
+    96a4:	32e1      	movi      	r2, 225
+    96a6:	122e      	lrw      	r1, 0xafbc	// 97dc <GV_IPCM_SendMessage+0x164>
+    96a8:	120e      	lrw      	r0, 0xaab4	// 97e0 <GV_IPCM_SendMessage+0x168>
+    96aa:	e3fffb3f 	bsr      	0x8d28	// 8d28 <pr>
+    96ae:	c4004820 	lsli      	r0, r0, 0
+    96b2:	e468100f 	subi      	r3, r8, 16
+    96b6:	9360      	ld.w      	r3, (r3, 0)
+    96b8:	9320      	ld.w      	r1, (r3, 0)
+    96ba:	e4681007 	subi      	r3, r8, 8
+    96be:	9340      	ld.w      	r2, (r3, 0)
+    96c0:	120a      	lrw      	r0, 0xada4	// 97e8 <GV_IPCM_SendMessage+0x170>
+    96c2:	e3fffb33 	bsr      	0x8d28	// 8d28 <pr>
+    96c6:	c4004820 	lsli      	r0, r0, 0
+    96ca:	1209      	lrw      	r0, 0xaaec	// 97ec <GV_IPCM_SendMessage+0x174>
+    96cc:	e3fffb2e 	bsr      	0x8d28	// 8d28 <pr>
+    96d0:	c4004820 	lsli      	r0, r0, 0
+	{
+    96d4:	e4681007 	subi      	r3, r8, 8
+    96d8:	9360      	ld.w      	r3, (r3, 0)
+    96da:	eb2307e0 	cmplti      	r3, 2017
+    96de:	0815      	bt      	0x9708	// 9708 <GV_IPCM_SendMessage+0x90>
+		ipcm_err("send Message length is beyond of max_send_len");
+		return -GV_EVALID;
+    96e0:	32e4      	movi      	r2, 228
+    96e2:	113f      	lrw      	r1, 0xafbc	// 97dc <GV_IPCM_SendMessage+0x164>
+    96e4:	1203      	lrw      	r0, 0xab34	// 97f0 <GV_IPCM_SendMessage+0x178>
+    96e6:	e3fffb21 	bsr      	0x8d28	// 8d28 <pr>
+    96ea:	c4004820 	lsli      	r0, r0, 0
+    96ee:	1202      	lrw      	r0, 0xadd4	// 97f4 <GV_IPCM_SendMessage+0x17c>
+    96f0:	e3fffb1c 	bsr      	0x8d28	// 8d28 <pr>
+    96f4:	c4004820 	lsli      	r0, r0, 0
+    96f8:	111d      	lrw      	r0, 0xaaec	// 97ec <GV_IPCM_SendMessage+0x174>
+    96fa:	e3fffb17 	bsr      	0x8d28	// 8d28 <pr>
+    96fe:	c4004820 	lsli      	r0, r0, 0
+	}
+    9702:	3300      	movi      	r3, 0
+    9704:	2b01      	subi      	r3, 2
+    9706:	0462      	br      	0x97ca	// 97ca <GV_IPCM_SendMessage+0x152>
+	ipcm_trace(TRACE_ZXF_DEBUG,"send message begin fd: %d",msg_pool->IpcmFd);
+	ret = write(msg_pool->IpcmFd,(void *)pstMsg->msg_body,msg_len);
+    9708:	32e7      	movi      	r2, 231
+    970a:	1135      	lrw      	r1, 0xafbc	// 97dc <GV_IPCM_SendMessage+0x164>
+    970c:	1115      	lrw      	r0, 0xaab4	// 97e0 <GV_IPCM_SendMessage+0x168>
+    970e:	e3fffb0d 	bsr      	0x8d28	// 8d28 <pr>
+    9712:	c4004820 	lsli      	r0, r0, 0
+    9716:	e468100f 	subi      	r3, r8, 16
+    971a:	9360      	ld.w      	r3, (r3, 0)
+    971c:	9360      	ld.w      	r3, (r3, 0)
+    971e:	6c4f      	mov      	r1, r3
+    9720:	1116      	lrw      	r0, 0xae04	// 97f8 <GV_IPCM_SendMessage+0x180>
+    9722:	e3fffb03 	bsr      	0x8d28	// 8d28 <pr>
+    9726:	c4004820 	lsli      	r0, r0, 0
+    972a:	1111      	lrw      	r0, 0xaaec	// 97ec <GV_IPCM_SendMessage+0x174>
+    972c:	e3fffafe 	bsr      	0x8d28	// 8d28 <pr>
+    9730:	c4004820 	lsli      	r0, r0, 0
+	if(ret != msg_len) {
+    9734:	e468100f 	subi      	r3, r8, 16
+    9738:	9360      	ld.w      	r3, (r3, 0)
+    973a:	9300      	ld.w      	r0, (r3, 0)
+    973c:	e468100b 	subi      	r3, r8, 12
+    9740:	9360      	ld.w      	r3, (r3, 0)
+    9742:	9321      	ld.w      	r1, (r3, 0x4)
+    9744:	e4681007 	subi      	r3, r8, 8
+    9748:	9360      	ld.w      	r3, (r3, 0)
+    974a:	e4881003 	subi      	r4, r8, 4
+    974e:	6c8f      	mov      	r2, r3
+    9750:	eae0002b 	jsri      	0x0	// from address pool at 0x97fc
+    9754:	c4004820 	lsli      	r0, r0, 0
+    9758:	b400      	st.w      	r0, (r4, 0)
+		ipcm_err("write error which return %d",ret);
+    975a:	e4481003 	subi      	r2, r8, 4
+    975e:	e4681007 	subi      	r3, r8, 8
+    9762:	9240      	ld.w      	r2, (r2, 0)
+    9764:	9360      	ld.w      	r3, (r3, 0)
+    9766:	64ca      	cmpne      	r2, r3
+    9768:	0c1a      	bf      	0x979c	// 979c <GV_IPCM_SendMessage+0x124>
+		ret = -GV_ERR_WRITE;
+    976a:	32ea      	movi      	r2, 234
+    976c:	103c      	lrw      	r1, 0xafbc	// 97dc <GV_IPCM_SendMessage+0x164>
+    976e:	1101      	lrw      	r0, 0xab34	// 97f0 <GV_IPCM_SendMessage+0x178>
+    9770:	e3fffadc 	bsr      	0x8d28	// 8d28 <pr>
+    9774:	c4004820 	lsli      	r0, r0, 0
+    9778:	e4681003 	subi      	r3, r8, 4
+    977c:	9320      	ld.w      	r1, (r3, 0)
+    977e:	1101      	lrw      	r0, 0xae20	// 9800 <GV_IPCM_SendMessage+0x188>
+    9780:	e3fffad4 	bsr      	0x8d28	// 8d28 <pr>
+    9784:	c4004820 	lsli      	r0, r0, 0
+    9788:	1019      	lrw      	r0, 0xaaec	// 97ec <GV_IPCM_SendMessage+0x174>
+    978a:	e3fffacf 	bsr      	0x8d28	// 8d28 <pr>
+    978e:	c4004820 	lsli      	r0, r0, 0
+	}
+    9792:	e4481003 	subi      	r2, r8, 4
+    9796:	3300      	movi      	r3, 0
+    9798:	2b04      	subi      	r3, 5
+    979a:	b260      	st.w      	r3, (r2, 0)
+
+	ipcm_trace(TRACE_ZXF_DEBUG,"send message after fd: %d",msg_pool->IpcmFd);
+	return GV_SUCCESS;	
+    979c:	32ee      	movi      	r2, 238
+    979e:	1030      	lrw      	r1, 0xafbc	// 97dc <GV_IPCM_SendMessage+0x164>
+    97a0:	1010      	lrw      	r0, 0xaab4	// 97e0 <GV_IPCM_SendMessage+0x168>
+    97a2:	e3fffac3 	bsr      	0x8d28	// 8d28 <pr>
+    97a6:	c4004820 	lsli      	r0, r0, 0
+    97aa:	e468100f 	subi      	r3, r8, 16
+    97ae:	9360      	ld.w      	r3, (r3, 0)
+    97b0:	9360      	ld.w      	r3, (r3, 0)
+    97b2:	6c4f      	mov      	r1, r3
+    97b4:	1014      	lrw      	r0, 0xae3c	// 9804 <GV_IPCM_SendMessage+0x18c>
+    97b6:	e3fffab9 	bsr      	0x8d28	// 8d28 <pr>
+    97ba:	c4004820 	lsli      	r0, r0, 0
+    97be:	100c      	lrw      	r0, 0xaaec	// 97ec <GV_IPCM_SendMessage+0x174>
+    97c0:	e3fffab4 	bsr      	0x8d28	// 8d28 <pr>
+    97c4:	c4004820 	lsli      	r0, r0, 0
+}
+    97c8:	3300      	movi      	r3, 0
+
+    97ca:	6c0f      	mov      	r0, r3
+    97cc:	6fa3      	mov      	sp, r8
+    97ce:	d9ee2002 	ld.w      	r15, (sp, 0x8)
+    97d2:	d90e2001 	ld.w      	r8, (sp, 0x4)
+    97d6:	9880      	ld.w      	r4, (sp, 0)
+    97d8:	1403      	addi      	sp, sp, 12
+    97da:	783c      	rts
+    97dc:	0000afbc 	.long	0x0000afbc
+    97e0:	0000aab4 	.long	0x0000aab4
+    97e4:	00008d28 	.long	0x00008d28
+    97e8:	0000ada4 	.long	0x0000ada4
+    97ec:	0000aaec 	.long	0x0000aaec
+    97f0:	0000ab34 	.long	0x0000ab34
+    97f4:	0000add4 	.long	0x0000add4
+    97f8:	0000ae04 	.long	0x0000ae04
+    97fc:	00000000 	.long	0x00000000
+    9800:	0000ae20 	.long	0x0000ae20
+    9804:	0000ae3c 	.long	0x0000ae3c
+
+00009808 <GV_IPCM_ReceiveMessage>:
+GV_IPCM_RetValue_E GV_IPCM_ReceiveMessage(GV_IPCM_MSG_POOL_S *msg_pool,GV_IPCM_MSG_S *pstMsgResp,GV_S32* msg_len)
+{
+	int ret = 0;	
+    9808:	1423      	subi      	sp, sp, 12
+    980a:	b880      	st.w      	r4, (sp, 0)
+    980c:	dd0e2001 	st.w      	r8, (sp, 0x4)
+    9810:	ddee2002 	st.w      	r15, (sp, 0x8)
+    9814:	6e3b      	mov      	r8, sp
+    9816:	152a      	subi      	sp, sp, 168
+    9818:	e468109b 	subi      	r3, r8, 156
+    981c:	b300      	st.w      	r0, (r3, 0)
+    981e:	e468109f 	subi      	r3, r8, 160
+    9822:	b320      	st.w      	r1, (r3, 0)
+    9824:	e46810a3 	subi      	r3, r8, 164
+    9828:	b340      	st.w      	r2, (r3, 0)
+	int len = 0;
+    982a:	e4681003 	subi      	r3, r8, 4
+    982e:	3200      	movi      	r2, 0
+    9830:	b340      	st.w      	r2, (r3, 0)
+	
+    9832:	e468100b 	subi      	r3, r8, 12
+    9836:	3200      	movi      	r2, 0
+    9838:	b340      	st.w      	r2, (r3, 0)
+	fd_set rfds;
+	struct timeval timeout;
+
+	if(!msg_pool->IpcmFd)
+	{
+    983a:	e468109b 	subi      	r3, r8, 156
+    983e:	9360      	ld.w      	r3, (r3, 0)
+    9840:	9360      	ld.w      	r3, (r3, 0)
+    9842:	e923001b 	bnez      	r3, 0x9878	// 9878 <GV_IPCM_ReceiveMessage+0x70>
+		ipcm_err("file desc is error %d",msg_pool->IpcmFd);
+		return -GV_EVALID;
+    9846:	32fc      	movi      	r2, 252
+    9848:	132d      	lrw      	r1, 0xafd0	// 99fc <GV_IPCM_ReceiveMessage+0x1f4>
+    984a:	130e      	lrw      	r0, 0xab34	// 9a00 <GV_IPCM_ReceiveMessage+0x1f8>
+    984c:	e3fffa6e 	bsr      	0x8d28	// 8d28 <pr>
+    9850:	c4004820 	lsli      	r0, r0, 0
+    9854:	e468109b 	subi      	r3, r8, 156
+    9858:	9360      	ld.w      	r3, (r3, 0)
+    985a:	9360      	ld.w      	r3, (r3, 0)
+    985c:	6c4f      	mov      	r1, r3
+    985e:	130b      	lrw      	r0, 0xae58	// 9a08 <GV_IPCM_ReceiveMessage+0x200>
+    9860:	e3fffa64 	bsr      	0x8d28	// 8d28 <pr>
+    9864:	c4004820 	lsli      	r0, r0, 0
+    9868:	1309      	lrw      	r0, 0xaaec	// 9a0c <GV_IPCM_ReceiveMessage+0x204>
+    986a:	e3fffa5f 	bsr      	0x8d28	// 8d28 <pr>
+    986e:	c4004820 	lsli      	r0, r0, 0
+	}
+    9872:	3300      	movi      	r3, 0
+    9874:	2b01      	subi      	r3, 2
+    9876:	0555      	br      	0x9b20	// 9b20 <GV_IPCM_ReceiveMessage+0x318>
+
+	ipcm_trace(TRACE_ZXF_DEBUG,"recv message before fd: %d",msg_pool->IpcmFd);	
+	while(1) {
+    9878:	ea020100 	movi      	r2, 256
+    987c:	1320      	lrw      	r1, 0xafd0	// 99fc <GV_IPCM_ReceiveMessage+0x1f4>
+    987e:	1305      	lrw      	r0, 0xaab4	// 9a10 <GV_IPCM_ReceiveMessage+0x208>
+    9880:	e3fffa54 	bsr      	0x8d28	// 8d28 <pr>
+    9884:	c4004820 	lsli      	r0, r0, 0
+    9888:	e468109b 	subi      	r3, r8, 156
+    988c:	9360      	ld.w      	r3, (r3, 0)
+    988e:	9360      	ld.w      	r3, (r3, 0)
+    9890:	6c4f      	mov      	r1, r3
+    9892:	1301      	lrw      	r0, 0xae70	// 9a14 <GV_IPCM_ReceiveMessage+0x20c>
+    9894:	e3fffa4a 	bsr      	0x8d28	// 8d28 <pr>
+    9898:	c4004820 	lsli      	r0, r0, 0
+    989c:	121c      	lrw      	r0, 0xaaec	// 9a0c <GV_IPCM_ReceiveMessage+0x204>
+    989e:	e3fffa45 	bsr      	0x8d28	// 8d28 <pr>
+    98a2:	c4004820 	lsli      	r0, r0, 0
+		timeout.tv_sec = 2;
+		timeout.tv_usec = 0;
+    98a6:	e4681097 	subi      	r3, r8, 152
+    98aa:	3202      	movi      	r2, 2
+    98ac:	b340      	st.w      	r2, (r3, 0)
+		FD_ZERO(&rfds);
+    98ae:	e4681097 	subi      	r3, r8, 152
+    98b2:	3200      	movi      	r2, 0
+    98b4:	b341      	st.w      	r2, (r3, 0x4)
+		FD_SET(msg_pool->IpcmFd, &rfds);
+    98b6:	e468100f 	subi      	r3, r8, 16
+    98ba:	e448108f 	subi      	r2, r8, 144
+    98be:	b340      	st.w      	r2, (r3, 0)
+    98c0:	e4681007 	subi      	r3, r8, 8
+    98c4:	3200      	movi      	r2, 0
+    98c6:	b340      	st.w      	r2, (r3, 0)
+    98c8:	0411      	br      	0x98ea	// 98ea <GV_IPCM_ReceiveMessage+0xe2>
+    98ca:	e468100f 	subi      	r3, r8, 16
+    98ce:	9360      	ld.w      	r3, (r3, 0)
+    98d0:	e4481007 	subi      	r2, r8, 8
+    98d4:	9240      	ld.w      	r2, (r2, 0)
+    98d6:	3100      	movi      	r1, 0
+    98d8:	d4430881 	str.w      	r1, (r3, r2 << 2)
+    98dc:	e4681007 	subi      	r3, r8, 8
+    98e0:	e4481007 	subi      	r2, r8, 8
+    98e4:	9240      	ld.w      	r2, (r2, 0)
+    98e6:	2200      	addi      	r2, 1
+    98e8:	b340      	st.w      	r2, (r3, 0)
+    98ea:	e4681007 	subi      	r3, r8, 8
+    98ee:	9340      	ld.w      	r2, (r3, 0)
+    98f0:	331f      	movi      	r3, 31
+    98f2:	648c      	cmphs      	r3, r2
+    98f4:	0beb      	bt      	0x98ca	// 98ca <GV_IPCM_ReceiveMessage+0xc2>
+		ret = select(msg_pool->IpcmFd + 1, &rfds, NULL, NULL, &timeout);
+    98f6:	e468109b 	subi      	r3, r8, 156
+    98fa:	9360      	ld.w      	r3, (r3, 0)
+    98fc:	9360      	ld.w      	r3, (r3, 0)
+    98fe:	e9a30003 	bhsz      	r3, 0x9904	// 9904 <GV_IPCM_ReceiveMessage+0xfc>
+    9902:	231e      	addi      	r3, 31
+    9904:	5365      	asri      	r3, r3, 5
+    9906:	6c4f      	mov      	r1, r3
+    9908:	e468108f 	subi      	r3, r8, 144
+    990c:	d0230880 	ldr.w      	r0, (r3, r1 << 2)
+    9910:	e468109b 	subi      	r3, r8, 156
+    9914:	9360      	ld.w      	r3, (r3, 0)
+    9916:	9340      	ld.w      	r2, (r3, 0)
+    9918:	c7c05023 	bmaski      	r3, 31
+    991c:	2b1e      	subi      	r3, 31
+    991e:	c4622043 	andn      	r3, r2, r3
+    9922:	e9a30007 	bhsz      	r3, 0x9930	// 9930 <GV_IPCM_ReceiveMessage+0x128>
+    9926:	2b00      	subi      	r3, 1
+    9928:	3200      	movi      	r2, 0
+    992a:	2a1f      	subi      	r2, 32
+    992c:	6cc8      	or      	r3, r2
+    992e:	2300      	addi      	r3, 1
+    9930:	6c8f      	mov      	r2, r3
+    9932:	3301      	movi      	r3, 1
+    9934:	70c8      	lsl      	r3, r2
+    9936:	c4602422 	or      	r2, r0, r3
+    993a:	e468108f 	subi      	r3, r8, 144
+    993e:	d4230882 	str.w      	r2, (r3, r1 << 2)
+		if (-1 == ret) {
+    9942:	e468109b 	subi      	r3, r8, 156
+    9946:	9360      	ld.w      	r3, (r3, 0)
+    9948:	9360      	ld.w      	r3, (r3, 0)
+    994a:	5b02      	addi      	r0, r3, 1
+    994c:	e4881003 	subi      	r4, r8, 4
+    9950:	e428108f 	subi      	r1, r8, 144
+    9954:	e4681097 	subi      	r3, r8, 152
+    9958:	b860      	st.w      	r3, (sp, 0)
+    995a:	3300      	movi      	r3, 0
+    995c:	3200      	movi      	r2, 0
+    995e:	eae0002f 	jsri      	0x0	// from address pool at 0x9a18
+    9962:	c4004820 	lsli      	r0, r0, 0
+    9966:	b400      	st.w      	r0, (r4, 0)
+			ipcm_err("SELECT error");
+    9968:	e4681003 	subi      	r3, r8, 4
+    996c:	9340      	ld.w      	r2, (r3, 0)
+    996e:	3300      	movi      	r3, 0
+    9970:	2b00      	subi      	r3, 1
+    9972:	64ca      	cmpne      	r2, r3
+    9974:	0819      	bt      	0x99a6	// 99a6 <GV_IPCM_ReceiveMessage+0x19e>
+			ret = -GV_FAILED;
+    9976:	ea020108 	movi      	r2, 264
+    997a:	1121      	lrw      	r1, 0xafd0	// 99fc <GV_IPCM_ReceiveMessage+0x1f4>
+    997c:	1101      	lrw      	r0, 0xab34	// 9a00 <GV_IPCM_ReceiveMessage+0x1f8>
+    997e:	e3fff9d5 	bsr      	0x8d28	// 8d28 <pr>
+    9982:	c4004820 	lsli      	r0, r0, 0
+    9986:	1106      	lrw      	r0, 0xae8c	// 9a1c <GV_IPCM_ReceiveMessage+0x214>
+    9988:	e3fff9d0 	bsr      	0x8d28	// 8d28 <pr>
+    998c:	c4004820 	lsli      	r0, r0, 0
+    9990:	101f      	lrw      	r0, 0xaaec	// 9a0c <GV_IPCM_ReceiveMessage+0x204>
+    9992:	e3fff9cb 	bsr      	0x8d28	// 8d28 <pr>
+    9996:	c4004820 	lsli      	r0, r0, 0
+			break;
+    999a:	e4481003 	subi      	r2, r8, 4
+    999e:	3300      	movi      	r3, 0
+    99a0:	2b00      	subi      	r3, 1
+    99a2:	b260      	st.w      	r3, (r2, 0)
+		} else if (!ret) {
+    99a4:	04bb      	br      	0x9b1a	// 9b1a <GV_IPCM_ReceiveMessage+0x312>
+			if(HANDLE_CONNECTED != ioctl(msg_pool->IpcmFd, GV_IPCM_IOC_CHECK, NULL)) {
+    99a6:	e4681003 	subi      	r3, r8, 4
+    99aa:	9360      	ld.w      	r3, (r3, 0)
+    99ac:	e9230040 	bnez      	r3, 0x9a2c	// 9a2c <GV_IPCM_ReceiveMessage+0x224>
+				ipcm_err("Disconnected by remote,exit");				
+    99b0:	e468109b 	subi      	r3, r8, 156
+    99b4:	9360      	ld.w      	r3, (r3, 0)
+    99b6:	9360      	ld.w      	r3, (r3, 0)
+    99b8:	3200      	movi      	r2, 0
+    99ba:	103a      	lrw      	r1, 0x40044d03	// 9a20 <GV_IPCM_ReceiveMessage+0x218>
+    99bc:	6c0f      	mov      	r0, r3
+    99be:	eae0001a 	jsri      	0x0	// from address pool at 0x9a24
+    99c2:	c4004820 	lsli      	r0, r0, 0
+    99c6:	6cc3      	mov      	r3, r0
+    99c8:	3b42      	cmpnei      	r3, 2
+    99ca:	0c31      	bf      	0x9a2c	// 9a2c <GV_IPCM_ReceiveMessage+0x224>
+				ret = -GV_FAILED;
+    99cc:	ea02010d 	movi      	r2, 269
+    99d0:	102b      	lrw      	r1, 0xafd0	// 99fc <GV_IPCM_ReceiveMessage+0x1f4>
+    99d2:	100c      	lrw      	r0, 0xab34	// 9a00 <GV_IPCM_ReceiveMessage+0x1f8>
+    99d4:	e3fff9aa 	bsr      	0x8d28	// 8d28 <pr>
+    99d8:	c4004820 	lsli      	r0, r0, 0
+    99dc:	1013      	lrw      	r0, 0xae9c	// 9a28 <GV_IPCM_ReceiveMessage+0x220>
+    99de:	e3fff9a5 	bsr      	0x8d28	// 8d28 <pr>
+    99e2:	c4004820 	lsli      	r0, r0, 0
+    99e6:	100a      	lrw      	r0, 0xaaec	// 9a0c <GV_IPCM_ReceiveMessage+0x204>
+    99e8:	e3fff9a0 	bsr      	0x8d28	// 8d28 <pr>
+    99ec:	c4004820 	lsli      	r0, r0, 0
+				break;
+    99f0:	e4481003 	subi      	r2, r8, 4
+    99f4:	3300      	movi      	r3, 0
+    99f6:	2b00      	subi      	r3, 1
+    99f8:	b260      	st.w      	r3, (r2, 0)
+			}
+    99fa:	0490      	br      	0x9b1a	// 9b1a <GV_IPCM_ReceiveMessage+0x312>
+    99fc:	0000afd0 	.long	0x0000afd0
+    9a00:	0000ab34 	.long	0x0000ab34
+    9a04:	00008d28 	.long	0x00008d28
+    9a08:	0000ae58 	.long	0x0000ae58
+    9a0c:	0000aaec 	.long	0x0000aaec
+    9a10:	0000aab4 	.long	0x0000aab4
+    9a14:	0000ae70 	.long	0x0000ae70
+    9a18:	00000000 	.long	0x00000000
+    9a1c:	0000ae8c 	.long	0x0000ae8c
+    9a20:	40044d03 	.long	0x40044d03
+    9a24:	00000000 	.long	0x00000000
+    9a28:	0000ae9c 	.long	0x0000ae9c
+			/*if timeout and handle is connect,routine will infinite run*/
+		}
+
+		if (FD_ISSET(msg_pool->IpcmFd, &rfds)) {
+			len = read(msg_pool->IpcmFd,(void *)pstMsgResp->msg_body,MAX_SEND_LEN);
+    9a2c:	e468109b 	subi      	r3, r8, 156
+    9a30:	9360      	ld.w      	r3, (r3, 0)
+    9a32:	9360      	ld.w      	r3, (r3, 0)
+    9a34:	e9a30003 	bhsz      	r3, 0x9a3a	// 9a3a <GV_IPCM_ReceiveMessage+0x232>
+    9a38:	231e      	addi      	r3, 31
+    9a3a:	5365      	asri      	r3, r3, 5
+    9a3c:	6c8f      	mov      	r2, r3
+    9a3e:	e468108f 	subi      	r3, r8, 144
+    9a42:	d0430881 	ldr.w      	r1, (r3, r2 << 2)
+    9a46:	e468109b 	subi      	r3, r8, 156
+    9a4a:	9360      	ld.w      	r3, (r3, 0)
+    9a4c:	9340      	ld.w      	r2, (r3, 0)
+    9a4e:	c7c05023 	bmaski      	r3, 31
+    9a52:	2b1e      	subi      	r3, 31
+    9a54:	c4622043 	andn      	r3, r2, r3
+    9a58:	e9a30007 	bhsz      	r3, 0x9a66	// 9a66 <GV_IPCM_ReceiveMessage+0x25e>
+    9a5c:	2b00      	subi      	r3, 1
+    9a5e:	3200      	movi      	r2, 0
+    9a60:	2a1f      	subi      	r2, 32
+    9a62:	6cc8      	or      	r3, r2
+    9a64:	2300      	addi      	r3, 1
+    9a66:	6c8f      	mov      	r2, r3
+    9a68:	3301      	movi      	r3, 1
+    9a6a:	70c8      	lsl      	r3, r2
+    9a6c:	68c4      	and      	r3, r1
+    9a6e:	e903ff1c 	bez      	r3, 0x98a6	// 98a6 <GV_IPCM_ReceiveMessage+0x9e>
+			if(len < 0) {
+    9a72:	e468109b 	subi      	r3, r8, 156
+    9a76:	9360      	ld.w      	r3, (r3, 0)
+    9a78:	9300      	ld.w      	r0, (r3, 0)
+    9a7a:	e468109f 	subi      	r3, r8, 160
+    9a7e:	9360      	ld.w      	r3, (r3, 0)
+    9a80:	9361      	ld.w      	r3, (r3, 0x4)
+    9a82:	e488100b 	subi      	r4, r8, 12
+    9a86:	ea0207e0 	movi      	r2, 2016
+    9a8a:	6c4f      	mov      	r1, r3
+    9a8c:	eae0002a 	jsri      	0x0	// from address pool at 0x9b34
+    9a90:	c4004820 	lsli      	r0, r0, 0
+    9a94:	b400      	st.w      	r0, (r4, 0)
+				ipcm_err("read error %d.",ret);
+    9a96:	e468100b 	subi      	r3, r8, 12
+    9a9a:	9360      	ld.w      	r3, (r3, 0)
+    9a9c:	e9a3001d 	bhsz      	r3, 0x9ad6	// 9ad6 <GV_IPCM_ReceiveMessage+0x2ce>
+				ret = -1;
+    9aa0:	ea020117 	movi      	r2, 279
+    9aa4:	1125      	lrw      	r1, 0xafd0	// 9b38 <GV_IPCM_ReceiveMessage+0x330>
+    9aa6:	1106      	lrw      	r0, 0xab34	// 9b3c <GV_IPCM_ReceiveMessage+0x334>
+    9aa8:	e3fff940 	bsr      	0x8d28	// 8d28 <pr>
+    9aac:	c4004820 	lsli      	r0, r0, 0
+    9ab0:	e4681003 	subi      	r3, r8, 4
+    9ab4:	9320      	ld.w      	r1, (r3, 0)
+    9ab6:	1104      	lrw      	r0, 0xaeb8	// 9b44 <GV_IPCM_ReceiveMessage+0x33c>
+    9ab8:	e3fff938 	bsr      	0x8d28	// 8d28 <pr>
+    9abc:	c4004820 	lsli      	r0, r0, 0
+    9ac0:	1102      	lrw      	r0, 0xaaec	// 9b48 <GV_IPCM_ReceiveMessage+0x340>
+    9ac2:	e3fff933 	bsr      	0x8d28	// 8d28 <pr>
+    9ac6:	c4004820 	lsli      	r0, r0, 0
+				break;
+    9aca:	e4481003 	subi      	r2, r8, 4
+    9ace:	3300      	movi      	r3, 0
+    9ad0:	2b00      	subi      	r3, 1
+    9ad2:	b260      	st.w      	r3, (r2, 0)
+			}
+    9ad4:	0423      	br      	0x9b1a	// 9b1a <GV_IPCM_ReceiveMessage+0x312>
+			*msg_len = len;
+			ret = GV_SUCCESS;
+    9ad6:	e46810a3 	subi      	r3, r8, 164
+    9ada:	9360      	ld.w      	r3, (r3, 0)
+    9adc:	e448100b 	subi      	r2, r8, 12
+    9ae0:	9240      	ld.w      	r2, (r2, 0)
+    9ae2:	b340      	st.w      	r2, (r3, 0)
+			ipcm_trace(TRACE_ZXF_DEBUG,"Read message length %d.",*msg_len);
+    9ae4:	e4681003 	subi      	r3, r8, 4
+    9ae8:	3200      	movi      	r2, 0
+    9aea:	b340      	st.w      	r2, (r3, 0)
+			break;
+    9aec:	ea02011d 	movi      	r2, 285
+    9af0:	1032      	lrw      	r1, 0xafd0	// 9b38 <GV_IPCM_ReceiveMessage+0x330>
+    9af2:	1017      	lrw      	r0, 0xaab4	// 9b4c <GV_IPCM_ReceiveMessage+0x344>
+    9af4:	e3fff91a 	bsr      	0x8d28	// 8d28 <pr>
+    9af8:	c4004820 	lsli      	r0, r0, 0
+    9afc:	e46810a3 	subi      	r3, r8, 164
+    9b00:	9360      	ld.w      	r3, (r3, 0)
+    9b02:	9360      	ld.w      	r3, (r3, 0)
+    9b04:	6c4f      	mov      	r1, r3
+    9b06:	1013      	lrw      	r0, 0xaec8	// 9b50 <GV_IPCM_ReceiveMessage+0x348>
+    9b08:	e3fff910 	bsr      	0x8d28	// 8d28 <pr>
+    9b0c:	c4004820 	lsli      	r0, r0, 0
+    9b10:	100e      	lrw      	r0, 0xaaec	// 9b48 <GV_IPCM_ReceiveMessage+0x340>
+    9b12:	e3fff90b 	bsr      	0x8d28	// 8d28 <pr>
+    9b16:	c4004820 	lsli      	r0, r0, 0
+		}
+	}
+	return ret;
+}
+    9b1a:	e4681003 	subi      	r3, r8, 4
+    9b1e:	9360      	ld.w      	r3, (r3, 0)
+
+    9b20:	6c0f      	mov      	r0, r3
+    9b22:	6fa3      	mov      	sp, r8
+    9b24:	d9ee2002 	ld.w      	r15, (sp, 0x8)
+    9b28:	d90e2001 	ld.w      	r8, (sp, 0x4)
+    9b2c:	9880      	ld.w      	r4, (sp, 0)
+    9b2e:	1403      	addi      	sp, sp, 12
+    9b30:	783c      	rts
+    9b32:	0000      	.short	0x0000
+    9b34:	00000000 	.long	0x00000000
+    9b38:	0000afd0 	.long	0x0000afd0
+    9b3c:	0000ab34 	.long	0x0000ab34
+    9b40:	00008d28 	.long	0x00008d28
+    9b44:	0000aeb8 	.long	0x0000aeb8
+    9b48:	0000aaec 	.long	0x0000aaec
+    9b4c:	0000aab4 	.long	0x0000aab4
+    9b50:	0000aec8 	.long	0x0000aec8
+
+00009b54 <GV_IPCM_SendsyncMessage>:
+
+GV_IPCM_RetValue_E GV_IPCM_SendsyncMessage(GV_IPCM_MSG_POOL_S *msg_pool,const GV_IPCM_MSG_S *pstMsg,GV_IPCM_MSG_S *pstMsgResp)
+{
+	int ret = 0;	
+    9b54:	1423      	subi      	sp, sp, 12
+    9b56:	b880      	st.w      	r4, (sp, 0)
+    9b58:	dd0e2001 	st.w      	r8, (sp, 0x4)
+    9b5c:	ddee2002 	st.w      	r15, (sp, 0x8)
+    9b60:	6e3b      	mov      	r8, sp
+    9b62:	152b      	subi      	sp, sp, 172
+    9b64:	e468109f 	subi      	r3, r8, 160
+    9b68:	b300      	st.w      	r0, (r3, 0)
+    9b6a:	e46810a3 	subi      	r3, r8, 164
+    9b6e:	b320      	st.w      	r1, (r3, 0)
+    9b70:	e46810a7 	subi      	r3, r8, 168
+    9b74:	b340      	st.w      	r2, (r3, 0)
+	int len;
+    9b76:	e4681003 	subi      	r3, r8, 4
+    9b7a:	3200      	movi      	r2, 0
+    9b7c:	b340      	st.w      	r2, (r3, 0)
+	
+	fd_set rfds;
+	struct timeval timeout;
+	int msg_len = sizeof(struct ipcm_msg_body);
+
+    9b7e:	e468100b 	subi      	r3, r8, 12
+    9b82:	3210      	movi      	r2, 16
+    9b84:	b340      	st.w      	r2, (r3, 0)
+	ret = write(msg_pool->IpcmFd,pstMsg->msg_body,msg_len);
+	if(ret != msg_len) {
+    9b86:	e468109f 	subi      	r3, r8, 160
+    9b8a:	9360      	ld.w      	r3, (r3, 0)
+    9b8c:	9300      	ld.w      	r0, (r3, 0)
+    9b8e:	e46810a3 	subi      	r3, r8, 164
+    9b92:	9360      	ld.w      	r3, (r3, 0)
+    9b94:	9321      	ld.w      	r1, (r3, 0x4)
+    9b96:	e468100b 	subi      	r3, r8, 12
+    9b9a:	9360      	ld.w      	r3, (r3, 0)
+    9b9c:	e4881003 	subi      	r4, r8, 4
+    9ba0:	6c8f      	mov      	r2, r3
+    9ba2:	eae00094 	jsri      	0x0	// from address pool at 0x9df0
+    9ba6:	c4004820 	lsli      	r0, r0, 0
+    9baa:	b400      	st.w      	r0, (r4, 0)
+		ipcm_err("write error which return %d.",ret);
+    9bac:	e4481003 	subi      	r2, r8, 4
+    9bb0:	e468100b 	subi      	r3, r8, 12
+    9bb4:	9240      	ld.w      	r2, (r2, 0)
+    9bb6:	9360      	ld.w      	r3, (r3, 0)
+    9bb8:	64ca      	cmpne      	r2, r3
+    9bba:	0c1f      	bf      	0x9bf8	// 9bf8 <GV_IPCM_SendsyncMessage+0xa4>
+		ret = -GV_ERR_WRITE;
+    9bbc:	ea020130 	movi      	r2, 304
+    9bc0:	ea81008d 	lrw      	r1, 0xafe8	// 9df4 <GV_IPCM_SendsyncMessage+0x2a0>
+    9bc4:	ea80008d 	lrw      	r0, 0xab34	// 9df8 <GV_IPCM_SendsyncMessage+0x2a4>
+    9bc8:	e3fff8b0 	bsr      	0x8d28	// 8d28 <pr>
+    9bcc:	c4004820 	lsli      	r0, r0, 0
+    9bd0:	e4681003 	subi      	r3, r8, 4
+    9bd4:	9320      	ld.w      	r1, (r3, 0)
+    9bd6:	ea80008b 	lrw      	r0, 0xaee0	// 9e00 <GV_IPCM_SendsyncMessage+0x2ac>
+    9bda:	e3fff8a7 	bsr      	0x8d28	// 8d28 <pr>
+    9bde:	c4004820 	lsli      	r0, r0, 0
+    9be2:	ea800089 	lrw      	r0, 0xaaec	// 9e04 <GV_IPCM_SendsyncMessage+0x2b0>
+    9be6:	e3fff8a1 	bsr      	0x8d28	// 8d28 <pr>
+    9bea:	c4004820 	lsli      	r0, r0, 0
+	}
+    9bee:	e4481003 	subi      	r2, r8, 4
+    9bf2:	3300      	movi      	r3, 0
+    9bf4:	2b04      	subi      	r3, 5
+    9bf6:	b260      	st.w      	r3, (r2, 0)
+
+	while(1) {
+		
+		timeout.tv_sec  = 2;
+		timeout.tv_usec = 0;
+    9bf8:	e468109b 	subi      	r3, r8, 156
+    9bfc:	3202      	movi      	r2, 2
+    9bfe:	b340      	st.w      	r2, (r3, 0)
+		FD_ZERO(&rfds);
+    9c00:	e468109b 	subi      	r3, r8, 156
+    9c04:	3200      	movi      	r2, 0
+    9c06:	b341      	st.w      	r2, (r3, 0x4)
+		FD_SET(msg_pool->IpcmFd, &rfds);
+    9c08:	e468100f 	subi      	r3, r8, 16
+    9c0c:	e4481093 	subi      	r2, r8, 148
+    9c10:	b340      	st.w      	r2, (r3, 0)
+    9c12:	e4681007 	subi      	r3, r8, 8
+    9c16:	3200      	movi      	r2, 0
+    9c18:	b340      	st.w      	r2, (r3, 0)
+    9c1a:	0411      	br      	0x9c3c	// 9c3c <GV_IPCM_SendsyncMessage+0xe8>
+    9c1c:	e468100f 	subi      	r3, r8, 16
+    9c20:	9360      	ld.w      	r3, (r3, 0)
+    9c22:	e4481007 	subi      	r2, r8, 8
+    9c26:	9240      	ld.w      	r2, (r2, 0)
+    9c28:	3100      	movi      	r1, 0
+    9c2a:	d4430881 	str.w      	r1, (r3, r2 << 2)
+    9c2e:	e4681007 	subi      	r3, r8, 8
+    9c32:	e4481007 	subi      	r2, r8, 8
+    9c36:	9240      	ld.w      	r2, (r2, 0)
+    9c38:	2200      	addi      	r2, 1
+    9c3a:	b340      	st.w      	r2, (r3, 0)
+    9c3c:	e4681007 	subi      	r3, r8, 8
+    9c40:	9340      	ld.w      	r2, (r3, 0)
+    9c42:	331f      	movi      	r3, 31
+    9c44:	648c      	cmphs      	r3, r2
+    9c46:	0beb      	bt      	0x9c1c	// 9c1c <GV_IPCM_SendsyncMessage+0xc8>
+		ret = select(msg_pool->IpcmFd + 1, &rfds, NULL, NULL, &timeout);
+    9c48:	e468109f 	subi      	r3, r8, 160
+    9c4c:	9360      	ld.w      	r3, (r3, 0)
+    9c4e:	9360      	ld.w      	r3, (r3, 0)
+    9c50:	e9a30003 	bhsz      	r3, 0x9c56	// 9c56 <GV_IPCM_SendsyncMessage+0x102>
+    9c54:	231e      	addi      	r3, 31
+    9c56:	5365      	asri      	r3, r3, 5
+    9c58:	6c4f      	mov      	r1, r3
+    9c5a:	e4681093 	subi      	r3, r8, 148
+    9c5e:	d0230880 	ldr.w      	r0, (r3, r1 << 2)
+    9c62:	e468109f 	subi      	r3, r8, 160
+    9c66:	9360      	ld.w      	r3, (r3, 0)
+    9c68:	9340      	ld.w      	r2, (r3, 0)
+    9c6a:	c7c05023 	bmaski      	r3, 31
+    9c6e:	2b1e      	subi      	r3, 31
+    9c70:	c4622043 	andn      	r3, r2, r3
+    9c74:	e9a30007 	bhsz      	r3, 0x9c82	// 9c82 <GV_IPCM_SendsyncMessage+0x12e>
+    9c78:	2b00      	subi      	r3, 1
+    9c7a:	3200      	movi      	r2, 0
+    9c7c:	2a1f      	subi      	r2, 32
+    9c7e:	6cc8      	or      	r3, r2
+    9c80:	2300      	addi      	r3, 1
+    9c82:	6c8f      	mov      	r2, r3
+    9c84:	3301      	movi      	r3, 1
+    9c86:	70c8      	lsl      	r3, r2
+    9c88:	c4602422 	or      	r2, r0, r3
+    9c8c:	e4681093 	subi      	r3, r8, 148
+    9c90:	d4230882 	str.w      	r2, (r3, r1 << 2)
+
+    9c94:	e468109f 	subi      	r3, r8, 160
+    9c98:	9360      	ld.w      	r3, (r3, 0)
+    9c9a:	9360      	ld.w      	r3, (r3, 0)
+    9c9c:	5b02      	addi      	r0, r3, 1
+    9c9e:	e4881003 	subi      	r4, r8, 4
+    9ca2:	e4281093 	subi      	r1, r8, 148
+    9ca6:	e468109b 	subi      	r3, r8, 156
+    9caa:	b860      	st.w      	r3, (sp, 0)
+    9cac:	3300      	movi      	r3, 0
+    9cae:	3200      	movi      	r2, 0
+    9cb0:	eae00056 	jsri      	0x0	// from address pool at 0x9e08
+    9cb4:	c4004820 	lsli      	r0, r0, 0
+    9cb8:	b400      	st.w      	r0, (r4, 0)
+		if (-1 == ret) {
+			ipcm_err("SELECT error");
+    9cba:	e4681003 	subi      	r3, r8, 4
+    9cbe:	9340      	ld.w      	r2, (r3, 0)
+    9cc0:	3300      	movi      	r3, 0
+    9cc2:	2b00      	subi      	r3, 1
+    9cc4:	64ca      	cmpne      	r2, r3
+    9cc6:	0814      	bt      	0x9cee	// 9cee <GV_IPCM_SendsyncMessage+0x19a>
+			break;
+    9cc8:	ea02013d 	movi      	r2, 317
+    9ccc:	122a      	lrw      	r1, 0xafe8	// 9df4 <GV_IPCM_SendsyncMessage+0x2a0>
+    9cce:	120b      	lrw      	r0, 0xab34	// 9df8 <GV_IPCM_SendsyncMessage+0x2a4>
+    9cd0:	e3fff82c 	bsr      	0x8d28	// 8d28 <pr>
+    9cd4:	c4004820 	lsli      	r0, r0, 0
+    9cd8:	120d      	lrw      	r0, 0xae8c	// 9e0c <GV_IPCM_SendsyncMessage+0x2b8>
+    9cda:	e3fff827 	bsr      	0x8d28	// 8d28 <pr>
+    9cde:	c4004820 	lsli      	r0, r0, 0
+    9ce2:	1209      	lrw      	r0, 0xaaec	// 9e04 <GV_IPCM_SendsyncMessage+0x2b0>
+    9ce4:	e3fff822 	bsr      	0x8d28	// 8d28 <pr>
+    9ce8:	c4004820 	lsli      	r0, r0, 0
+		} else if (!ret) {
+    9cec:	04b5      	br      	0x9e56	// 9e56 <GV_IPCM_SendsyncMessage+0x302>
+			if(HANDLE_CONNECTED != ioctl(msg_pool->IpcmFd, GV_IPCM_IOC_CHECK, NULL)) {
+    9cee:	e4681003 	subi      	r3, r8, 4
+    9cf2:	9360      	ld.w      	r3, (r3, 0)
+    9cf4:	e9230028 	bnez      	r3, 0x9d44	// 9d44 <GV_IPCM_SendsyncMessage+0x1f0>
+				ipcm_err("Disconnected by remote,exit.");				
+    9cf8:	e468109f 	subi      	r3, r8, 160
+    9cfc:	9360      	ld.w      	r3, (r3, 0)
+    9cfe:	9360      	ld.w      	r3, (r3, 0)
+    9d00:	3200      	movi      	r2, 0
+    9d02:	1224      	lrw      	r1, 0x40044d03	// 9e10 <GV_IPCM_SendsyncMessage+0x2bc>
+    9d04:	6c0f      	mov      	r0, r3
+    9d06:	eae00044 	jsri      	0x0	// from address pool at 0x9e14
+    9d0a:	c4004820 	lsli      	r0, r0, 0
+    9d0e:	6cc3      	mov      	r3, r0
+    9d10:	3b42      	cmpnei      	r3, 2
+    9d12:	0c19      	bf      	0x9d44	// 9d44 <GV_IPCM_SendsyncMessage+0x1f0>
+				ret = -GV_FAILED;
+    9d14:	ea020141 	movi      	r2, 321
+    9d18:	1137      	lrw      	r1, 0xafe8	// 9df4 <GV_IPCM_SendsyncMessage+0x2a0>
+    9d1a:	1118      	lrw      	r0, 0xab34	// 9df8 <GV_IPCM_SendsyncMessage+0x2a4>
+    9d1c:	e3fff806 	bsr      	0x8d28	// 8d28 <pr>
+    9d20:	c4004820 	lsli      	r0, r0, 0
+    9d24:	111d      	lrw      	r0, 0xaf00	// 9e18 <GV_IPCM_SendsyncMessage+0x2c4>
+    9d26:	e3fff801 	bsr      	0x8d28	// 8d28 <pr>
+    9d2a:	c4004820 	lsli      	r0, r0, 0
+    9d2e:	1116      	lrw      	r0, 0xaaec	// 9e04 <GV_IPCM_SendsyncMessage+0x2b0>
+    9d30:	e3fff7fc 	bsr      	0x8d28	// 8d28 <pr>
+    9d34:	c4004820 	lsli      	r0, r0, 0
+				break;
+    9d38:	e4481003 	subi      	r2, r8, 4
+    9d3c:	3300      	movi      	r3, 0
+    9d3e:	2b00      	subi      	r3, 1
+    9d40:	b260      	st.w      	r3, (r2, 0)
+			}
+    9d42:	048a      	br      	0x9e56	// 9e56 <GV_IPCM_SendsyncMessage+0x302>
+		}
+		
+		if (FD_ISSET(msg_pool->IpcmFd, &rfds)) {
+			len = read(msg_pool->IpcmFd,(void *)pstMsgResp->msg_body,MAX_SEND_LEN);
+    9d44:	e468109f 	subi      	r3, r8, 160
+    9d48:	9360      	ld.w      	r3, (r3, 0)
+    9d4a:	9360      	ld.w      	r3, (r3, 0)
+    9d4c:	e9a30003 	bhsz      	r3, 0x9d52	// 9d52 <GV_IPCM_SendsyncMessage+0x1fe>
+    9d50:	231e      	addi      	r3, 31
+    9d52:	5365      	asri      	r3, r3, 5
+    9d54:	6c8f      	mov      	r2, r3
+    9d56:	e4681093 	subi      	r3, r8, 148
+    9d5a:	d0430881 	ldr.w      	r1, (r3, r2 << 2)
+    9d5e:	e468109f 	subi      	r3, r8, 160
+    9d62:	9360      	ld.w      	r3, (r3, 0)
+    9d64:	9340      	ld.w      	r2, (r3, 0)
+    9d66:	c7c05023 	bmaski      	r3, 31
+    9d6a:	2b1e      	subi      	r3, 31
+    9d6c:	c4622043 	andn      	r3, r2, r3
+    9d70:	e9a30007 	bhsz      	r3, 0x9d7e	// 9d7e <GV_IPCM_SendsyncMessage+0x22a>
+    9d74:	2b00      	subi      	r3, 1
+    9d76:	3200      	movi      	r2, 0
+    9d78:	2a1f      	subi      	r2, 32
+    9d7a:	6cc8      	or      	r3, r2
+    9d7c:	2300      	addi      	r3, 1
+    9d7e:	6c8f      	mov      	r2, r3
+    9d80:	3301      	movi      	r3, 1
+    9d82:	70c8      	lsl      	r3, r2
+    9d84:	68c4      	and      	r3, r1
+    9d86:	e903ff39 	bez      	r3, 0x9bf8	// 9bf8 <GV_IPCM_SendsyncMessage+0xa4>
+			if(len < 0) {
+    9d8a:	e468109f 	subi      	r3, r8, 160
+    9d8e:	9360      	ld.w      	r3, (r3, 0)
+    9d90:	9300      	ld.w      	r0, (r3, 0)
+    9d92:	e46810a7 	subi      	r3, r8, 168
+    9d96:	9360      	ld.w      	r3, (r3, 0)
+    9d98:	9361      	ld.w      	r3, (r3, 0x4)
+    9d9a:	e4881013 	subi      	r4, r8, 20
+    9d9e:	ea0207e0 	movi      	r2, 2016
+    9da2:	6c4f      	mov      	r1, r3
+    9da4:	eae0001e 	jsri      	0x0	// from address pool at 0x9e1c
+    9da8:	c4004820 	lsli      	r0, r0, 0
+    9dac:	b400      	st.w      	r0, (r4, 0)
+				ipcm_err("read error %d.",ret);
+    9dae:	e4681013 	subi      	r3, r8, 20
+    9db2:	9360      	ld.w      	r3, (r3, 0)
+    9db4:	e9a30038 	bhsz      	r3, 0x9e24	// 9e24 <GV_IPCM_SendsyncMessage+0x2d0>
+				ret = -GV_FAILED;
+    9db8:	ea02014a 	movi      	r2, 330
+    9dbc:	102e      	lrw      	r1, 0xafe8	// 9df4 <GV_IPCM_SendsyncMessage+0x2a0>
+    9dbe:	100f      	lrw      	r0, 0xab34	// 9df8 <GV_IPCM_SendsyncMessage+0x2a4>
+    9dc0:	e3fff7b4 	bsr      	0x8d28	// 8d28 <pr>
+    9dc4:	c4004820 	lsli      	r0, r0, 0
+    9dc8:	e4681003 	subi      	r3, r8, 4
+    9dcc:	9320      	ld.w      	r1, (r3, 0)
+    9dce:	1015      	lrw      	r0, 0xaeb8	// 9e20 <GV_IPCM_SendsyncMessage+0x2cc>
+    9dd0:	e3fff7ac 	bsr      	0x8d28	// 8d28 <pr>
+    9dd4:	c4004820 	lsli      	r0, r0, 0
+    9dd8:	100b      	lrw      	r0, 0xaaec	// 9e04 <GV_IPCM_SendsyncMessage+0x2b0>
+    9dda:	e3fff7a7 	bsr      	0x8d28	// 8d28 <pr>
+    9dde:	c4004820 	lsli      	r0, r0, 0
+				break;
+    9de2:	e4481003 	subi      	r2, r8, 4
+    9de6:	3300      	movi      	r3, 0
+    9de8:	2b00      	subi      	r3, 1
+    9dea:	b260      	st.w      	r3, (r2, 0)
+			}
+    9dec:	0435      	br      	0x9e56	// 9e56 <GV_IPCM_SendsyncMessage+0x302>
+    9dee:	0000      	.short	0x0000
+    9df0:	00000000 	.long	0x00000000
+    9df4:	0000afe8 	.long	0x0000afe8
+    9df8:	0000ab34 	.long	0x0000ab34
+    9dfc:	00008d28 	.long	0x00008d28
+    9e00:	0000aee0 	.long	0x0000aee0
+    9e04:	0000aaec 	.long	0x0000aaec
+    9e08:	00000000 	.long	0x00000000
+    9e0c:	0000ae8c 	.long	0x0000ae8c
+    9e10:	40044d03 	.long	0x40044d03
+    9e14:	00000000 	.long	0x00000000
+    9e18:	0000af00 	.long	0x0000af00
+    9e1c:	00000000 	.long	0x00000000
+    9e20:	0000aeb8 	.long	0x0000aeb8
+			/*read complete!*/
+			ipcm_trace(TRACE_ZXF_DEBUG,"read sync message length %d.",len);
+			ret = GV_SUCCESS;
+    9e24:	ea02014f 	movi      	r2, 335
+    9e28:	1032      	lrw      	r1, 0xafe8	// 9e70 <GV_IPCM_SendsyncMessage+0x31c>
+    9e2a:	1013      	lrw      	r0, 0xaab4	// 9e74 <GV_IPCM_SendsyncMessage+0x320>
+    9e2c:	e3fff77e 	bsr      	0x8d28	// 8d28 <pr>
+    9e30:	c4004820 	lsli      	r0, r0, 0
+    9e34:	e4681013 	subi      	r3, r8, 20
+    9e38:	9320      	ld.w      	r1, (r3, 0)
+    9e3a:	1011      	lrw      	r0, 0xaf20	// 9e7c <GV_IPCM_SendsyncMessage+0x328>
+    9e3c:	e3fff776 	bsr      	0x8d28	// 8d28 <pr>
+    9e40:	c4004820 	lsli      	r0, r0, 0
+    9e44:	100f      	lrw      	r0, 0xaaec	// 9e80 <GV_IPCM_SendsyncMessage+0x32c>
+    9e46:	e3fff771 	bsr      	0x8d28	// 8d28 <pr>
+    9e4a:	c4004820 	lsli      	r0, r0, 0
+			break;
+    9e4e:	e4681003 	subi      	r3, r8, 4
+    9e52:	3200      	movi      	r2, 0
+    9e54:	b340      	st.w      	r2, (r3, 0)
+		}
+	}
+	
+	return ret;
+}
+    9e56:	e4681003 	subi      	r3, r8, 4
+    9e5a:	9360      	ld.w      	r3, (r3, 0)
+
+    9e5c:	6c0f      	mov      	r0, r3
+    9e5e:	6fa3      	mov      	sp, r8
+    9e60:	d9ee2002 	ld.w      	r15, (sp, 0x8)
+    9e64:	d90e2001 	ld.w      	r8, (sp, 0x4)
+    9e68:	9880      	ld.w      	r4, (sp, 0)
+    9e6a:	1403      	addi      	sp, sp, 12
+    9e6c:	783c      	rts
+    9e6e:	0000      	.short	0x0000
+    9e70:	0000afe8 	.long	0x0000afe8
+    9e74:	0000aab4 	.long	0x0000aab4
+    9e78:	00008d28 	.long	0x00008d28
+    9e7c:	0000af20 	.long	0x0000af20
+    9e80:	0000aaec 	.long	0x0000aaec
+
+00009e84 <GV_IPCM_CheckConnected>:
+/*
+ * Check handle is connected or not
+ */
+GV_BOOL GV_IPCM_CheckConnected(GV_IPCM_MSG_POOL_S *msg_pool)
+{	
+
+    9e84:	1423      	subi      	sp, sp, 12
+    9e86:	b880      	st.w      	r4, (sp, 0)
+    9e88:	dd0e2001 	st.w      	r8, (sp, 0x4)
+    9e8c:	ddee2002 	st.w      	r15, (sp, 0x8)
+    9e90:	6e3b      	mov      	r8, sp
+    9e92:	1422      	subi      	sp, sp, 8
+    9e94:	e4681007 	subi      	r3, r8, 8
+    9e98:	b300      	st.w      	r0, (r3, 0)
+	if(!msg_pool->IpcmFd)
+	{
+    9e9a:	e4681007 	subi      	r3, r8, 8
+    9e9e:	9360      	ld.w      	r3, (r3, 0)
+    9ea0:	9360      	ld.w      	r3, (r3, 0)
+    9ea2:	e923001b 	bnez      	r3, 0x9ed8	// 9ed8 <GV_IPCM_CheckConnected+0x54>
+		ipcm_err("file desc error %d.",msg_pool->IpcmFd);
+		return GV_FALSE;
+    9ea6:	ea020160 	movi      	r2, 352
+    9eaa:	103e      	lrw      	r1, 0xb000	// 9f20 <GV_IPCM_CheckConnected+0x9c>
+    9eac:	101e      	lrw      	r0, 0xab34	// 9f24 <GV_IPCM_CheckConnected+0xa0>
+    9eae:	e3fff73d 	bsr      	0x8d28	// 8d28 <pr>
+    9eb2:	c4004820 	lsli      	r0, r0, 0
+    9eb6:	e4681007 	subi      	r3, r8, 8
+    9eba:	9360      	ld.w      	r3, (r3, 0)
+    9ebc:	9360      	ld.w      	r3, (r3, 0)
+    9ebe:	6c4f      	mov      	r1, r3
+    9ec0:	101b      	lrw      	r0, 0xaf40	// 9f2c <GV_IPCM_CheckConnected+0xa8>
+    9ec2:	e3fff733 	bsr      	0x8d28	// 8d28 <pr>
+    9ec6:	c4004820 	lsli      	r0, r0, 0
+    9eca:	101a      	lrw      	r0, 0xaaec	// 9f30 <GV_IPCM_CheckConnected+0xac>
+    9ecc:	e3fff72e 	bsr      	0x8d28	// 8d28 <pr>
+    9ed0:	c4004820 	lsli      	r0, r0, 0
+	}
+    9ed4:	3300      	movi      	r3, 0
+    9ed6:	041b      	br      	0x9f0c	// 9f0c <GV_IPCM_CheckConnected+0x88>
+
+	int state = HANDLE_DISCONNECTED;
+	state =	ioctl(msg_pool->IpcmFd,GV_IPCM_IOC_CHECK,NULL);
+    9ed8:	e4681003 	subi      	r3, r8, 4
+    9edc:	3200      	movi      	r2, 0
+    9ede:	b340      	st.w      	r2, (r3, 0)
+	
+    9ee0:	e4681007 	subi      	r3, r8, 8
+    9ee4:	9360      	ld.w      	r3, (r3, 0)
+    9ee6:	9360      	ld.w      	r3, (r3, 0)
+    9ee8:	e4881003 	subi      	r4, r8, 4
+    9eec:	3200      	movi      	r2, 0
+    9eee:	1032      	lrw      	r1, 0x40044d03	// 9f34 <GV_IPCM_CheckConnected+0xb0>
+    9ef0:	6c0f      	mov      	r0, r3
+    9ef2:	eae00012 	jsri      	0x0	// from address pool at 0x9f38
+    9ef6:	c4004820 	lsli      	r0, r0, 0
+    9efa:	b400      	st.w      	r0, (r4, 0)
+	if(HANDLE_CONNECTED == state)
+		return GV_TRUE;
+    9efc:	e4681003 	subi      	r3, r8, 4
+    9f00:	9360      	ld.w      	r3, (r3, 0)
+    9f02:	3b42      	cmpnei      	r3, 2
+    9f04:	0803      	bt      	0x9f0a	// 9f0a <GV_IPCM_CheckConnected+0x86>
+	else 
+    9f06:	3301      	movi      	r3, 1
+    9f08:	0402      	br      	0x9f0c	// 9f0c <GV_IPCM_CheckConnected+0x88>
+		return GV_FALSE;
+	
+    9f0a:	3300      	movi      	r3, 0
+}
+
+    9f0c:	6c0f      	mov      	r0, r3
+    9f0e:	6fa3      	mov      	sp, r8
+    9f10:	d9ee2002 	ld.w      	r15, (sp, 0x8)
+    9f14:	d90e2001 	ld.w      	r8, (sp, 0x4)
+    9f18:	9880      	ld.w      	r4, (sp, 0)
+    9f1a:	1403      	addi      	sp, sp, 12
+    9f1c:	783c      	rts
+    9f1e:	0000      	.short	0x0000
+    9f20:	0000b000 	.long	0x0000b000
+    9f24:	0000ab34 	.long	0x0000ab34
+    9f28:	00008d28 	.long	0x00008d28
+    9f2c:	0000af40 	.long	0x0000af40
+    9f30:	0000aaec 	.long	0x0000aaec
+    9f34:	40044d03 	.long	0x40044d03
+    9f38:	00000000 	.long	0x00000000
+
+00009f3c <pr_debug>:
+
+#ifdef DEBUG
+#define pr_debug printf
+#else
+static inline void pr_debug(const char *fmt, ...)
+{
+    9f3c:	1424      	subi      	sp, sp, 16
+    9f3e:	b863      	st.w      	r3, (sp, 0xc)
+    9f40:	b842      	st.w      	r2, (sp, 0x8)
+    9f42:	b821      	st.w      	r1, (sp, 0x4)
+    9f44:	b800      	st.w      	r0, (sp, 0)
+    9f46:	1421      	subi      	sp, sp, 4
+    9f48:	dd0e2000 	st.w      	r8, (sp, 0)
+    9f4c:	6e3b      	mov      	r8, sp
+	(void)fmt;
+}
+    9f4e:	6c00      	or      	r0, r0
+    9f50:	6fa3      	mov      	sp, r8
+    9f52:	d90e2000 	ld.w      	r8, (sp, 0)
+    9f56:	1405      	addi      	sp, sp, 20
+    9f58:	783c      	rts
+	...
+
+00009f5c <kzalloc>:
+#endif
+
+static void *kzalloc(size_t sz, int flags)
+{
+    9f5c:	1422      	subi      	sp, sp, 8
+    9f5e:	dd0e2000 	st.w      	r8, (sp, 0)
+    9f62:	ddee2001 	st.w      	r15, (sp, 0x4)
+    9f66:	6e3b      	mov      	r8, sp
+    9f68:	1422      	subi      	sp, sp, 8
+    9f6a:	e4681003 	subi      	r3, r8, 4
+    9f6e:	b300      	st.w      	r0, (r3, 0)
+    9f70:	e4681007 	subi      	r3, r8, 8
+    9f74:	b320      	st.w      	r1, (r3, 0)
+	(void)flags;
+	return calloc(1, sz);
+    9f76:	e4681003 	subi      	r3, r8, 4
+    9f7a:	9320      	ld.w      	r1, (r3, 0)
+    9f7c:	3001      	movi      	r0, 1
+    9f7e:	eae00063 	jsri      	0x0	// from address pool at 0xa108
+    9f82:	c4004820 	lsli      	r0, r0, 0
+    9f86:	6cc3      	mov      	r3, r0
+}
+    9f88:	6c0f      	mov      	r0, r3
+    9f8a:	6fa3      	mov      	sp, r8
+    9f8c:	d9ee2001 	ld.w      	r15, (sp, 0x4)
+    9f90:	d90e2000 	ld.w      	r8, (sp, 0)
+    9f94:	1402      	addi      	sp, sp, 8
+    9f96:	783c      	rts
+
+00009f98 <kfree>:
+
+static void kfree(void *p)
+{
+    9f98:	1422      	subi      	sp, sp, 8
+    9f9a:	dd0e2000 	st.w      	r8, (sp, 0)
+    9f9e:	ddee2001 	st.w      	r15, (sp, 0x4)
+    9fa2:	6e3b      	mov      	r8, sp
+    9fa4:	1421      	subi      	sp, sp, 4
+    9fa6:	e4681003 	subi      	r3, r8, 4
+    9faa:	b300      	st.w      	r0, (r3, 0)
+	free(p);
+    9fac:	e4681003 	subi      	r3, r8, 4
+    9fb0:	9300      	ld.w      	r0, (r3, 0)
+    9fb2:	eae00057 	jsri      	0x0	// from address pool at 0xa10c
+    9fb6:	c4004820 	lsli      	r0, r0, 0
+}
+    9fba:	6c00      	or      	r0, r0
+    9fbc:	6fa3      	mov      	sp, r8
+    9fbe:	d9ee2001 	ld.w      	r15, (sp, 0x4)
+    9fc2:	d90e2000 	ld.w      	r8, (sp, 0)
+    9fc6:	1402      	addi      	sp, sp, 8
+    9fc8:	783c      	rts
+	...
+
+00009fcc <xrp_pool_lock>:
+
+static void xrp_pool_lock(struct xrp_allocation_pool *pool)
+{
+    9fcc:	1421      	subi      	sp, sp, 4
+    9fce:	dd0e2000 	st.w      	r8, (sp, 0)
+    9fd2:	6e3b      	mov      	r8, sp
+    9fd4:	1421      	subi      	sp, sp, 4
+    9fd6:	e4681003 	subi      	r3, r8, 4
+    9fda:	b300      	st.w      	r0, (r3, 0)
+	//pthread_mutex_lock(pool->pool_mutex);
+
+}
+    9fdc:	6c00      	or      	r0, r0
+    9fde:	6fa3      	mov      	sp, r8
+    9fe0:	d90e2000 	ld.w      	r8, (sp, 0)
+    9fe4:	1401      	addi      	sp, sp, 4
+    9fe6:	783c      	rts
+
+00009fe8 <xrp_pool_unlock>:
+
+static void xrp_pool_unlock(struct xrp_allocation_pool *pool)
+{
+    9fe8:	1421      	subi      	sp, sp, 4
+    9fea:	dd0e2000 	st.w      	r8, (sp, 0)
+    9fee:	6e3b      	mov      	r8, sp
+    9ff0:	1421      	subi      	sp, sp, 4
+    9ff2:	e4681003 	subi      	r3, r8, 4
+    9ff6:	b300      	st.w      	r0, (r3, 0)
+	//pthread_mutex_unlock(pool->pool_mutex);	
+}
+    9ff8:	6c00      	or      	r0, r0
+    9ffa:	6fa3      	mov      	sp, r8
+    9ffc:	d90e2000 	ld.w      	r8, (sp, 0)
+    a000:	1401      	addi      	sp, sp, 4
+    a002:	783c      	rts
+
+0000a004 <xrp_allocation_get>:
+
+static void xrp_allocation_get(struct xrp_allocation *allocation)
+{
+    a004:	1421      	subi      	sp, sp, 4
+    a006:	dd0e2000 	st.w      	r8, (sp, 0)
+    a00a:	6e3b      	mov      	r8, sp
+    a00c:	1421      	subi      	sp, sp, 4
+    a00e:	e4681003 	subi      	r3, r8, 4
+    a012:	b300      	st.w      	r0, (r3, 0)
+}
+    a014:	6c00      	or      	r0, r0
+    a016:	6fa3      	mov      	sp, r8
+    a018:	d90e2000 	ld.w      	r8, (sp, 0)
+    a01c:	1401      	addi      	sp, sp, 4
+    a01e:	783c      	rts
+
+0000a020 <atomic_set>:
+
+static void atomic_set(atomic_t *p, uint32_t v)
+{
+    a020:	1421      	subi      	sp, sp, 4
+    a022:	dd0e2000 	st.w      	r8, (sp, 0)
+    a026:	6e3b      	mov      	r8, sp
+    a028:	1422      	subi      	sp, sp, 8
+    a02a:	e4681003 	subi      	r3, r8, 4
+    a02e:	b300      	st.w      	r0, (r3, 0)
+    a030:	e4681007 	subi      	r3, r8, 8
+    a034:	b320      	st.w      	r1, (r3, 0)
+	*((volatile atomic_t *)p) = v;
+    a036:	e4681003 	subi      	r3, r8, 4
+    a03a:	9360      	ld.w      	r3, (r3, 0)
+    a03c:	e4481007 	subi      	r2, r8, 8
+    a040:	9240      	ld.w      	r2, (r2, 0)
+    a042:	b340      	st.w      	r2, (r3, 0)
+}
+    a044:	6c00      	or      	r0, r0
+    a046:	6fa3      	mov      	sp, r8
+    a048:	d90e2000 	ld.w      	r8, (sp, 0)
+    a04c:	1401      	addi      	sp, sp, 4
+    a04e:	783c      	rts
+
+0000a050 <xrp_init_pool>:
+* 		start - [in] 内存池的起始地址,输入物理地址,起始地址的确定?
+*       size  - [in] 内存池的大小,size的确定?
+* 返回值： 0 success
+*/
+long xrp_init_pool(struct xrp_allocation_pool *pool,phys_addr_t start, u32 size)
+{
+    a050:	1423      	subi      	sp, sp, 12
+    a052:	b880      	st.w      	r4, (sp, 0)
+    a054:	dd0e2001 	st.w      	r8, (sp, 0x4)
+    a058:	ddee2002 	st.w      	r15, (sp, 0x8)
+    a05c:	6e3b      	mov      	r8, sp
+    a05e:	1424      	subi      	sp, sp, 16
+    a060:	e4681007 	subi      	r3, r8, 8
+    a064:	b300      	st.w      	r0, (r3, 0)
+    a066:	e468100b 	subi      	r3, r8, 12
+    a06a:	b320      	st.w      	r1, (r3, 0)
+    a06c:	e468100f 	subi      	r3, r8, 16
+    a070:	b340      	st.w      	r2, (r3, 0)
+	struct xrp_allocation *allocation = malloc(sizeof(*allocation));
+    a072:	e4881003 	subi      	r4, r8, 4
+    a076:	3014      	movi      	r0, 20
+    a078:	eae00026 	jsri      	0x0	// from address pool at 0xa110
+    a07c:	c4004820 	lsli      	r0, r0, 0
+    a080:	6cc3      	mov      	r3, r0
+    a082:	b460      	st.w      	r3, (r4, 0)
+
+	*allocation = (struct xrp_allocation)
+    a084:	e4681003 	subi      	r3, r8, 4
+    a088:	9360      	ld.w      	r3, (r3, 0)
+    a08a:	3200      	movi      	r2, 0
+    a08c:	b340      	st.w      	r2, (r3, 0)
+    a08e:	3200      	movi      	r2, 0
+    a090:	b341      	st.w      	r2, (r3, 0x4)
+    a092:	3200      	movi      	r2, 0
+    a094:	b342      	st.w      	r2, (r3, 0x8)
+    a096:	3200      	movi      	r2, 0
+    a098:	b343      	st.w      	r2, (r3, 0xc)
+    a09a:	3200      	movi      	r2, 0
+    a09c:	b344      	st.w      	r2, (r3, 0x10)
+    a09e:	e4681003 	subi      	r3, r8, 4
+    a0a2:	9360      	ld.w      	r3, (r3, 0)
+    a0a4:	e448100b 	subi      	r2, r8, 12
+    a0a8:	9240      	ld.w      	r2, (r2, 0)
+    a0aa:	b340      	st.w      	r2, (r3, 0)
+    a0ac:	e4681003 	subi      	r3, r8, 4
+    a0b0:	9360      	ld.w      	r3, (r3, 0)
+    a0b2:	e448100f 	subi      	r2, r8, 16
+    a0b6:	9240      	ld.w      	r2, (r2, 0)
+    a0b8:	b341      	st.w      	r2, (r3, 0x4)
+    a0ba:	e4681003 	subi      	r3, r8, 4
+    a0be:	9360      	ld.w      	r3, (r3, 0)
+    a0c0:	e4481007 	subi      	r2, r8, 8
+    a0c4:	9240      	ld.w      	r2, (r2, 0)
+    a0c6:	b344      	st.w      	r2, (r3, 0x10)
+	{
+		.start = start,
+		.size = size,
+		.pool = pool,
+	};
+	*pool = (struct xrp_allocation_pool)
+    a0c8:	e4681007 	subi      	r3, r8, 8
+    a0cc:	9360      	ld.w      	r3, (r3, 0)
+    a0ce:	e448100b 	subi      	r2, r8, 12
+    a0d2:	9240      	ld.w      	r2, (r2, 0)
+    a0d4:	b340      	st.w      	r2, (r3, 0)
+    a0d6:	e4681007 	subi      	r3, r8, 8
+    a0da:	9360      	ld.w      	r3, (r3, 0)
+    a0dc:	e448100f 	subi      	r2, r8, 16
+    a0e0:	9240      	ld.w      	r2, (r2, 0)
+    a0e2:	b341      	st.w      	r2, (r3, 0x4)
+    a0e4:	e4681007 	subi      	r3, r8, 8
+    a0e8:	9360      	ld.w      	r3, (r3, 0)
+    a0ea:	e4481003 	subi      	r2, r8, 4
+    a0ee:	9240      	ld.w      	r2, (r2, 0)
+    a0f0:	b342      	st.w      	r2, (r3, 0x8)
+	{
+		.start = start,
+		.size = size,
+		.free_list = allocation,
+	};
+	return 0;
+    a0f2:	3300      	movi      	r3, 0
+}
+    a0f4:	6c0f      	mov      	r0, r3
+    a0f6:	6fa3      	mov      	sp, r8
+    a0f8:	d9ee2002 	ld.w      	r15, (sp, 0x8)
+    a0fc:	d90e2001 	ld.w      	r8, (sp, 0x4)
+    a100:	9880      	ld.w      	r4, (sp, 0)
+    a102:	1403      	addi      	sp, sp, 12
+    a104:	783c      	rts
+	...
+
+0000a114 <xrp_free>:
+
+void xrp_free(struct xrp_allocation *xrp_allocation)
+{
+    a114:	1422      	subi      	sp, sp, 8
+    a116:	dd0e2000 	st.w      	r8, (sp, 0)
+    a11a:	ddee2001 	st.w      	r15, (sp, 0x4)
+    a11e:	6e3b      	mov      	r8, sp
+    a120:	1425      	subi      	sp, sp, 20
+    a122:	e4681013 	subi      	r3, r8, 20
+    a126:	b300      	st.w      	r0, (r3, 0)
+	struct xrp_allocation_pool *pool = xrp_allocation->pool;
+    a128:	e4681007 	subi      	r3, r8, 8
+    a12c:	e4481013 	subi      	r2, r8, 20
+    a130:	9240      	ld.w      	r2, (r2, 0)
+    a132:	9244      	ld.w      	r2, (r2, 0x10)
+    a134:	b340      	st.w      	r2, (r3, 0)
+	struct xrp_allocation **pcur;
+
+	pr_debug("%s: %pap x %d\n", __func__,
+    a136:	e4681013 	subi      	r3, r8, 20
+    a13a:	9340      	ld.w      	r2, (r3, 0)
+    a13c:	e4681013 	subi      	r3, r8, 20
+    a140:	9360      	ld.w      	r3, (r3, 0)
+    a142:	9361      	ld.w      	r3, (r3, 0x4)
+    a144:	ea810086 	lrw      	r1, 0xb1c8	// a35c <xrp_free+0x248>
+    a148:	ea800086 	lrw      	r0, 0xb018	// a360 <xrp_free+0x24c>
+    a14c:	e3fffef8 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a150:	c4004820 	lsli      	r0, r0, 0
+		 &xrp_allocation->start, xrp_allocation->size);
+
+	xrp_pool_lock(pool);
+    a154:	e4681007 	subi      	r3, r8, 8
+    a158:	9300      	ld.w      	r0, (r3, 0)
+    a15a:	e3ffff39 	bsr      	0x9fcc	// 9fcc <xrp_pool_lock>
+    a15e:	c4004820 	lsli      	r0, r0, 0
+	
+	for (pcur = &pool->free_list; ; pcur = &(*pcur)->next) {
+    a162:	e4681003 	subi      	r3, r8, 4
+    a166:	e4481007 	subi      	r2, r8, 8
+    a16a:	9240      	ld.w      	r2, (r2, 0)
+    a16c:	2207      	addi      	r2, 8
+    a16e:	b340      	st.w      	r2, (r3, 0)
+		struct xrp_allocation *cur = *pcur;
+    a170:	e468100b 	subi      	r3, r8, 12
+    a174:	e4481003 	subi      	r2, r8, 4
+    a178:	9240      	ld.w      	r2, (r2, 0)
+    a17a:	9240      	ld.w      	r2, (r2, 0)
+    a17c:	b340      	st.w      	r2, (r3, 0)
+
+		/*如果当前内存申请指针*/
+		if (cur && cur->start + cur->size == xrp_allocation->start) {
+    a17e:	e468100b 	subi      	r3, r8, 12
+    a182:	9360      	ld.w      	r3, (r3, 0)
+    a184:	e9030091 	bez      	r3, 0xa2a6	// a2a6 <xrp_free+0x192>
+    a188:	e468100b 	subi      	r3, r8, 12
+    a18c:	9360      	ld.w      	r3, (r3, 0)
+    a18e:	9340      	ld.w      	r2, (r3, 0)
+    a190:	e468100b 	subi      	r3, r8, 12
+    a194:	9360      	ld.w      	r3, (r3, 0)
+    a196:	9361      	ld.w      	r3, (r3, 0x4)
+    a198:	608c      	addu      	r2, r3
+    a19a:	e4681013 	subi      	r3, r8, 20
+    a19e:	9360      	ld.w      	r3, (r3, 0)
+    a1a0:	9360      	ld.w      	r3, (r3, 0)
+    a1a2:	64ca      	cmpne      	r2, r3
+    a1a4:	0881      	bt      	0xa2a6	// a2a6 <xrp_free+0x192>
+			struct xrp_allocation *next = cur->next;
+    a1a6:	e468100f 	subi      	r3, r8, 16
+    a1aa:	e448100b 	subi      	r2, r8, 12
+    a1ae:	9240      	ld.w      	r2, (r2, 0)
+    a1b0:	9243      	ld.w      	r2, (r2, 0xc)
+    a1b2:	b340      	st.w      	r2, (r3, 0)
+
+			pr_debug("merging block tail: %pap x 0x%x ->\n",
+    a1b4:	e468100b 	subi      	r3, r8, 12
+    a1b8:	9320      	ld.w      	r1, (r3, 0)
+    a1ba:	e468100b 	subi      	r3, r8, 12
+    a1be:	9360      	ld.w      	r3, (r3, 0)
+    a1c0:	9361      	ld.w      	r3, (r3, 0x4)
+    a1c2:	6c8f      	mov      	r2, r3
+    a1c4:	130a      	lrw      	r0, 0xb028	// a36c <xrp_free+0x258>
+    a1c6:	e3fffebb 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a1ca:	c4004820 	lsli      	r0, r0, 0
+				 &cur->start, cur->size);
+			cur->size += xrp_allocation->size;
+    a1ce:	e468100b 	subi      	r3, r8, 12
+    a1d2:	9360      	ld.w      	r3, (r3, 0)
+    a1d4:	9341      	ld.w      	r2, (r3, 0x4)
+    a1d6:	e4681013 	subi      	r3, r8, 20
+    a1da:	9360      	ld.w      	r3, (r3, 0)
+    a1dc:	9361      	ld.w      	r3, (r3, 0x4)
+    a1de:	608c      	addu      	r2, r3
+    a1e0:	e468100b 	subi      	r3, r8, 12
+    a1e4:	9360      	ld.w      	r3, (r3, 0)
+    a1e6:	b341      	st.w      	r2, (r3, 0x4)
+			pr_debug("... -> %pap x 0x%x\n",
+    a1e8:	e468100b 	subi      	r3, r8, 12
+    a1ec:	9320      	ld.w      	r1, (r3, 0)
+    a1ee:	e468100b 	subi      	r3, r8, 12
+    a1f2:	9360      	ld.w      	r3, (r3, 0)
+    a1f4:	9361      	ld.w      	r3, (r3, 0x4)
+    a1f6:	6c8f      	mov      	r2, r3
+    a1f8:	121e      	lrw      	r0, 0xb04c	// a370 <xrp_free+0x25c>
+    a1fa:	e3fffea1 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a1fe:	c4004820 	lsli      	r0, r0, 0
+				 &cur->start, cur->size);
+			kfree(xrp_allocation);
+    a202:	e4681013 	subi      	r3, r8, 20
+    a206:	9300      	ld.w      	r0, (r3, 0)
+    a208:	e3fffec8 	bsr      	0x9f98	// 9f98 <kfree>
+    a20c:	c4004820 	lsli      	r0, r0, 0
+
+			if (next && cur->start + cur->size == next->start) {
+    a210:	e468100f 	subi      	r3, r8, 16
+    a214:	9360      	ld.w      	r3, (r3, 0)
+    a216:	e90300d2 	bez      	r3, 0xa3ba	// a3ba <xrp_free+0x2a6>
+    a21a:	e468100b 	subi      	r3, r8, 12
+    a21e:	9360      	ld.w      	r3, (r3, 0)
+    a220:	9340      	ld.w      	r2, (r3, 0)
+    a222:	e468100b 	subi      	r3, r8, 12
+    a226:	9360      	ld.w      	r3, (r3, 0)
+    a228:	9361      	ld.w      	r3, (r3, 0x4)
+    a22a:	608c      	addu      	r2, r3
+    a22c:	e468100f 	subi      	r3, r8, 16
+    a230:	9360      	ld.w      	r3, (r3, 0)
+    a232:	9360      	ld.w      	r3, (r3, 0)
+    a234:	64ca      	cmpne      	r2, r3
+    a236:	08c2      	bt      	0xa3ba	// a3ba <xrp_free+0x2a6>
+				pr_debug("merging with next block: %pap x 0x%x ->\n",
+    a238:	e468100b 	subi      	r3, r8, 12
+    a23c:	9320      	ld.w      	r1, (r3, 0)
+    a23e:	e468100b 	subi      	r3, r8, 12
+    a242:	9360      	ld.w      	r3, (r3, 0)
+    a244:	9361      	ld.w      	r3, (r3, 0x4)
+    a246:	6c8f      	mov      	r2, r3
+    a248:	120c      	lrw      	r0, 0xb060	// a378 <xrp_free+0x264>
+    a24a:	e3fffe79 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a24e:	c4004820 	lsli      	r0, r0, 0
+					 &cur->start, cur->size);
+				cur->size += next->size;
+    a252:	e468100b 	subi      	r3, r8, 12
+    a256:	9360      	ld.w      	r3, (r3, 0)
+    a258:	9341      	ld.w      	r2, (r3, 0x4)
+    a25a:	e468100f 	subi      	r3, r8, 16
+    a25e:	9360      	ld.w      	r3, (r3, 0)
+    a260:	9361      	ld.w      	r3, (r3, 0x4)
+    a262:	608c      	addu      	r2, r3
+    a264:	e468100b 	subi      	r3, r8, 12
+    a268:	9360      	ld.w      	r3, (r3, 0)
+    a26a:	b341      	st.w      	r2, (r3, 0x4)
+				cur->next = next->next;
+    a26c:	e468100f 	subi      	r3, r8, 16
+    a270:	9360      	ld.w      	r3, (r3, 0)
+    a272:	9343      	ld.w      	r2, (r3, 0xc)
+    a274:	e468100b 	subi      	r3, r8, 12
+    a278:	9360      	ld.w      	r3, (r3, 0)
+    a27a:	b343      	st.w      	r2, (r3, 0xc)
+				pr_debug("... -> %pap x 0x%x\n",
+    a27c:	e468100b 	subi      	r3, r8, 12
+    a280:	9320      	ld.w      	r1, (r3, 0)
+    a282:	e468100b 	subi      	r3, r8, 12
+    a286:	9360      	ld.w      	r3, (r3, 0)
+    a288:	9361      	ld.w      	r3, (r3, 0x4)
+    a28a:	6c8f      	mov      	r2, r3
+    a28c:	1119      	lrw      	r0, 0xb04c	// a370 <xrp_free+0x25c>
+    a28e:	e3fffe57 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a292:	c4004820 	lsli      	r0, r0, 0
+					 &cur->start, cur->size);
+				kfree(next);
+    a296:	e468100f 	subi      	r3, r8, 16
+    a29a:	9300      	ld.w      	r0, (r3, 0)
+    a29c:	e3fffe7e 	bsr      	0x9f98	// 9f98 <kfree>
+    a2a0:	c4004820 	lsli      	r0, r0, 0
+			}
+			break;
+    a2a4:	048b      	br      	0xa3ba	// a3ba <xrp_free+0x2a6>
+		}
+
+		if (!cur || xrp_allocation->start < cur->start) {
+    a2a6:	e468100b 	subi      	r3, r8, 12
+    a2aa:	9360      	ld.w      	r3, (r3, 0)
+    a2ac:	e903000c 	bez      	r3, 0xa2c4	// a2c4 <xrp_free+0x1b0>
+    a2b0:	e4681013 	subi      	r3, r8, 20
+    a2b4:	9360      	ld.w      	r3, (r3, 0)
+    a2b6:	9340      	ld.w      	r2, (r3, 0)
+    a2b8:	e468100b 	subi      	r3, r8, 12
+    a2bc:	9360      	ld.w      	r3, (r3, 0)
+    a2be:	9360      	ld.w      	r3, (r3, 0)
+    a2c0:	64c8      	cmphs      	r2, r3
+    a2c2:	0873      	bt      	0xa3a8	// a3a8 <xrp_free+0x294>
+			if (cur && xrp_allocation->start + xrp_allocation->size == cur->start) {
+    a2c4:	e468100b 	subi      	r3, r8, 12
+    a2c8:	9360      	ld.w      	r3, (r3, 0)
+    a2ca:	e903005b 	bez      	r3, 0xa380	// a380 <xrp_free+0x26c>
+    a2ce:	e4681013 	subi      	r3, r8, 20
+    a2d2:	9360      	ld.w      	r3, (r3, 0)
+    a2d4:	9340      	ld.w      	r2, (r3, 0)
+    a2d6:	e4681013 	subi      	r3, r8, 20
+    a2da:	9360      	ld.w      	r3, (r3, 0)
+    a2dc:	9361      	ld.w      	r3, (r3, 0x4)
+    a2de:	608c      	addu      	r2, r3
+    a2e0:	e468100b 	subi      	r3, r8, 12
+    a2e4:	9360      	ld.w      	r3, (r3, 0)
+    a2e6:	9360      	ld.w      	r3, (r3, 0)
+    a2e8:	64ca      	cmpne      	r2, r3
+    a2ea:	084b      	bt      	0xa380	// a380 <xrp_free+0x26c>
+				pr_debug("merging block head: %pap x 0x%x ->\n",
+    a2ec:	e468100b 	subi      	r3, r8, 12
+    a2f0:	9320      	ld.w      	r1, (r3, 0)
+    a2f2:	e468100b 	subi      	r3, r8, 12
+    a2f6:	9360      	ld.w      	r3, (r3, 0)
+    a2f8:	9361      	ld.w      	r3, (r3, 0x4)
+    a2fa:	6c8f      	mov      	r2, r3
+    a2fc:	1100      	lrw      	r0, 0xb08c	// a37c <xrp_free+0x268>
+    a2fe:	e3fffe1f 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a302:	c4004820 	lsli      	r0, r0, 0
+					 &cur->start, cur->size);
+				cur->size += xrp_allocation->size;
+    a306:	e468100b 	subi      	r3, r8, 12
+    a30a:	9360      	ld.w      	r3, (r3, 0)
+    a30c:	9341      	ld.w      	r2, (r3, 0x4)
+    a30e:	e4681013 	subi      	r3, r8, 20
+    a312:	9360      	ld.w      	r3, (r3, 0)
+    a314:	9361      	ld.w      	r3, (r3, 0x4)
+    a316:	608c      	addu      	r2, r3
+    a318:	e468100b 	subi      	r3, r8, 12
+    a31c:	9360      	ld.w      	r3, (r3, 0)
+    a31e:	b341      	st.w      	r2, (r3, 0x4)
+				cur->start = xrp_allocation->start;
+    a320:	e4681013 	subi      	r3, r8, 20
+    a324:	9360      	ld.w      	r3, (r3, 0)
+    a326:	9340      	ld.w      	r2, (r3, 0)
+    a328:	e468100b 	subi      	r3, r8, 12
+    a32c:	9360      	ld.w      	r3, (r3, 0)
+    a32e:	b340      	st.w      	r2, (r3, 0)
+				pr_debug("... -> %pap x 0x%x\n",
+    a330:	e468100b 	subi      	r3, r8, 12
+    a334:	9320      	ld.w      	r1, (r3, 0)
+    a336:	e468100b 	subi      	r3, r8, 12
+    a33a:	9360      	ld.w      	r3, (r3, 0)
+    a33c:	9361      	ld.w      	r3, (r3, 0x4)
+    a33e:	6c8f      	mov      	r2, r3
+    a340:	100c      	lrw      	r0, 0xb04c	// a370 <xrp_free+0x25c>
+    a342:	e3fffdfd 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a346:	c4004820 	lsli      	r0, r0, 0
+					 &cur->start, cur->size);
+				kfree(xrp_allocation);
+    a34a:	e4681013 	subi      	r3, r8, 20
+    a34e:	9300      	ld.w      	r0, (r3, 0)
+    a350:	e3fffe24 	bsr      	0x9f98	// 9f98 <kfree>
+    a354:	c4004820 	lsli      	r0, r0, 0
+			} else {
+				pr_debug("inserting new free block\n");
+				xrp_allocation->next = cur;
+				*pcur = xrp_allocation;
+			}
+			break;
+    a358:	0432      	br      	0xa3bc	// a3bc <xrp_free+0x2a8>
+    a35a:	0000      	.short	0x0000
+    a35c:	0000b1c8 	.long	0x0000b1c8
+    a360:	0000b018 	.long	0x0000b018
+    a364:	00009f3c 	.long	0x00009f3c
+    a368:	00009fcc 	.long	0x00009fcc
+    a36c:	0000b028 	.long	0x0000b028
+    a370:	0000b04c 	.long	0x0000b04c
+    a374:	00009f98 	.long	0x00009f98
+    a378:	0000b060 	.long	0x0000b060
+    a37c:	0000b08c 	.long	0x0000b08c
+				pr_debug("inserting new free block\n");
+    a380:	1017      	lrw      	r0, 0xb0b0	// a3dc <xrp_free+0x2c8>
+    a382:	e3fffddd 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a386:	c4004820 	lsli      	r0, r0, 0
+				xrp_allocation->next = cur;
+    a38a:	e4681013 	subi      	r3, r8, 20
+    a38e:	9360      	ld.w      	r3, (r3, 0)
+    a390:	e448100b 	subi      	r2, r8, 12
+    a394:	9240      	ld.w      	r2, (r2, 0)
+    a396:	b343      	st.w      	r2, (r3, 0xc)
+				*pcur = xrp_allocation;
+    a398:	e4681003 	subi      	r3, r8, 4
+    a39c:	9360      	ld.w      	r3, (r3, 0)
+    a39e:	e4481013 	subi      	r2, r8, 20
+    a3a2:	9240      	ld.w      	r2, (r2, 0)
+    a3a4:	b340      	st.w      	r2, (r3, 0)
+			break;
+    a3a6:	040b      	br      	0xa3bc	// a3bc <xrp_free+0x2a8>
+	for (pcur = &pool->free_list; ; pcur = &(*pcur)->next) {
+    a3a8:	e4681003 	subi      	r3, r8, 4
+    a3ac:	9360      	ld.w      	r3, (r3, 0)
+    a3ae:	9340      	ld.w      	r2, (r3, 0)
+    a3b0:	e4681003 	subi      	r3, r8, 4
+    a3b4:	220b      	addi      	r2, 12
+    a3b6:	b340      	st.w      	r2, (r3, 0)
+    a3b8:	06dc      	br      	0xa170	// a170 <xrp_free+0x5c>
+			break;
+    a3ba:	6c00      	or      	r0, r0
+		}
+	}
+
+	xrp_pool_unlock(pool);
+    a3bc:	e4681007 	subi      	r3, r8, 8
+    a3c0:	9300      	ld.w      	r0, (r3, 0)
+    a3c2:	e3fffe13 	bsr      	0x9fe8	// 9fe8 <xrp_pool_unlock>
+    a3c6:	c4004820 	lsli      	r0, r0, 0
+}
+    a3ca:	6c00      	or      	r0, r0
+    a3cc:	6fa3      	mov      	sp, r8
+    a3ce:	d9ee2001 	ld.w      	r15, (sp, 0x4)
+    a3d2:	d90e2000 	ld.w      	r8, (sp, 0)
+    a3d6:	1402      	addi      	sp, sp, 8
+    a3d8:	783c      	rts
+    a3da:	0000      	.short	0x0000
+    a3dc:	0000b0b0 	.long	0x0000b0b0
+    a3e0:	00009f3c 	.long	0x00009f3c
+    a3e4:	00009fe8 	.long	0x00009fe8
+
+0000a3e8 <xrp_allocate>:
+* 		size 需要申请内存大小
+*       align 按多少字节对齐
+*       ** alloc [OUT]返回 申请内存的结构体地址的地址
+*/
+long xrp_allocate(struct xrp_allocation_pool *pool,u32 size, u32 align, struct xrp_allocation **alloc)
+{
+    a3e8:	1423      	subi      	sp, sp, 12
+    a3ea:	b880      	st.w      	r4, (sp, 0)
+    a3ec:	dd0e2001 	st.w      	r8, (sp, 0x4)
+    a3f0:	ddee2002 	st.w      	r15, (sp, 0x8)
+    a3f4:	6e3b      	mov      	r8, sp
+    a3f6:	142a      	subi      	sp, sp, 40
+    a3f8:	e5881017 	subi      	r12, r8, 24
+    a3fc:	dc0c2000 	st.w      	r0, (r12, 0)
+    a400:	e408101b 	subi      	r0, r8, 28
+    a404:	b020      	st.w      	r1, (r0, 0)
+    a406:	e428101f 	subi      	r1, r8, 32
+    a40a:	b140      	st.w      	r2, (r1, 0)
+    a40c:	e4481023 	subi      	r2, r8, 36
+    a410:	b260      	st.w      	r3, (r2, 0)
+	struct xrp_allocation **pcur;
+	struct xrp_allocation *cur = NULL;
+    a412:	e4681007 	subi      	r3, r8, 8
+    a416:	3200      	movi      	r2, 0
+    a418:	b340      	st.w      	r2, (r3, 0)
+	struct xrp_allocation *new;
+	phys_addr_t aligned_start = 0;//起始物理地址
+    a41a:	e4681013 	subi      	r3, r8, 20
+    a41e:	3200      	movi      	r2, 0
+    a420:	b340      	st.w      	r2, (r3, 0)
+	bool found = false;
+    a422:	e468100f 	subi      	r3, r8, 16
+    a426:	3200      	movi      	r2, 0
+    a428:	b340      	st.w      	r2, (r3, 0)
+
+	pr_debug("entry xrp_allocate func!\n");
+    a42a:	131d      	lrw      	r0, 0xb0cc	// a61c <xrp_allocate+0x234>
+    a42c:	e3fffd88 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a430:	c4004820 	lsli      	r0, r0, 0
+	if (!size || (align & (align - 1)))
+    a434:	e468101b 	subi      	r3, r8, 28
+    a438:	9360      	ld.w      	r3, (r3, 0)
+    a43a:	e903000c 	bez      	r3, 0xa452	// a452 <xrp_allocate+0x6a>
+    a43e:	e468101f 	subi      	r3, r8, 32
+    a442:	9360      	ld.w      	r3, (r3, 0)
+    a444:	5b43      	subi      	r2, r3, 1
+    a446:	e468101f 	subi      	r3, r8, 32
+    a44a:	9360      	ld.w      	r3, (r3, 0)
+    a44c:	68c8      	and      	r3, r2
+    a44e:	e9030006 	bez      	r3, 0xa45a	// a45a <xrp_allocate+0x72>
+		return -EINVAL;
+    a452:	3300      	movi      	r3, 0
+    a454:	2b15      	subi      	r3, 22
+    a456:	e800023d 	br      	0xa8d0	// a8d0 <xrp_allocate+0x4e8>
+	if (!align)
+    a45a:	e468101f 	subi      	r3, r8, 32
+    a45e:	9360      	ld.w      	r3, (r3, 0)
+    a460:	e9230006 	bnez      	r3, 0xa46c	// a46c <xrp_allocate+0x84>
+		align = 1;
+    a464:	e468101f 	subi      	r3, r8, 32
+    a468:	3201      	movi      	r2, 1
+    a46a:	b340      	st.w      	r2, (r3, 0)
+
+	/* 作为临时保存返回申请内存的地址 */
+	new = kzalloc(sizeof(struct xrp_allocation), GFP_KERNEL);
+    a46c:	e488100b 	subi      	r4, r8, 12
+    a470:	3100      	movi      	r1, 0
+    a472:	3014      	movi      	r0, 20
+    a474:	e3fffd74 	bsr      	0x9f5c	// 9f5c <kzalloc>
+    a478:	c4004820 	lsli      	r0, r0, 0
+    a47c:	b400      	st.w      	r0, (r4, 0)
+	if (!new)
+    a47e:	e468100b 	subi      	r3, r8, 12
+    a482:	9360      	ld.w      	r3, (r3, 0)
+    a484:	e9230006 	bnez      	r3, 0xa490	// a490 <xrp_allocate+0xa8>
+		return -ENOMEM;
+    a488:	3300      	movi      	r3, 0
+    a48a:	2b0b      	subi      	r3, 12
+    a48c:	e8000222 	br      	0xa8d0	// a8d0 <xrp_allocate+0x4e8>
+
+	align = ALIGN(align, XRP_PAGE_SIZE);//页UP对齐
+    a490:	e468101f 	subi      	r3, r8, 32
+    a494:	9360      	ld.w      	r3, (r3, 0)
+    a496:	5b4a      	addi      	r2, r3, 3
+    a498:	e468101f 	subi      	r3, r8, 32
+    a49c:	e4423003 	andni      	r2, r2, 3
+    a4a0:	b340      	st.w      	r2, (r3, 0)
+	size = ALIGN(size, XRP_PAGE_SIZE);
+    a4a2:	e468101b 	subi      	r3, r8, 28
+    a4a6:	9360      	ld.w      	r3, (r3, 0)
+    a4a8:	5b4a      	addi      	r2, r3, 3
+    a4aa:	e468101b 	subi      	r3, r8, 28
+    a4ae:	e4423003 	andni      	r2, r2, 3
+    a4b2:	b340      	st.w      	r2, (r3, 0)
+
+	xrp_pool_lock(pool);
+    a4b4:	e4681017 	subi      	r3, r8, 24
+    a4b8:	9300      	ld.w      	r0, (r3, 0)
+    a4ba:	e3fffd89 	bsr      	0x9fcc	// 9fcc <xrp_pool_lock>
+    a4be:	c4004820 	lsli      	r0, r0, 0
+
+	/* on exit free list is fixed */
+	for (pcur = &pool->free_list; *pcur; pcur = &(*pcur)->next) {
+    a4c2:	e4681003 	subi      	r3, r8, 4
+    a4c6:	e4481017 	subi      	r2, r8, 24
+    a4ca:	9240      	ld.w      	r2, (r2, 0)
+    a4cc:	2207      	addi      	r2, 8
+    a4ce:	b340      	st.w      	r2, (r3, 0)
+    a4d0:	0564      	br      	0xa798	// a798 <xrp_allocate+0x3b0>
+		cur = *pcur;
+    a4d2:	e4681007 	subi      	r3, r8, 8
+    a4d6:	e4481003 	subi      	r2, r8, 4
+    a4da:	9240      	ld.w      	r2, (r2, 0)
+    a4dc:	9240      	ld.w      	r2, (r2, 0)
+    a4de:	b340      	st.w      	r2, (r3, 0)
+		aligned_start = ALIGN(cur->start, align);
+    a4e0:	e4681007 	subi      	r3, r8, 8
+    a4e4:	9360      	ld.w      	r3, (r3, 0)
+    a4e6:	9340      	ld.w      	r2, (r3, 0)
+    a4e8:	e468101f 	subi      	r3, r8, 32
+    a4ec:	9360      	ld.w      	r3, (r3, 0)
+    a4ee:	60c8      	addu      	r3, r2
+    a4f0:	5b43      	subi      	r2, r3, 1
+    a4f2:	e468101f 	subi      	r3, r8, 32
+    a4f6:	3100      	movi      	r1, 0
+    a4f8:	9360      	ld.w      	r3, (r3, 0)
+    a4fa:	596d      	subu      	r3, r1, r3
+    a4fc:	688c      	and      	r2, r3
+    a4fe:	e4681013 	subi      	r3, r8, 20
+    a502:	b340      	st.w      	r2, (r3, 0)
+
+		if (aligned_start >= cur->start &&
+    a504:	e4681007 	subi      	r3, r8, 8
+    a508:	9360      	ld.w      	r3, (r3, 0)
+    a50a:	9340      	ld.w      	r2, (r3, 0)
+    a50c:	e4681013 	subi      	r3, r8, 20
+    a510:	9360      	ld.w      	r3, (r3, 0)
+    a512:	648c      	cmphs      	r3, r2
+    a514:	0d36      	bf      	0xa780	// a780 <xrp_allocate+0x398>
+		    aligned_start - cur->start + size <= cur->size) {// 内存池的内存,比要申请的内存多时
+    a516:	e4681013 	subi      	r3, r8, 20
+    a51a:	9340      	ld.w      	r2, (r3, 0)
+    a51c:	e4681007 	subi      	r3, r8, 8
+    a520:	9360      	ld.w      	r3, (r3, 0)
+    a522:	9360      	ld.w      	r3, (r3, 0)
+    a524:	608e      	subu      	r2, r3
+    a526:	e468101b 	subi      	r3, r8, 28
+    a52a:	9360      	ld.w      	r3, (r3, 0)
+    a52c:	608c      	addu      	r2, r3
+    a52e:	e4681007 	subi      	r3, r8, 8
+    a532:	9360      	ld.w      	r3, (r3, 0)
+    a534:	9361      	ld.w      	r3, (r3, 0x4)
+		if (aligned_start >= cur->start &&
+    a536:	648c      	cmphs      	r3, r2
+    a538:	0d24      	bf      	0xa780	// a780 <xrp_allocate+0x398>
+			if (aligned_start == cur->start) {
+    a53a:	e4681007 	subi      	r3, r8, 8
+    a53e:	9360      	ld.w      	r3, (r3, 0)
+    a540:	9340      	ld.w      	r2, (r3, 0)
+    a542:	e4681013 	subi      	r3, r8, 20
+    a546:	9360      	ld.w      	r3, (r3, 0)
+    a548:	64ca      	cmpne      	r2, r3
+    a54a:	0877      	bt      	0xa638	// a638 <xrp_allocate+0x250>
+				if (aligned_start + size == cur->start + cur->size) {//size == cur->size 申请使用所有的块
+    a54c:	e4681013 	subi      	r3, r8, 20
+    a550:	9340      	ld.w      	r2, (r3, 0)
+    a552:	e468101b 	subi      	r3, r8, 28
+    a556:	9360      	ld.w      	r3, (r3, 0)
+    a558:	608c      	addu      	r2, r3
+    a55a:	e4681007 	subi      	r3, r8, 8
+    a55e:	9360      	ld.w      	r3, (r3, 0)
+    a560:	9320      	ld.w      	r1, (r3, 0)
+    a562:	e4681007 	subi      	r3, r8, 8
+    a566:	9360      	ld.w      	r3, (r3, 0)
+    a568:	9361      	ld.w      	r3, (r3, 0x4)
+    a56a:	60c4      	addu      	r3, r1
+    a56c:	64ca      	cmpne      	r2, r3
+    a56e:	0817      	bt      	0xa59c	// a59c <xrp_allocate+0x1b4>
+					pr_debug("reusing complete block: %pap x %x\n", &cur->start, cur->size);
+    a570:	e4681007 	subi      	r3, r8, 8
+    a574:	9320      	ld.w      	r1, (r3, 0)
+    a576:	e4681007 	subi      	r3, r8, 8
+    a57a:	9360      	ld.w      	r3, (r3, 0)
+    a57c:	9361      	ld.w      	r3, (r3, 0x4)
+    a57e:	6c8f      	mov      	r2, r3
+    a580:	110b      	lrw      	r0, 0xb0e8	// a62c <xrp_allocate+0x244>
+    a582:	e3fffcdd 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a586:	c4004820 	lsli      	r0, r0, 0
+					*pcur = cur->next;
+    a58a:	e4681007 	subi      	r3, r8, 8
+    a58e:	9360      	ld.w      	r3, (r3, 0)
+    a590:	9343      	ld.w      	r2, (r3, 0xc)
+    a592:	e4681003 	subi      	r3, r8, 4
+    a596:	9360      	ld.w      	r3, (r3, 0)
+    a598:	b340      	st.w      	r2, (r3, 0)
+    a59a:	04ee      	br      	0xa776	// a776 <xrp_allocate+0x38e>
+				} else {
+					pr_debug("cutting block head: %pap x %x ->\n", &cur->start, cur->size);
+    a59c:	e4681007 	subi      	r3, r8, 8
+    a5a0:	9320      	ld.w      	r1, (r3, 0)
+    a5a2:	e4681007 	subi      	r3, r8, 8
+    a5a6:	9360      	ld.w      	r3, (r3, 0)
+    a5a8:	9361      	ld.w      	r3, (r3, 0x4)
+    a5aa:	6c8f      	mov      	r2, r3
+    a5ac:	1101      	lrw      	r0, 0xb10c	// a630 <xrp_allocate+0x248>
+    a5ae:	e3fffcc7 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a5b2:	c4004820 	lsli      	r0, r0, 0
+					cur->size -= aligned_start + size - cur->start;//cur->size 代表内存池剩余内存大小,aligned_start-cur->start代表对齐消耗
+    a5b6:	e4681007 	subi      	r3, r8, 8
+    a5ba:	9360      	ld.w      	r3, (r3, 0)
+    a5bc:	9341      	ld.w      	r2, (r3, 0x4)
+    a5be:	e4681007 	subi      	r3, r8, 8
+    a5c2:	9360      	ld.w      	r3, (r3, 0)
+    a5c4:	9320      	ld.w      	r1, (r3, 0)
+    a5c6:	e4681013 	subi      	r3, r8, 20
+    a5ca:	9300      	ld.w      	r0, (r3, 0)
+    a5cc:	e468101b 	subi      	r3, r8, 28
+    a5d0:	9360      	ld.w      	r3, (r3, 0)
+    a5d2:	60c0      	addu      	r3, r0
+    a5d4:	596d      	subu      	r3, r1, r3
+    a5d6:	608c      	addu      	r2, r3
+    a5d8:	e4681007 	subi      	r3, r8, 8
+    a5dc:	9360      	ld.w      	r3, (r3, 0)
+    a5de:	b341      	st.w      	r2, (r3, 0x4)
+					cur->start = aligned_start + size;//cur->start 代表内存池剩余内存起始地址
+    a5e0:	e4681013 	subi      	r3, r8, 20
+    a5e4:	9340      	ld.w      	r2, (r3, 0)
+    a5e6:	e468101b 	subi      	r3, r8, 28
+    a5ea:	9360      	ld.w      	r3, (r3, 0)
+    a5ec:	608c      	addu      	r2, r3
+    a5ee:	e4681007 	subi      	r3, r8, 8
+    a5f2:	9360      	ld.w      	r3, (r3, 0)
+    a5f4:	b340      	st.w      	r2, (r3, 0)
+					pr_debug("... -> %pap x %x\n", &cur->start, cur->size);
+    a5f6:	e4681007 	subi      	r3, r8, 8
+    a5fa:	9320      	ld.w      	r1, (r3, 0)
+    a5fc:	e4681007 	subi      	r3, r8, 8
+    a600:	9360      	ld.w      	r3, (r3, 0)
+    a602:	9361      	ld.w      	r3, (r3, 0x4)
+    a604:	6c8f      	mov      	r2, r3
+    a606:	100c      	lrw      	r0, 0xb130	// a634 <xrp_allocate+0x24c>
+    a608:	e3fffc9a 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a60c:	c4004820 	lsli      	r0, r0, 0
+					cur = NULL;
+    a610:	e4681007 	subi      	r3, r8, 8
+    a614:	3200      	movi      	r2, 0
+    a616:	b340      	st.w      	r2, (r3, 0)
+    a618:	04af      	br      	0xa776	// a776 <xrp_allocate+0x38e>
+    a61a:	0000      	.short	0x0000
+    a61c:	0000b0cc 	.long	0x0000b0cc
+    a620:	00009f3c 	.long	0x00009f3c
+    a624:	00009f5c 	.long	0x00009f5c
+    a628:	00009fcc 	.long	0x00009fcc
+    a62c:	0000b0e8 	.long	0x0000b0e8
+    a630:	0000b10c 	.long	0x0000b10c
+    a634:	0000b130 	.long	0x0000b130
+				}
+			} else {
+				if (aligned_start + size == cur->start + cur->size) {
+    a638:	e4681013 	subi      	r3, r8, 20
+    a63c:	9340      	ld.w      	r2, (r3, 0)
+    a63e:	e468101b 	subi      	r3, r8, 28
+    a642:	9360      	ld.w      	r3, (r3, 0)
+    a644:	608c      	addu      	r2, r3
+    a646:	e4681007 	subi      	r3, r8, 8
+    a64a:	9360      	ld.w      	r3, (r3, 0)
+    a64c:	9320      	ld.w      	r1, (r3, 0)
+    a64e:	e4681007 	subi      	r3, r8, 8
+    a652:	9360      	ld.w      	r3, (r3, 0)
+    a654:	9361      	ld.w      	r3, (r3, 0x4)
+    a656:	60c4      	addu      	r3, r1
+    a658:	64ca      	cmpne      	r2, r3
+    a65a:	082c      	bt      	0xa6b2	// a6b2 <xrp_allocate+0x2ca>
+					pr_debug("cutting block tail: %pap x %x ->\n", &cur->start, cur->size);
+    a65c:	e4681007 	subi      	r3, r8, 8
+    a660:	9320      	ld.w      	r1, (r3, 0)
+    a662:	e4681007 	subi      	r3, r8, 8
+    a666:	9360      	ld.w      	r3, (r3, 0)
+    a668:	9361      	ld.w      	r3, (r3, 0x4)
+    a66a:	6c8f      	mov      	r2, r3
+    a66c:	130f      	lrw      	r0, 0xb144	// a828 <xrp_allocate+0x440>
+    a66e:	e3fffc67 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a672:	c4004820 	lsli      	r0, r0, 0
+					cur->size = aligned_start - cur->start;
+    a676:	e4681013 	subi      	r3, r8, 20
+    a67a:	9340      	ld.w      	r2, (r3, 0)
+    a67c:	e4681007 	subi      	r3, r8, 8
+    a680:	9360      	ld.w      	r3, (r3, 0)
+    a682:	9360      	ld.w      	r3, (r3, 0)
+    a684:	608e      	subu      	r2, r3
+    a686:	e4681007 	subi      	r3, r8, 8
+    a68a:	9360      	ld.w      	r3, (r3, 0)
+    a68c:	b341      	st.w      	r2, (r3, 0x4)
+					pr_debug("... -> %pap x %x\n", &cur->start, cur->size);
+    a68e:	e4681007 	subi      	r3, r8, 8
+    a692:	9320      	ld.w      	r1, (r3, 0)
+    a694:	e4681007 	subi      	r3, r8, 8
+    a698:	9360      	ld.w      	r3, (r3, 0)
+    a69a:	9361      	ld.w      	r3, (r3, 0x4)
+    a69c:	6c8f      	mov      	r2, r3
+    a69e:	1305      	lrw      	r0, 0xb130	// a830 <xrp_allocate+0x448>
+    a6a0:	e3fffc4e 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a6a4:	c4004820 	lsli      	r0, r0, 0
+					cur = NULL;
+    a6a8:	e4681007 	subi      	r3, r8, 8
+    a6ac:	3200      	movi      	r2, 0
+    a6ae:	b340      	st.w      	r2, (r3, 0)
+    a6b0:	0463      	br      	0xa776	// a776 <xrp_allocate+0x38e>
+				} else {
+					pr_debug("splitting block into two: %pap x %x ->\n", &cur->start, cur->size);
+    a6b2:	e4681007 	subi      	r3, r8, 8
+    a6b6:	9320      	ld.w      	r1, (r3, 0)
+    a6b8:	e4681007 	subi      	r3, r8, 8
+    a6bc:	9360      	ld.w      	r3, (r3, 0)
+    a6be:	9361      	ld.w      	r3, (r3, 0x4)
+    a6c0:	6c8f      	mov      	r2, r3
+    a6c2:	121d      	lrw      	r0, 0xb168	// a834 <xrp_allocate+0x44c>
+    a6c4:	e3fffc3c 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a6c8:	c4004820 	lsli      	r0, r0, 0
+					new->start = aligned_start + size;
+    a6cc:	e4681013 	subi      	r3, r8, 20
+    a6d0:	9340      	ld.w      	r2, (r3, 0)
+    a6d2:	e468101b 	subi      	r3, r8, 28
+    a6d6:	9360      	ld.w      	r3, (r3, 0)
+    a6d8:	608c      	addu      	r2, r3
+    a6da:	e468100b 	subi      	r3, r8, 12
+    a6de:	9360      	ld.w      	r3, (r3, 0)
+    a6e0:	b340      	st.w      	r2, (r3, 0)
+					new->size = cur->start + cur->size - new->start;
+    a6e2:	e4681007 	subi      	r3, r8, 8
+    a6e6:	9360      	ld.w      	r3, (r3, 0)
+    a6e8:	9340      	ld.w      	r2, (r3, 0)
+    a6ea:	e4681007 	subi      	r3, r8, 8
+    a6ee:	9360      	ld.w      	r3, (r3, 0)
+    a6f0:	9361      	ld.w      	r3, (r3, 0x4)
+    a6f2:	608c      	addu      	r2, r3
+    a6f4:	e468100b 	subi      	r3, r8, 12
+    a6f8:	9360      	ld.w      	r3, (r3, 0)
+    a6fa:	9360      	ld.w      	r3, (r3, 0)
+    a6fc:	608e      	subu      	r2, r3
+    a6fe:	e468100b 	subi      	r3, r8, 12
+    a702:	9360      	ld.w      	r3, (r3, 0)
+    a704:	b341      	st.w      	r2, (r3, 0x4)
+
+					cur->size = aligned_start - cur->start;
+    a706:	e4681013 	subi      	r3, r8, 20
+    a70a:	9340      	ld.w      	r2, (r3, 0)
+    a70c:	e4681007 	subi      	r3, r8, 8
+    a710:	9360      	ld.w      	r3, (r3, 0)
+    a712:	9360      	ld.w      	r3, (r3, 0)
+    a714:	608e      	subu      	r2, r3
+    a716:	e4681007 	subi      	r3, r8, 8
+    a71a:	9360      	ld.w      	r3, (r3, 0)
+    a71c:	b341      	st.w      	r2, (r3, 0x4)
+
+					new->next = cur->next;
+    a71e:	e4681007 	subi      	r3, r8, 8
+    a722:	9360      	ld.w      	r3, (r3, 0)
+    a724:	9343      	ld.w      	r2, (r3, 0xc)
+    a726:	e468100b 	subi      	r3, r8, 12
+    a72a:	9360      	ld.w      	r3, (r3, 0)
+    a72c:	b343      	st.w      	r2, (r3, 0xc)
+					cur->next = new;
+    a72e:	e4681007 	subi      	r3, r8, 8
+    a732:	9360      	ld.w      	r3, (r3, 0)
+    a734:	e448100b 	subi      	r2, r8, 12
+    a738:	9240      	ld.w      	r2, (r2, 0)
+    a73a:	b343      	st.w      	r2, (r3, 0xc)
+					pr_debug("... -> %pap x %x + %pap x %x\n", &cur->start, cur->size, &new->start, new->size);
+    a73c:	e4681007 	subi      	r3, r8, 8
+    a740:	9320      	ld.w      	r1, (r3, 0)
+    a742:	e4681007 	subi      	r3, r8, 8
+    a746:	9360      	ld.w      	r3, (r3, 0)
+    a748:	9341      	ld.w      	r2, (r3, 0x4)
+    a74a:	e468100b 	subi      	r3, r8, 12
+    a74e:	9300      	ld.w      	r0, (r3, 0)
+    a750:	e468100b 	subi      	r3, r8, 12
+    a754:	9360      	ld.w      	r3, (r3, 0)
+    a756:	9361      	ld.w      	r3, (r3, 0x4)
+    a758:	b860      	st.w      	r3, (sp, 0)
+    a75a:	6cc3      	mov      	r3, r0
+    a75c:	1117      	lrw      	r0, 0xb190	// a838 <xrp_allocate+0x450>
+    a75e:	e3fffbef 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a762:	c4004820 	lsli      	r0, r0, 0
+
+					cur = NULL;
+    a766:	e4681007 	subi      	r3, r8, 8
+    a76a:	3200      	movi      	r2, 0
+    a76c:	b340      	st.w      	r2, (r3, 0)
+					new = NULL;
+    a76e:	e468100b 	subi      	r3, r8, 12
+    a772:	3200      	movi      	r2, 0
+    a774:	b340      	st.w      	r2, (r3, 0)
+				}
+			}
+			found = true;
+    a776:	e468100f 	subi      	r3, r8, 16
+    a77a:	3201      	movi      	r2, 1
+    a77c:	b340      	st.w      	r2, (r3, 0)
+			break;
+    a77e:	0413      	br      	0xa7a4	// a7a4 <xrp_allocate+0x3bc>
+		} else {
+			cur = NULL;
+    a780:	e4681007 	subi      	r3, r8, 8
+    a784:	3200      	movi      	r2, 0
+    a786:	b340      	st.w      	r2, (r3, 0)
+	for (pcur = &pool->free_list; *pcur; pcur = &(*pcur)->next) {
+    a788:	e4681003 	subi      	r3, r8, 4
+    a78c:	9360      	ld.w      	r3, (r3, 0)
+    a78e:	9340      	ld.w      	r2, (r3, 0)
+    a790:	e4681003 	subi      	r3, r8, 4
+    a794:	220b      	addi      	r2, 12
+    a796:	b340      	st.w      	r2, (r3, 0)
+    a798:	e4681003 	subi      	r3, r8, 4
+    a79c:	9360      	ld.w      	r3, (r3, 0)
+    a79e:	9360      	ld.w      	r3, (r3, 0)
+    a7a0:	e923fe99 	bnez      	r3, 0xa4d2	// a4d2 <xrp_allocate+0xea>
+		}
+	}
+
+	xrp_pool_unlock(pool);
+    a7a4:	e4681017 	subi      	r3, r8, 24
+    a7a8:	9300      	ld.w      	r0, (r3, 0)
+    a7aa:	e3fffc1f 	bsr      	0x9fe8	// 9fe8 <xrp_pool_unlock>
+    a7ae:	c4004820 	lsli      	r0, r0, 0
+
+	if (!found) {
+    a7b2:	e468100f 	subi      	r3, r8, 16
+    a7b6:	9360      	ld.w      	r3, (r3, 0)
+    a7b8:	e9230013 	bnez      	r3, 0xa7de	// a7de <xrp_allocate+0x3f6>
+		kfree(cur);
+    a7bc:	e4681007 	subi      	r3, r8, 8
+    a7c0:	9300      	ld.w      	r0, (r3, 0)
+    a7c2:	e3fffbeb 	bsr      	0x9f98	// 9f98 <kfree>
+    a7c6:	c4004820 	lsli      	r0, r0, 0
+		kfree(new);
+    a7ca:	e468100b 	subi      	r3, r8, 12
+    a7ce:	9300      	ld.w      	r0, (r3, 0)
+    a7d0:	e3fffbe4 	bsr      	0x9f98	// 9f98 <kfree>
+    a7d4:	c4004820 	lsli      	r0, r0, 0
+		return -ENOMEM;
+    a7d8:	3300      	movi      	r3, 0
+    a7da:	2b0b      	subi      	r3, 12
+    a7dc:	047a      	br      	0xa8d0	// a8d0 <xrp_allocate+0x4e8>
+	}
+
+	if (!cur) {
+    a7de:	e4681007 	subi      	r3, r8, 8
+    a7e2:	9360      	ld.w      	r3, (r3, 0)
+    a7e4:	e923000c 	bnez      	r3, 0xa7fc	// a7fc <xrp_allocate+0x414>
+		cur = new;
+    a7e8:	e4681007 	subi      	r3, r8, 8
+    a7ec:	e448100b 	subi      	r2, r8, 12
+    a7f0:	9240      	ld.w      	r2, (r2, 0)
+    a7f2:	b340      	st.w      	r2, (r3, 0)
+		new = NULL;
+    a7f4:	e468100b 	subi      	r3, r8, 12
+    a7f8:	3200      	movi      	r2, 0
+    a7fa:	b340      	st.w      	r2, (r3, 0)
+	}
+	if (!cur) {
+    a7fc:	e4681007 	subi      	r3, r8, 8
+    a800:	9360      	ld.w      	r3, (r3, 0)
+    a802:	e9230023 	bnez      	r3, 0xa848	// a848 <xrp_allocate+0x460>
+		cur = kzalloc(sizeof(struct xrp_allocation), GFP_KERNEL);
+    a806:	e4881007 	subi      	r4, r8, 8
+    a80a:	3100      	movi      	r1, 0
+    a80c:	3014      	movi      	r0, 20
+    a80e:	e3fffba7 	bsr      	0x9f5c	// 9f5c <kzalloc>
+    a812:	c4004820 	lsli      	r0, r0, 0
+    a816:	b400      	st.w      	r0, (r4, 0)
+		if (!cur)
+    a818:	e4681007 	subi      	r3, r8, 8
+    a81c:	9360      	ld.w      	r3, (r3, 0)
+    a81e:	e9230015 	bnez      	r3, 0xa848	// a848 <xrp_allocate+0x460>
+			return -ENOMEM;
+    a822:	3300      	movi      	r3, 0
+    a824:	2b0b      	subi      	r3, 12
+    a826:	0455      	br      	0xa8d0	// a8d0 <xrp_allocate+0x4e8>
+    a828:	0000b144 	.long	0x0000b144
+    a82c:	00009f3c 	.long	0x00009f3c
+    a830:	0000b130 	.long	0x0000b130
+    a834:	0000b168 	.long	0x0000b168
+    a838:	0000b190 	.long	0x0000b190
+    a83c:	00009fe8 	.long	0x00009fe8
+    a840:	00009f98 	.long	0x00009f98
+    a844:	00009f5c 	.long	0x00009f5c
+	}
+	if (new)
+    a848:	e468100b 	subi      	r3, r8, 12
+    a84c:	9360      	ld.w      	r3, (r3, 0)
+    a84e:	e9030009 	bez      	r3, 0xa860	// a860 <xrp_allocate+0x478>
+		kfree(new);
+    a852:	e468100b 	subi      	r3, r8, 12
+    a856:	9300      	ld.w      	r0, (r3, 0)
+    a858:	e3fffba0 	bsr      	0x9f98	// 9f98 <kfree>
+    a85c:	c4004820 	lsli      	r0, r0, 0
+
+	pr_debug("returning: %pap x %x\n", &aligned_start, size);
+    a860:	e468101b 	subi      	r3, r8, 28
+    a864:	e4281013 	subi      	r1, r8, 20
+    a868:	9340      	ld.w      	r2, (r3, 0)
+    a86a:	110c      	lrw      	r0, 0xb1b0	// a918 <xrp_allocation_offset+0x34>
+    a86c:	e3fffb68 	bsr      	0x9f3c	// 9f3c <pr_debug>
+    a870:	c4004820 	lsli      	r0, r0, 0
+	/* 将输入的物理地址,转换成虚拟地址 */
+	cur->start = aligned_start;
+    a874:	e4681013 	subi      	r3, r8, 20
+    a878:	9340      	ld.w      	r2, (r3, 0)
+    a87a:	e4681007 	subi      	r3, r8, 8
+    a87e:	9360      	ld.w      	r3, (r3, 0)
+    a880:	b340      	st.w      	r2, (r3, 0)
+	cur->size = size;
+    a882:	e4681007 	subi      	r3, r8, 8
+    a886:	9360      	ld.w      	r3, (r3, 0)
+    a888:	e448101b 	subi      	r2, r8, 28
+    a88c:	9240      	ld.w      	r2, (r2, 0)
+    a88e:	b341      	st.w      	r2, (r3, 0x4)
+	cur->pool = pool;
+    a890:	e4681007 	subi      	r3, r8, 8
+    a894:	9360      	ld.w      	r3, (r3, 0)
+    a896:	e4481017 	subi      	r2, r8, 24
+    a89a:	9240      	ld.w      	r2, (r2, 0)
+    a89c:	b344      	st.w      	r2, (r3, 0x10)
+	atomic_set(&cur->ref, 0);
+    a89e:	e4681007 	subi      	r3, r8, 8
+    a8a2:	9360      	ld.w      	r3, (r3, 0)
+    a8a4:	2307      	addi      	r3, 8
+    a8a6:	3100      	movi      	r1, 0
+    a8a8:	6c0f      	mov      	r0, r3
+    a8aa:	e3fffbbb 	bsr      	0xa020	// a020 <atomic_set>
+    a8ae:	c4004820 	lsli      	r0, r0, 0
+	xrp_allocation_get(cur);
+    a8b2:	e4681007 	subi      	r3, r8, 8
+    a8b6:	9300      	ld.w      	r0, (r3, 0)
+    a8b8:	e3fffba6 	bsr      	0xa004	// a004 <xrp_allocation_get>
+    a8bc:	c4004820 	lsli      	r0, r0, 0
+	*alloc = cur;// 返回物理地址.
+    a8c0:	e4681023 	subi      	r3, r8, 36
+    a8c4:	9360      	ld.w      	r3, (r3, 0)
+    a8c6:	e4481007 	subi      	r2, r8, 8
+    a8ca:	9240      	ld.w      	r2, (r2, 0)
+    a8cc:	b340      	st.w      	r2, (r3, 0)
+
+	return 0;
+    a8ce:	3300      	movi      	r3, 0
+}
+    a8d0:	6c0f      	mov      	r0, r3
+    a8d2:	6fa3      	mov      	sp, r8
+    a8d4:	d9ee2002 	ld.w      	r15, (sp, 0x8)
+    a8d8:	d90e2001 	ld.w      	r8, (sp, 0x4)
+    a8dc:	9880      	ld.w      	r4, (sp, 0)
+    a8de:	1403      	addi      	sp, sp, 12
+    a8e0:	783c      	rts
+	...
+
+0000a8e4 <xrp_allocation_offset>:
+
+phys_addr_t xrp_allocation_offset(const struct xrp_allocation *allocation)
+{
+    a8e4:	1421      	subi      	sp, sp, 4
+    a8e6:	dd0e2000 	st.w      	r8, (sp, 0)
+    a8ea:	6e3b      	mov      	r8, sp
+    a8ec:	1421      	subi      	sp, sp, 4
+    a8ee:	e4681003 	subi      	r3, r8, 4
+    a8f2:	b300      	st.w      	r0, (r3, 0)
+	return allocation->start - allocation->pool->start;
+    a8f4:	e4681003 	subi      	r3, r8, 4
+    a8f8:	9360      	ld.w      	r3, (r3, 0)
+    a8fa:	9340      	ld.w      	r2, (r3, 0)
+    a8fc:	e4681003 	subi      	r3, r8, 4
+    a900:	9360      	ld.w      	r3, (r3, 0)
+    a902:	9364      	ld.w      	r3, (r3, 0x10)
+    a904:	9360      	ld.w      	r3, (r3, 0)
+    a906:	5a6d      	subu      	r3, r2, r3
+}
+    a908:	6c0f      	mov      	r0, r3
+    a90a:	6fa3      	mov      	sp, r8
+    a90c:	d90e2000 	ld.w      	r8, (sp, 0)
+    a910:	1401      	addi      	sp, sp, 4
+    a912:	783c      	rts
+    a914:	00009f98 	.long	0x00009f98
+    a918:	0000b1b0 	.long	0x0000b1b0
+    a91c:	00009f3c 	.long	0x00009f3c
+    a920:	0000a020 	.long	0x0000a020
+    a924:	0000a004 	.long	0x0000a004
+
+0000a928 <__libc_csu_init>:
+    a928:	ebe00116 	push      	r4-r9, r15, r28
+    a92c:	ea8d0012 	lrw      	r13, 0x26cc	// a974 <__libc_csu_fini+0x4>
+    a930:	cf8c0002 	grs      	r28, 0xa934	// a934 <__libc_csu_init+0xc>
+    a934:	c5bc003c 	addu      	r28, r28, r13
+    a938:	1070      	lrw      	r3, 0xc	// a978 <__libc_csu_fini+0x8>
+    a93a:	d07c0823 	ldr.w      	r3, (r28, r3 << 0)
+    a93e:	6dc3      	mov      	r7, r0
+    a940:	6e07      	mov      	r8, r1
+    a942:	6e4b      	mov      	r9, r2
+    a944:	10ae      	lrw      	r5, 0xffffff14	// a97c <__libc_csu_fini+0xc>
+    a946:	7bcd      	jsr      	r3
+    a948:	106e      	lrw      	r3, 0xffffff14	// a980 <__libc_csu_fini+0x10>
+    a94a:	614e      	subu      	r5, r3
+    a94c:	55a2      	asri      	r5, r5, 2
+    a94e:	c7830026 	addu      	r6, r3, r28
+    a952:	e905000c 	bez      	r5, 0xa96a	// a96a <__libc_csu_init+0x42>
+    a956:	3400      	movi      	r4, 0
+    a958:	d0860883 	ldr.w      	r3, (r6, r4 << 2)
+    a95c:	6ca7      	mov      	r2, r9
+    a95e:	6c63      	mov      	r1, r8
+    a960:	6c1f      	mov      	r0, r7
+    a962:	2400      	addi      	r4, 1
+    a964:	7bcd      	jsr      	r3
+    a966:	6516      	cmpne      	r5, r4
+    a968:	0bf8      	bt      	0xa958	// a958 <__libc_csu_init+0x30>
+    a96a:	ebc00116 	pop      	r4-r9, r15, r28
+	...
+
+0000a970 <__libc_csu_fini>:
+    a970:	783c      	rts
+    a972:	0000      	.short	0x0000
+    a974:	000026cc 	.long	0x000026cc
+    a978:	0000000c 	.long	0x0000000c
+    a97c:	ffffff14 	.long	0xffffff14
+    a980:	ffffff14 	.long	0xffffff14
+
+0000a984 <__do_global_ctors_aux>:
+    a984:	14d2      	push      	r4-r5, r15
+    a986:	1088      	lrw      	r4, 0xcf14	// a9a4 <call___do_global_ctors_aux+0x4>
+    a988:	3500      	movi      	r5, 0
+    a98a:	9460      	ld.w      	r3, (r4, 0)
+    a98c:	2d00      	subi      	r5, 1
+    a98e:	654e      	cmpne      	r3, r5
+    a990:	0c06      	bf      	0xa99c	// a99c <__do_global_ctors_aux+0x18>
+    a992:	2c03      	subi      	r4, 4
+    a994:	7bcd      	jsr      	r3
+    a996:	9460      	ld.w      	r3, (r4, 0)
+    a998:	654e      	cmpne      	r3, r5
+    a99a:	0bfc      	bt      	0xa992	// a992 <__do_global_ctors_aux+0xe>
+    a99c:	1492      	pop      	r4-r5, r15
+	...
+
+0000a9a0 <call___do_global_ctors_aux>:
+    a9a0:	14d0      	push      	r15
+    a9a2:	0000      	.short	0x0000
+    a9a4:	0000cf14 	.long	0x0000cf14
+    a9a8:	1490      	pop      	r15
+
+Disassembly of section .fini:
+
+0000a9b0 <_fini>:
+    a9b0:	1422      	subi      	sp, sp, 8
+    a9b2:	ddee2000 	st.w      	r15, (sp, 0)
+    a9b6:	0405      	br      	0xa9c0	// a9c0 <_fini+0x10>
+	...
+    a9c0:	e3fff05a 	bsr      	0x8a74	// 8a74 <__do_global_dtors_aux>
+    a9c4:	c4004820 	lsli      	r0, r0, 0
+    a9c8:	0404      	br      	0xa9d0	// a9d0 <_fini+0x20>
+    a9ca:	0000      	.short	0x0000
+    a9cc:	00008a74 	.long	0x00008a74
+    a9d0:	d9ee2000 	ld.w      	r15, (sp, 0)
+    a9d4:	1402      	addi      	sp, sp, 8
+    a9d6:	783c      	rts
