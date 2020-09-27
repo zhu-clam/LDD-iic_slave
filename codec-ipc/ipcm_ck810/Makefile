@@ -1,0 +1,70 @@
+
+# use macro and $() reference to convinent to modify Makefile
+#-------------------- 配置区域 -----------------
+
+CROSS = csky-buildroot-linux-gnuabiv2-
+#CROSS = /home/zhuxianfei/ck860/toolchain-ck860/bin/csky-abiv2-linux-
+
+
+CC 		= $(CROSS)gcc
+LD      = $(CROSS)g++
+CPP     = $(CROSS)g++
+AS      = $(CROSS)as
+AR      = $(CROSS)ar
+LD      = $(CROSS)ld
+DUMP    = $(CROSS)objdump
+OBJCOPY = $(CROSS)objcopy
+
+CFLAGS = -g -O3 -W  
+LDFLAGS=
+
+
+CFLAGS +=-mcpu=ck810f
+LDFLAGS +=-mcpu=ck810f
+
+
+DIR =$(shell pwd)
+BIN = $(DIR)/bin/ck810_recv_send
+#BIN = $(DIR)/bin/ck810_play_audio
+#BIN = $(DIR)/bin/ck810_codec
+
+#LIBS = $(DIR)/lib/libgvipcm_ck810.a $(DIR)/lib/libcodec.a
+
+#LIBS = -lcodec_gcc -lipcm_ck810
+LIBS = -lcodec_5-27 -lipcm_ck810
+#LIB_DIR = $(DIR)/codec_lib/
+LIB_DIR = $(DIR)/lib/
+
+
+#SRC 代表指定目录下所有的.C文件名
+#SRC = $(wildcard $(DIR)/ck810-codec-audio_src/*.c) 
+#SRC = $(wildcard $(DIR)/audio_src/*.c) 
+SRC = $(wildcard $(DIR)/src/*.c) 
+#将SRC 中所有的.c文件替换成.O文件
+OBJ = $(patsubst %.c, %.o, $(SRC))
+
+#编译时，显示所有编译警告。并指示头文件所在目录
+CFLAGS += -Wall -I$(DIR)/inc
+INCLUDE     += -I./include -I./inc
+
+#链接命令
+all	: $(BIN)
+$(BIN): $(OBJ)
+	$(CC) -L$(LIB_DIR) -o $@ $^ $(LIBS) -lpthread -lm	
+	
+#编译命令
+$(OBJ):$(SRC)
+	$(CC) $(CFLAGS) $(INCLUDE) -c $^ -o $@
+
+
+
+
+
+#./src/codec_receiver.o: ./src/codec_receiver.c
+#	$(CPP) $(CFLAGS) -c $^ -o $@
+
+
+.PHONY: clean
+clean:
+	rm -f $(OBJ) $(BIN)
+
