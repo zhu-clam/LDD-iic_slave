@@ -25,14 +25,7 @@
 #include "gd5f2_spinand.h"
 
 #define BUFSIZE (10 * 64 * 2048)
-//#define CACHE_BUF 2112 equal page+oob size
-//each block has 128k+8k 10*pagenum*pagesize;BUFSIZE is meaning block-size
-//#define BUFSIZE (64 * (2048 + 128))
-//each page has 2k+128;CACHE_BUF is meaning page-size
-#define CACHE_BUF 2176
-
-//static int buf_mode = 1;
-
+#define CACHE_BUF 2112
 /*
  * OOB area specification layout:  Total 32 available free bytes.
  */
@@ -59,9 +52,6 @@ static int spinand_ooblayout_64_ecc(struct mtd_info *mtd, int section,
 	oobregion->offset = (section * 16) + 8;//(section * 16) + 1;
 	oobregion->length = 6;
 
-	//oobregion->offset = (section * 16) + 4;//(section * 16) + 1;
-	//oobregion->length = 12;
-
 	return 0;
 }
 
@@ -74,16 +64,40 @@ static int spinand_ooblayout_64_free(struct mtd_info *mtd, int section,
 	oobregion->offset = (section * 16);
 	oobregion->length = 8; // marker.
 
-	//oobregion->offset = (section * 16);
-	//oobregion->length = 2; // marker.
+	return 0;
+}
+					 
+/*
+static int spinand_ooblayout_64_ecc(struct mtd_info *mtd, int section,
+				    struct mtd_oob_region *oobregion)
+{
+	if (section > 3)
+		return -ERANGE;
+
+	oobregion->offset = (section * 16) + 1;
+	oobregion->length = 6;
 
 	return 0;
 }
+
+static int spinand_ooblayout_64_free(struct mtd_info *mtd, int section,
+				     struct mtd_oob_region *oobregion)
+{
+	if (section > 3)
+		return -ERANGE;
+
+	oobregion->offset = (section * 16) + 8;
+	oobregion->length = 8;
+
+	return 0;
+}
+*/
 
 static const struct mtd_ooblayout_ops spinand_oob_64_ops = {
 	.ecc = spinand_ooblayout_64_ecc,
 	.free = spinand_ooblayout_64_free,
 };
+
 #endif
 
 /**
@@ -176,6 +190,7 @@ static int spinand_read_id(struct spi_device *spi_nand, u8 *id)
  *    Once the status turns to be ready, the other status bits also are
  *    valid status bits.
  */
+#if 1
 static int spinand_read_status(struct spi_device *spi_nand, u8 *status)
 {
 	struct spinand_cmd cmd = {0};
@@ -217,7 +232,7 @@ static int wait_till_ready(struct spi_device *spi_nand)
 
 	return -1;
 }
-
+#endif
 /**
  * spinand_get_otp - send command 0xf to read the SPI Nand OTP register
  * Description:
@@ -275,11 +290,13 @@ static int spinand_set_buf_mode(struct spi_device *spi_nand, u8 mode)
 	retval = spinand_get_otp(spi_nand, &otp);
 	if (retval < 0)
 		return retval;
-	if(otp & OTP_BM_MASK)
-	if(mode)
-		otp |= OTP_BM_MASK;
-	else
-		otp &= ~OTP_BM_MASK;
+
+	if(otp & OTP_BM_MASK) {
+		if(mode)
+			otp |= OTP_BM_MASK;
+		else
+			otp &= ~OTP_BM_MASK;
+	}
 
 	retval = spinand_set_otp(spi_nand, &otp);
 	if (retval < 0)
@@ -287,6 +304,7 @@ static int spinand_set_buf_mode(struct spi_device *spi_nand, u8 mode)
 	
 	return 0;
 }
+
 
 
 #ifdef CONFIG_MTD_SPINAND_QIO
@@ -388,86 +406,90 @@ static int spinand_write_enable(struct spi_device *spi_nand)
 static int spinand_read_page_to_cache(struct spi_device *spi_nand, int page_id)
 {
 	struct spinand_cmd cmd = {0};
-//	u16 row;
-	u32 row;
+	int row;
+
 	row = page_id;
 	cmd.cmd = CMD_READ;
 	cmd.n_addr = 3;
-	cmd.addr[0] = (u8)((row & 0xff000000) >> 24);//page is row address
-	cmd.addr[1] = (u8)((row & 0xff0000) >> 16);//MSB & LSB first addr is addr[23]
-	cmd.addr[2] = (u8)((row & 0xff00) >> 8);
-
-	
-	//cmd.n_addr = 3;
-	//cmd.addr[1] = (u8)((row & 0xff00) >> 8); // Fixme: addr[0]??, offset ?
-	//cmd.addr[2] = (u8)(row & 0x00ff);
-//	cmd.n_dummy = 1;
-//	cmd.dummy_addr = 1; // cmd + dummy + addr...
-//	cmd.n_addr = 2;
-//	cmd.addr[0] = (u8)((row & 0xff00) >> 8);
-//	cmd.addr[1] = (u8)(row & 0x00ff);
+	cmd.addr[0] = (u8)((row & 0xff0000) >> 16);
+	cmd.addr[1] = (u8)((row & 0xff00) >> 8);
+	cmd.addr[2] = (u8)(row & 0x00ff);
 
 	return spinand_cmd(spi_nand, &cmd);
 }
 
-/**
- * spinand_read_from_cache - send command 0x03 to read out the data from the
- * cache register (2112 bytes max)
+/*
+ * spinand_read_from_cache- send command 0x03 to read out the data from the
+ * cache register(2112 bytes max)
  * Description:
  *   The read can specify 1 to 2112 bytes of data read at the corresponding
  *   locations.
  *   No tRd delay.
  */
 static int spinand_read_from_cache(struct spi_device *spi_nand, u16 page_id,
-				   u16 byte_id, u16 len, u8 *rbuf)
+		u16 byte_id, u16 len, u8 *rbuf)
 {
 	struct spinand_cmd cmd = {0};
 	u16 column;
-	column = byte_id;//cache address
+
+	column = byte_id;
 #ifdef CONFIG_MTD_SPINAND_QIO
 	cmd.cmd = CMD_READ_RDM4X;
 #else
 	cmd.cmd = CMD_READ_RDM;
 #endif
-
-/*
-	if(buf_mode ==  0) {
-		cmd.n_dummy = 3;
-	} else {
-		cmd.n_addr = 2;
-		cmd.addr[0] = (u8)((column & 0xff00) >> 8);	 
-		cmd.addr[1] = (u8)(column & 0x00ff);
-		cmd.n_dummy = 1;
-		cmd.dummy_addr = 0; // cmd + addr + dummy ...
-	}
-*/
-	cmd.n_addr = 2;
-	cmd.addr[0] = (u8)((column & 0xff00) >> 8);  
+	cmd.n_addr = 3;
+	cmd.addr[0] = (u8)((column & 0xff00) >> 8);
+	cmd.addr[0] |= (u8)(((page_id >> 6) & 0x1) << 4);
 	cmd.addr[1] = (u8)(column & 0x00ff);
-	cmd.n_dummy = 1;
-	cmd.dummy_addr = 0; // cmd + addr + dummy ...
-//	cmd.dummy_addr = 1; // cmd + dummy + addr...
-		
+	cmd.addr[2] = (u8)(0xff);
+	cmd.n_dummy = 0;
 	cmd.n_rx = len;
 	cmd.rx_buf = rbuf;
 
 	return spinand_cmd(spi_nand, &cmd);
 }
 
-/**
- * spinand_read_page - read a page
+/*
+ * spinand_read_param_from_cache- to read out the parameter page from the
+ * cache register, only support cmd = 0x03
+ * Description:
+ *   The parameter page data read at the corresponding locations.
+ *   No tRd delay.
+ */
+static int spinand_read_param_from_cache(struct spi_device *spi_nand, u16 page_id,
+		u16 byte_id, u16 len, u8 *rbuf)
+{
+	struct spinand_cmd cmd = {0};
+	u16 column;
+
+	column = byte_id;
+	cmd.cmd = CMD_READ_RDM;
+	cmd.n_addr = 3;
+	cmd.addr[0] = (u8)((column & 0xff00) >> 8);
+	cmd.addr[0] |= (u8)(((page_id >> 6) & 0x1) << 4);
+	cmd.addr[1] = (u8)(column & 0x00ff);
+	cmd.addr[2] = (u8)(0xff);
+	cmd.n_dummy = 0;
+	cmd.n_rx = len;
+	cmd.rx_buf = rbuf;
+
+	return spinand_cmd(spi_nand, &cmd);
+}
+
+/*
+ * spinand_read_page-to read a page with:
  * @page_id: the physical page number
- * @offset:  the location from 0 to 2176
+ * @offset:  the location from 0 to 2111
  * @len:     number of bytes to read
  * @rbuf:    read buffer to hold @len bytes
  *
  * Description:
- *   The read includes two commands to the Nand - 0x13 and 0x03 commands
+ *   The read includes two commands to the Nand: 0x13 and 0x03 commands
  *   Poll to read status to wait for tRD time.
- * 1、read data from nand to cache 2、read data from cache to spi master/system memory
  */
-static int spinand_read_page(struct spi_device *spi_nand,u32 page_id,
-			     u16 offset, u16 len, u8 *rbuf)
+static int spinand_read_page(struct spi_device *spi_nand, int page_id,
+		u16 offset, u16 len, u8 *rbuf)
 {
 	int ret;
 	u8 status = 0;
@@ -478,6 +500,7 @@ static int spinand_read_page(struct spi_device *spi_nand,u32 page_id,
 			dev_err(&spi_nand->dev, "enable HW ECC failed!");
 	}
 #endif
+
 	ret = spinand_read_page_to_cache(spi_nand, page_id);
 	if (ret < 0)
 		return ret;
@@ -489,20 +512,20 @@ static int spinand_read_page(struct spi_device *spi_nand,u32 page_id,
 		ret = spinand_read_status(spi_nand, &status);
 		if (ret < 0) {
 			dev_err(&spi_nand->dev,
-				"err %d read status register\n", ret);
+					"err %d read status register\n", ret);
 			return ret;
 		}
 
 		if ((status & STATUS_OIP_MASK) == STATUS_READY) {
 			if ((status & STATUS_ECC_MASK) == STATUS_ECC_ERROR) {
 				dev_err(&spi_nand->dev, "ecc error, page=%d\n",
-					page_id);
+						page_id);
 				return 0;
 			}
 			break;
 		}
 	}
-	
+
 	ret = spinand_read_from_cache(spi_nand, page_id, offset, len, rbuf);
 	if (ret < 0) {
 		dev_err(&spi_nand->dev, "read from cache failed!!\n");
@@ -534,21 +557,20 @@ static int spinand_read_page(struct spi_device *spi_nand,u32 page_id,
  *   Since it is writing the data to cache, there is no tPROG time.
  */
 static int spinand_program_data_to_cache(struct spi_device *spi_nand,
-					 u16 page_id, u16 byte_id,
-					 u16 len, u8 *wbuf)
+		int page_id, u16 byte_id, u16 len, u8 *wbuf)
 {
 	struct spinand_cmd cmd = {0};
 	u16 column;
+
 	column = byte_id;
 #ifdef CONFIG_MTD_SPINAND_QIO
 	cmd.cmd = CMD_PROG_PAGE_CLRCACHE4X;
 #else
 	cmd.cmd = CMD_PROG_PAGE_CLRCACHE;
 #endif
-	//cmd.cmd = CMD_PROG_PAGE_CLRCACHE;
 	cmd.n_addr = 2;
 	cmd.addr[0] = (u8)((column & 0xff00) >> 8);
-	//cmd.addr[0] |= (u8)(((page_id >> 6) & 0x1) << 4);//===
+	cmd.addr[0] |= (u8)(((page_id >> 6) & 0x1) << 4);
 	cmd.addr[1] = (u8)(column & 0x00ff);
 	cmd.n_tx = len;
 	cmd.tx_buf = wbuf;
@@ -565,24 +587,17 @@ static int spinand_program_data_to_cache(struct spi_device *spi_nand,
  *   the Nand array.
  *   Need to wait for tPROG time to finish the transaction.
  */
-static int spinand_program_execute(struct spi_device *spi_nand, u32 page_id)
+static int spinand_program_execute(struct spi_device *spi_nand, int page_id)
 {
 	struct spinand_cmd cmd = {0};
-	u32 row;
+	int row;
+
 	row = page_id;
 	cmd.cmd = CMD_PROG_PAGE_EXC;
-/*
-	cmd.n_dummy = 1;
-	cmd.dummy_addr = 1;
-	cmd.n_addr = 2;//3;
-	cmd.addr[0] = (u8)((row & 0xff00) >> 8);
-	cmd.addr[1] = (u8)(row & 0x00ff);
-*/
-
 	cmd.n_addr = 3;
-	cmd.addr[0] = (u8)((row & 0xff000000) >> 24);//page is row address
-	cmd.addr[1] = (u8)((row & 0xff0000) >> 16);//MSB & LSB first addr is addr[23]
-	cmd.addr[2] = (u8)((row & 0xff00) >> 8);
+	cmd.addr[0] = (u8)((row & 0xff0000) >> 16);
+	cmd.addr[1] = (u8)((row & 0xff00) >> 8);
+	cmd.addr[2] = (u8)(row & 0x00ff);
 
 	return spinand_cmd(spi_nand, &cmd);
 }
@@ -606,7 +621,7 @@ static int spinand_program_execute(struct spi_device *spi_nand, u32 page_id)
  * @offset :state->colume -- 1page = (2k+128)byte(2^12)
  */
 static int spinand_program_page(struct spi_device *spi_nand,
-				u32 page_id, u16 offset, u16 len, u8 *buf)
+		int page_id, u16 offset, u16 len, u8 *buf)
 {
 	int retval;
 	u8 status = 0;
@@ -614,23 +629,20 @@ static int spinand_program_page(struct spi_device *spi_nand,
 #ifdef CONFIG_MTD_SPINAND_ONDIEECC
 	unsigned int i, j;
 
-	wbuf = devm_kzalloc(&spi_nand->dev, CACHE_BUF, GFP_KERNEL);//1 page size=(2k+128)
+	wbuf = devm_kzalloc(&spi_nand->dev, CACHE_BUF, GFP_KERNEL);
 	if (!wbuf)
 		return -ENOMEM;
 
 	enable_read_hw_ecc = 1;
-	retval = spinand_read_page(spi_nand, page_id, 0, CACHE_BUF, wbuf);//read 1 page to wbuf
+	retval = spinand_read_page(spi_nand, page_id, 0, CACHE_BUF, wbuf);
 	if (retval < 0) {
 		dev_err(&spi_nand->dev, "ecc error on read page!!!\n");
 		return retval;
 	}
 
 	for (i = offset, j = 0; i < len; i++, j++)
-		wbuf[i] &= buf[j];		//wbuf 为待发送给cache的数据，
-		//buf里填充的是待写入的数据；offset 待写入数据的页内偏移字节长度
-		//len 为待写入数据的字节长度。
-		//summary：经过以上流程，wbuf[]里就填充的是已偏移后待写入的字节，前面先读，是为了保证未偏移部分的数据一致性。
-		
+		wbuf[i] &= buf[j];
+
 	if (enable_hw_ecc) {
 		retval = spinand_enable_ecc(spi_nand);
 		if (retval < 0) {
@@ -687,7 +699,7 @@ static int spinand_program_page(struct spi_device *spi_nand,
 }
 
 /**
- * spinand_erase_block_erase - erase a page
+ * spinand_erase_block_erase--to erase a page with:
  * @block_id: the physical block location to erase.
  *
  * Description:
@@ -698,36 +710,20 @@ static int spinand_program_page(struct spi_device *spi_nand,
 static int spinand_erase_block_erase(struct spi_device *spi_nand, int block_id)
 {
 	struct spinand_cmd cmd = {0};
-
-/*
-	u16 row;
-
-	row = block_id;
-	cmd.cmd = CMD_ERASE_BLK;
-	cmd.n_dummy = 1;
-	cmd.dummy_addr = 1;
-	cmd.n_addr = 2;
-	cmd.addr[0] = (u8)((row & 0xff00) >> 8);
-	cmd.addr[1] = (u8)(row & 0x00ff);
-*/
-
-	u32 row;
+	int row;
 
 	row = block_id;
 	cmd.cmd = CMD_ERASE_BLK;
 	cmd.n_addr = 3;
-	//gd need to transfer 24bit addr
-	cmd.addr[0] = (u8)((row & 0xff000000) >> 24);//page is row address
-	cmd.addr[1] = (u8)((row & 0xff0000) >> 16);//MSB & LSB first addr is addr[23]
-	cmd.addr[2] = (u8)((row & 0xff00) >> 8);
-
-
+	cmd.addr[0] = (u8)((row & 0xff0000) >> 16);
+	cmd.addr[1] = (u8)((row & 0xff00) >> 8);
+	cmd.addr[2] = (u8)(row & 0x00ff);
 
 	return spinand_cmd(spi_nand, &cmd);
 }
 
 /**
- * spinand_erase_block - erase a page
+ * spinand_erase_block--to erase a page with:
  * @block_id: the physical block location to erase.
  *
  * Description:
@@ -746,9 +742,9 @@ static int spinand_erase_block(struct spi_device *spi_nand, int block_id)
 	if (wait_till_ready(spi_nand))
 		dev_err(&spi_nand->dev, "wait timedout!!!\n");
 
-	retval = spinand_erase_block_erase(spi_nand, block_id);//D8
+	retval = spinand_erase_block_erase(spi_nand, block_id);
 	while (1) {
-		retval = spinand_read_status(spi_nand, &status);//0F
+		retval = spinand_read_status(spi_nand, &status);
 		if (retval < 0) {
 			dev_err(&spi_nand->dev,
 				"error %d reading status register\n", retval);
@@ -905,7 +901,6 @@ static void spinand_cmdfunc(struct mtd_info *mtd, unsigned int command,
 	struct spinand_info *info = nand_get_controller_data(chip);
 	struct spinand_state *state = info->priv;
 
-//	printk("[zxf]%s, command = %d\n",__func__,command);
 
 	switch (command) {
 	/*
@@ -915,17 +910,16 @@ static void spinand_cmdfunc(struct mtd_info *mtd, unsigned int command,
 	case NAND_CMD_READ0:
 		state->buf_ptr = 0;
 		/*read one page size = 2176bytes*/
-		//printk("NAND_CMD_READ0,page:0x%08Lx \n",page);
-		spinand_read_page(info->spi, page, 0x0, 0x880, state->buf);
-	//	spinand_read_page(info->spi, page, 0x0, 0x1100, state->buf);
+		spinand_read_page(info->spi, page, 0x0, 0x840, state->buf);
+		//spinand_read_page(info->spi, page, 0x0, mtd->writesize, state->buf);
+		//	spinand_read_page(info->spi, page, 0,mtd->writesize + mtd->oobsize, state->buf);
 		break;
 	/* READOOB reads only the OOB because no ECC is performed. */
 	case NAND_CMD_READOOB:
 		state->buf_ptr = 0;
 		/*read oob data offset is 2k = 0x800,obb datasize = 128byte-0x80*/
-		//printk("read oobNAND_CMD_READOOB,page:0x%08Lx \n",page);
-		spinand_read_page(info->spi, page, 0x800, 0x80, state->buf);
-	//	spinand_read_page(info->spi, page, 0x1000, 0x100, state->buf);
+		//spinand_read_page(info->spi, page, 0x800, 0x40, state->buf);
+		spinand_read_page(info->spi, page, mtd->writesize, mtd->oobsize, state->buf);
 		break;
 	case NAND_CMD_RNDOUT:
 		state->buf_ptr = column;
@@ -1053,13 +1047,14 @@ static int spinand_probe(struct spi_device *spi_nand)
 	chip->ecc.bytes	= 0x6;
 	chip->ecc.steps	= 0x4;
 
-	chip->ecc.strength = 1;
+	chip->ecc.strength = 4;
 	chip->ecc.total	= chip->ecc.steps * chip->ecc.bytes;
 	chip->ecc.read_page = spinand_read_page_hwecc;
 	chip->ecc.write_page = spinand_write_page_hwecc;
 #else
 	chip->ecc.mode	= NAND_ECC_SOFT;
-	chip->ecc.algo	= NAND_ECC_HAMMING;
+	//chip->ecc.algo	= NAND_ECC_HAMMING;
+	chip->ecc.algo	= NAND_ECC_BCH;
 	if (spinand_disable_ecc(spi_nand) < 0)
 		dev_info(&spi_nand->dev, "%s: disable ecc failed!\n",
 			 __func__);
@@ -1082,7 +1077,7 @@ static int spinand_probe(struct spi_device *spi_nand)
 	dev_set_drvdata(&spi_nand->dev, mtd);
 
 	mtd->dev.parent = &spi_nand->dev;
-	mtd->oobsize = 128;
+	//mtd->oobsize = 64;
 #ifdef CONFIG_MTD_SPINAND_ONDIEECC
 	mtd_set_ooblayout(mtd, &spinand_oob_64_ops);
 #endif
